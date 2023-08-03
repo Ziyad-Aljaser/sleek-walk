@@ -8,7 +8,7 @@ export default function Home() {
   
   return (
     <Layout>
-      <div className="hero py-32 bg-base-300">
+      <div className="hero py-16 sm:py-32 bg-base-300">
         <div className="hero-content grid md:grid-cols-2 gap-8">
           <div className="order-2">
             <img src={hero_img} className="" alt="Hero" />

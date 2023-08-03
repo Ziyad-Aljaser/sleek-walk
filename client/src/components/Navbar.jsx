@@ -30,7 +30,7 @@ const Navbar = () => {
   }, [theme]);
 
   return (
-    <div className="bg-base-200 py-2">
+    <div className="sticky top-0 z-[1] bg-base-200 py-2">
       <div className="max-w-7xl mx-auto navbar">
   
         {/* Small Screen Menu-Logo Section */}
@@ -54,7 +54,7 @@ const Navbar = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
 
                 <li>
