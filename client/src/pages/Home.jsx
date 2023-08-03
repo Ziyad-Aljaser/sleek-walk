@@ -8,6 +8,7 @@ export default function Home() {
   
   return (
     <Layout>
+      {/* The padding is smaller when the screen is small */}
       <div className="hero py-16 sm:py-32 bg-base-300">
         <div className="hero-content grid md:grid-cols-2 gap-8">
           <div className="order-2">
