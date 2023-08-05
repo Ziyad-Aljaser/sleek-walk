@@ -87,7 +87,7 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-            <Link href="/" className="btn btn-ghost normal-case text-2xl">
+            <Link to="/" className="btn btn-ghost normal-case text-2xl">
               <div className="w-10 rounded-full">
                 <img src={logo} alt="Logo" />
               </div>
@@ -176,7 +176,7 @@ const Navbar = () => {
                   <span className="badge">New</span>
                 </a>
               </li> */}
-              <li><a href="/">Log in</a></li>
+              <li><Link to="/login">Log in</Link></li>
               <li><a href="/">Sign up</a></li>
             </ul>
           </div>

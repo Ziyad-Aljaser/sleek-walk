@@ -1,4 +1,5 @@
 import React from "react";
+
 import Layout from "../components/Layout";
 
 import hero_img from "../assets/hero_img.png"
@@ -8,6 +9,7 @@ export default function Home() {
   
   return (
     <Layout>
+      {/* Hero Section */}
       {/* The padding is smaller when the screen is small */}
       <div className="hero py-16 sm:py-32 bg-base-300">
         <div className="hero-content grid md:grid-cols-2 gap-8">
@@ -28,6 +30,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
     </Layout>
   );
 }
