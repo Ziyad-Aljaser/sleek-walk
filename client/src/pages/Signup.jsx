@@ -51,10 +51,9 @@ export default function Signup() {
                                 </label>
                                 <input type="email" placeholder="email" className="input input-bordered input-primary" />
 
-                                <div className="form-control mt-6 flex justify-between">
-                                <button onClick={prevStep} className="btn btn-primary w-1/4">Back</button>
-                                <button onClick={nextStep} className="btn btn-primary w-1/4">Next</button>
-                            </div>
+                                <div className="form-control mt-6">
+                                    <button onClick={nextStep} className="btn btn-primary">Next</button>
+                                </div>
 
 
                                 <p>Already have an account? <a href="#" className="link link-hover text-blue-500 underline">Login</a></p>
@@ -115,6 +114,16 @@ export default function Signup() {
                             // Review & Confirm
                             <div>
                                 <p>Review your details and confirm</p>
+                                <div className="form-control mt-6">
+                                    <button className="btn btn-primary">Sign Up</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step > 0 && step < 3 && (
+                            <div className="form-control mt-6 flex flex-row justify-between">
+                                <button onClick={prevStep} className="btn btn-primary w-1/4">Back</button>
+                                <button onClick={nextStep} className="btn btn-primary w-1/4">Next</button>
                             </div>
                         )}
 
