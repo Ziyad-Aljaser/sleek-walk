@@ -22,6 +22,7 @@ export default function Signup() {
         <div className="flex items-center justify-center h-screen bg-base-300 p-5">
             <div className="flex flex-col items-center">
 
+                {/* Steps Section */}
                 <ul className="steps mb-12">
                     <li className={step >= 0 ? "step step-primary" : "step"}>Personal Information</li>
                     <li className={step >= 1 ? "step step-primary" : "step"}>Password</li>
@@ -33,8 +34,8 @@ export default function Signup() {
                     <div className="card-body">
                         <h1 className="text-4xl font-bold text-center mb-6">Sign up</h1>
                         
+                        {/* Personal Information Secion */}
                         {step === 0 && (
-                            // Personal Information Form
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">First Name</span>
@@ -60,8 +61,8 @@ export default function Signup() {
                             </div>
                         )}
 
+                        {/* Password Secion */}
                         {step === 1 && (
-                            // Create Password Form
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
@@ -75,8 +76,8 @@ export default function Signup() {
                             </div>
                         )}
                         
+                        {/* Address Section */}
                         {step === 2 && (
-                            // Address Form
                             <div>
                                 {/* Counrty */}
                                 <div className="form-control">
@@ -110,8 +111,8 @@ export default function Signup() {
                             </div>
                         )}
                         
+                        {/* Review & Confirm */}
                         {step === 3 && (
-                            // Review & Confirm
                             <div>
                                 <p>Review your details and confirm</p>
                                 <div className="form-control mt-6">
@@ -120,6 +121,7 @@ export default function Signup() {
                             </div>
                         )}
 
+                        {/* Next/Back Section */}
                         {step > 0 && step < 3 && (
                             <div className="form-control mt-6 flex flex-row justify-between">
                                 <button onClick={prevStep} className="btn btn-primary w-1/4">Back</button>
