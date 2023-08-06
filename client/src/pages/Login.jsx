@@ -30,7 +30,7 @@ export default function Login() {
                     <div className="form-control mt-6">
                         <button className="btn btn-primary">Login</button>
                     </div>
-                    <p>No account yet? <a href="#" className="link link-hover text-blue-500 underline">Sign up</a></p>
+                    <p>No account yet? <Link to="/signup" className="link link-hover text-blue-500 underline">Sign up</Link></p>
                 </div>
             </div>
         </div>

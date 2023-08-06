@@ -23,7 +23,7 @@ export default function Signup() {
             <div className="flex flex-col items-center">
 
                 {/* Steps Section */}
-                <ul className="steps mb-12">
+                <ul className="steps mb-12 z-[0]">
                     <li className={step >= 0 ? "step step-primary" : "step"}>Personal Information</li>
                     <li className={step >= 1 ? "step step-primary" : "step"}>Password</li>
                     <li className={step >= 2 ? "step step-primary" : "step"}>Address</li>
@@ -57,7 +57,7 @@ export default function Signup() {
                                 </div>
 
 
-                                <p>Already have an account? <a href="#" className="link link-hover text-blue-500 underline">Login</a></p>
+                                <p>Already have an account? <Link to="/login" className="link link-hover text-blue-500 underline">Login</Link></p>
                             </div>
                         )}
 
