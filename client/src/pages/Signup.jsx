@@ -30,7 +30,7 @@ export default function Signup() {
                     <li className={step >= 3 ? "step step-primary" : "step"}>Review & Confirm</li>
                 </ul>
 
-                <div className="card bg-base-100 shadow-xl w-3/4">
+                <div className="card bg-base-100 shadow-xl w-full max-w-md">
                     <div className="card-body">
                         <h1 className="text-4xl font-bold text-center mb-6">Sign up</h1>
                         
@@ -52,12 +52,11 @@ export default function Signup() {
                                 </label>
                                 <input type="email" placeholder="email" className="input input-bordered input-primary" />
 
-                                <div className="form-control mt-6">
+                                <div className="form-control mt-8">
                                     <button onClick={nextStep} className="btn btn-primary">Next</button>
                                 </div>
 
-
-                                <p>Already have an account? <Link to="/login" className="link link-hover text-blue-500 underline">Login</Link></p>
+                                <p>Already have an account? <Link to="/login" className="link link-primary">Login</Link></p>
                             </div>
                         )}
 
@@ -114,8 +113,19 @@ export default function Signup() {
                         {/* Review & Confirm */}
                         {step === 3 && (
                             <div>
-                                <p>Review your details and confirm</p>
-                                <div className="form-control mt-6">
+                                <p className="text-center mb-6">Review your details and confirm</p>
+
+                                <label className="label">
+                                    <span className="label-text">First Name</span>
+                                </label>
+                                <input type="fname" placeholder="first name" className="input input-bordered w-full max-w-xs" disabled />
+
+                                <label className="label">
+                                    <span className="label-text">last Name</span>
+                                </label>
+                                <input type="lname" placeholder="last name" className="input input-bordered w-full max-w-xs" disabled />
+                                
+                                <div className="form-control mt-8">
                                     <button className="btn btn-primary">Sign Up</button>
                                 </div>
                             </div>
