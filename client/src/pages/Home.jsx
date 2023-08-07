@@ -9,9 +9,10 @@ export default function Home() {
   return (
     <Layout>
       {/* Hero Section */}
-      {/* The padding is smaller when the screen is small */}
       <Hero />
 
+      <div className="divider"></div>
+      
     </Layout>
   );
 }
