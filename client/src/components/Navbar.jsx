@@ -70,10 +70,10 @@ const Navbar = () => {
                 <div className="divider"></div>
 
                 <li>
-                  <Link to="/">Login</Link>
+                  <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/">Signup</Link>
+                  <Link to="/signup">Signup</Link>
                 </li>
 
                 <li>
