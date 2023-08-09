@@ -53,7 +53,8 @@ export default function Home() {
       </div>
       
       {/* Shoes Section */}
-      <div ref={targetRef} className="flex items-center justify-center bg-base-200">
+      <div ref={targetRef} className="flex items-center flex-col justify-center bg-base-200">
+        <h1 className="text-4xl p-7 font-semibold">Explore Shoes</h1>
         <Shoes />
       </div>
 
