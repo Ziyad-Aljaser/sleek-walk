@@ -37,7 +37,6 @@ export default function ShoeDetails() {
         {/* Breadcrumbs Section */}
         <div className="border-b py-6">
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
-            <h1 className="text-xl font-semibold">Shop Single</h1>
             <div className="text-sm breadcrumbs">
               <ul>
                 <li>
@@ -66,7 +65,7 @@ export default function ShoeDetails() {
             </div>
 
             {/* Divider */}
-            <div className="divider lg:divider-horizontal" />
+            <div className="divider lg:divider-horizontal p-6" />
 
             {/* Details Section */}
             <div className="grid flex-shrink my-14">

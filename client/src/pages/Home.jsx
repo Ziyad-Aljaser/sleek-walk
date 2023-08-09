@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Layout from "../components/Layout";
 import Shoes from "../components/Shoes";
+import { SHOES } from "../data/ShoesData"; 
 
 import hero_img from "../assets/hero_img.png"
 
@@ -17,7 +18,7 @@ export default function Home() {
     if (targetRef.current) {
       // Calculate the top position of the target element
       const targetTop = targetRef.current.getBoundingClientRect().top + window.scrollY;
-      // Define an offset, for example, 50px
+      // Define an offset
       const offset = 80;
       // Scroll to the target position minus the offset
       window.scrollTo({
@@ -26,6 +27,11 @@ export default function Home() {
       });
     }
   };
+
+  // Used for the pagination 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; 
+  const totalPages = Math.ceil(SHOES.length / itemsPerPage);  // Calculate total pages
 
   return (
     <Layout>
@@ -52,10 +58,29 @@ export default function Home() {
         </div>
       </div>
       
-      {/* Shoes Section */}
-      <div ref={targetRef} className="flex items-center flex-col justify-center bg-base-200">
+      {/* Content Section */}
+      <div ref={targetRef} className="flex items-center flex-col justify-center p-3 bg-base-200">
+
+        {/* Shoes Cards Section */}
         <h1 className="text-4xl p-7 font-semibold">Explore Shoes</h1>
-        <Shoes />
+        <Shoes currentPage={currentPage} itemsPerPage={itemsPerPage} />
+
+        {/* Pagination Section */}
+        <div className="join flex justify-center shadow-xl mb-5">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index + 1}
+              className={`join-item btn text-2xl ${currentPage === index + 1 ? 'btn-active' : ''}`}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                handleButtonClick();
+              }}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+  
       </div>
 
     </Layout>
