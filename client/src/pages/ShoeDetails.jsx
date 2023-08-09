@@ -22,13 +22,18 @@ export default function ShoeDetails() {
 
   // Used to check the item
   if (!shoe) {
-    return <div>Shoe not found!</div>;
+    return (
+        <div className="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>Error! Shoe not found. <Link to="/" className="link link-primary">Back Home</Link></span>
+        </div>
+    );
   }
 
   return (
     <Layout>
     
-      <div className="bg-base-200">
+      <div className="bg-base-300">
 
         {/* Breadcrumbs Section */}
         <div className="border-b py-6">
