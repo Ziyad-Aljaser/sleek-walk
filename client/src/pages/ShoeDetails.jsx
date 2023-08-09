@@ -32,7 +32,6 @@ export default function ShoeDetails() {
 
   return (
     <Layout>
-    
       <div className="bg-base-300">
 
         {/* Breadcrumbs Section */}
@@ -70,13 +69,13 @@ export default function ShoeDetails() {
             <div className="divider lg:divider-horizontal" />
 
             {/* Details Section */}
-            <div className="grid flex-shrink my-20">
+            <div className="grid flex-shrink my-14">
               <div className="flex flex-col space-y-5 lg:pl-4">
                 
                 <h2 className="text-2xl font-bold">
                   {shoe.title} <div className="badge badge-secondary text-xs">New</div>
                 </h2>
-                <h3 className="text-xl font-semibold">
+                <h3 className="text-3xl font-semibold">
                   {shoe.price}
                 </h3>
                 <p>
@@ -110,6 +109,7 @@ export default function ShoeDetails() {
 
           </div>
         </div>
+
       </div>
     </Layout>
   );

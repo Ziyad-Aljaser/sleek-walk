@@ -17,17 +17,23 @@ const Shoes = () => {
             </figure>
 
             <div className="card-body">
+
               <h2 className="card-title">
                 {shoe.title}{" "}
                 <div className="badge badge-secondary">NEW</div>
               </h2>
-              <p className="text-lg font-medium">{shoe.price}</p>
-              <div className="card-actions flex flex-col items-end space-y-4">
-                <div className="badge badge-outline">{shoe.category}</div> 
+              <div className="badge badge-outline">
+                {shoe.category}
+              </div> 
+
+              {/* Price/Button Section */}
+              <div className="card-actions flex items-center justify-between space-y-4">
+                <p className="text-3xl font-medium">{shoe.price}</p>
                 <Link to={`/shoes-details/${shoe.id}`} className="btn btn-primary">
                   Buy Now
                 </Link>
               </div>
+
             </div>
     
           </div>
