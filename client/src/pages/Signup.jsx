@@ -17,6 +17,7 @@ export default function Signup() {
           setStep(step - 1);
       }
   };
+
   return (
     <Layout>
         <div className="flex items-center justify-center h-screen bg-base-300 p-5">

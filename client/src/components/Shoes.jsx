@@ -1,28 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Shoes = ({ image, title, category, price }) => {
-  return (
-    <div className="card bg-base-100 shadow-xl">
-        <figure>
-            <img src={image} alt="Shoes" />
-        </figure>
-        <div className="card-body">
-            <h2 className="card-title">
-            {title}{" "}
-            <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p className="text-lg font-medium">{price}</p>
-            <div className="card-actions flex flex-col items-end space-y-4">
-                <div className="badge badge-outline">{category}</div> 
-                <Link to="/shoes-details" className="btn btn-primary">
-                    Buy Now
-                </Link>
-            </div>
+import { SHOES } from "../data/ShoesData"; // Importing SHOES data
 
-      </div>
+// Shoes Cards Section
+const Shoes = () => {
+  return (
+
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 p-10">
+
+        {SHOES.map(shoe => (
+          <div key={shoe.id} className="card bg-base-100 shadow-xl transform transition-transform duration-300 hover:scale-105">
+
+            <figure>
+              <img src={shoe.image} alt="Shoes" />
+            </figure>
+
+            <div className="card-body">
+              <h2 className="card-title">
+                {shoe.title}{" "}
+                <div className="badge badge-secondary">NEW</div>
+              </h2>
+              <p className="text-lg font-medium">{shoe.price}</p>
+              <div className="card-actions flex flex-col items-end space-y-4">
+                <div className="badge badge-outline">{shoe.category}</div> 
+                <Link to={`/shoes-details/${shoe.id}`} className="btn btn-primary">
+                  Buy Now
+                </Link>
+              </div>
+            </div>
+    
+          </div>
+        ))}
+
     </div>
   );
-};
+}
 
 export default Shoes;
