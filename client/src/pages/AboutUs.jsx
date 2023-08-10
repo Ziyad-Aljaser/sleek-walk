@@ -40,7 +40,7 @@ export default function AboutUs() {
                         <h1 className="text-5xl font-bold leading-normal">
                         About Us
                         </h1>
-                        <p className="py-6 text-3xl">
+                        <p className="py-6 text-xl sm:text-3xl">
                         With us, you can shop online & help save your street at the same
                         time. If you’re looking for great value shoes, then
                         Sleek Walk is the place for you. As you may already know, we
@@ -61,7 +61,7 @@ export default function AboutUs() {
                         <h1 className="text-5xl font-bold leading-normal">
                         Our Goal
                         </h1>
-                        <p className="py-6 text-3xl">
+                        <p className="py-6 text-xl sm:text-3xl">
                         To revolutionize the online shoe shopping experience by offering exceptional value,
                         a diverse range of styles, and a commitment to preserving the local essence of our streets.
                         At Sleek Walk, we aim to not just be another online store but a movement that champions community,
