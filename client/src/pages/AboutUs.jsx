@@ -31,7 +31,7 @@ export default function AboutUs() {
         <Layout>
 
             {/* About Us Section */}
-            <div className="hero py-14 bg-base-300">
+            <div className="hero py-8 sm:py-14 bg-base-300">
                 <div className="hero-content grid md:grid-cols-2 gap-8">
                     <div className="order-2 ml-auto hidden md:block">
                         <img src={about_img} alt="About" />
@@ -40,6 +40,9 @@ export default function AboutUs() {
                         <h1 className="text-5xl font-bold leading-normal">
                         About Us
                         </h1>
+                        <div className="block md:hidden">
+                            <img src={about_img} alt="About" className="w-1/2 h-auto mx-auto"/>
+                        </div>
                         <p className="py-6 text-xl sm:text-3xl">
                         With us, you can shop online & help save your street at the same
                         time. If you’re looking for great value shoes, then
@@ -52,15 +55,18 @@ export default function AboutUs() {
             </div>
 
             {/* Our Goal Section */}
-            <div ref={targetRef} className="hero py-16 bg-base-300">
+            <div ref={targetRef} className="hero sm:py-16 bg-base-300">
                 <div className="hero-content grid md:grid-cols-2 gap-8">
-                    <div className="order-2 ml-auto hidden md:block">
-                        <img src={goal_img} alt="About" />
+                    <div className="hidden md:block">
+                        <img src={goal_img} alt="Goal" />
                     </div>
                     <div>
                         <h1 className="text-5xl font-bold leading-normal">
                         Our Goal
                         </h1>
+                        <div className="block md:hidden">
+                            <img src={goal_img} alt="Goal" className="w-1/2 h-auto mx-auto"/>
+                        </div>
                         <p className="py-6 text-xl sm:text-3xl">
                         To revolutionize the online shoe shopping experience by offering exceptional value,
                         a diverse range of styles, and a commitment to preserving the local essence of our streets.
