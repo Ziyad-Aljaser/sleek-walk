@@ -45,7 +45,7 @@ export default function ShoeDetails() {
                 <li>
                   <Link to="/">Shop</Link>
                 </li>
-                <li>Shop single</li>
+                <li>{ shoe.title }</li>
               </ul>
             </div>
           </div>
@@ -70,10 +70,20 @@ export default function ShoeDetails() {
             {/* Details Section */}
             <div className="grid flex-shrink my-14">
               <div className="flex flex-col space-y-5 lg:pl-4">
-                
-                <h2 className="text-2xl font-bold">
-                  {shoe.title} <div className="badge badge-secondary text-xs">New</div>
-                </h2>
+
+                <div className="grid md:grid-cols-2">
+                  <h2 className="text-2xl font-bold">
+                    {shoe.title} <div className="badge badge-secondary text-xs">New</div>
+                  </h2>
+                  <div className="rating rating-md md:ml-auto">
+                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
+                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
+                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
+                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" checked disabled />
+                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled/>
+                  </div>
+                </div>
+
                 <h3 className="text-3xl font-semibold">
                   {shoe.price}
                 </h3>
@@ -113,8 +123,3 @@ export default function ShoeDetails() {
     </Layout>
   );
 }
-
-// <img src={shoe.image} alt={shoe.title} />
-// <h2>{shoe.title}</h2>
-// <p>{shoe.price}</p>
-// <p>{shoe.category}</p>

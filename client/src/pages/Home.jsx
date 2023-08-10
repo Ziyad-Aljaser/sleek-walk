@@ -48,10 +48,10 @@ export default function Home() {
             <h1 className="text-5xl font-bold leading-normal">
               Welcome to Sleek Walk Online Shoes Store
             </h1>
-            <button className="btn btn-primary mt-24 mr-6" onClick={handleButtonClick}>Explore Shoes</button>
-            <Link to="/about" className="btn btn-primary">
+            <Link to="/about" className="btn btn-primary mt-24 mr-6">
               About us
             </Link>
+            <button className="btn btn-primary" onClick={handleButtonClick}>Explore Shoes</button>
           </div>
         </div>
       </div>
