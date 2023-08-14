@@ -43,10 +43,22 @@ export default function Cart() {
     console.log("Deleted Successfully");
   };
 
+  // The page when the cart is empty
+  if (products.length === 0) {
+    return (
+      <Layout>
+        <div className="bg-base-300 flex justify-center items-center h-screen">
+          <h1 className="text-4xl sm:text-5xl font-bold">Your cart is empty</h1>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="p-2 sm:p-16 bg-base-300">
         <table className="table w-full">
+
           {/* Table Header */}
           <thead>
             <tr>
@@ -63,18 +75,22 @@ export default function Cart() {
               <tr key={index}>
                 {/* Product image with the delete button */}
                 <td className="py-8">
-                  <div className="indicator z-[0]">
-                    <span
-                      className="indicator-item badge badge-secondary cursor-pointer"
-                      onClick={() => handleDelete(product.product)} // Using product name to identify which product to delete
-                    >
-                      ✕
-                    </span>
-                    <div className="avatar">
-                      <div className="w-16 sm:w-24 rounded">
-                        <img src={product.img} alt={product.product} />
+                  <div className="flex items-center">
+                    <div className="indicator z-[0] relative">
+                      <span
+                        className="indicator-item badge badge-secondary cursor-pointer"
+                        onClick={() => handleDelete(product.product)} // Using product name to identify which product to delete
+                      >
+                        ✕
+                      </span>
+                      <div className="avatar">
+                        <div className="w-16 sm:w-24 rounded">
+                          <img src={product.img} alt={product.product} />
+                        </div>
                       </div>
                     </div>
+                    <span className="ml-4 sm:text-xl">{product.product}</span>{" "}
+                    {/* Displaying the product name */}
                   </div>
                 </td>
 
@@ -84,6 +100,7 @@ export default function Cart() {
               </tr>
             ))}
           </tbody>
+
         </table>
 
         <div className="flex justify-center">
