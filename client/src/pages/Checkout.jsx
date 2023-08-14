@@ -34,31 +34,31 @@ export default function Signup() {
     event.target.value = value;
   };
 
+  // Regular expression to remove non-numeric characters and existing slashes
+  const handleExpirationDateChange = (event) => {
     // Regular expression to remove non-numeric characters and existing slashes
-    const handleExpirationDateChange = (event) => {
-      // Regular expression to remove non-numeric characters and existing slashes
-      const nonNumeric = /[^0-9]/g;
-      let value = event.target.value.replace(nonNumeric, '');
-    
-      // If the first character is bigger than 2, prepend with 0
-      if (value.length === 1 && parseInt(value) > 2) {
-        value = '0' + value;
-      }
-    
-      // If more than two characters, add a '/' after the 2nd digit
-      if (value.length > 2) {
-        value = value.substring(0, 2) + '/' + value.substring(2, 4);
-      }
-    
-      event.target.value = value;
-    };
+    const nonNumeric = /[^0-9]/g;
+    let value = event.target.value.replace(nonNumeric, '');
+  
+    // If the first character is bigger than 2, prepend with 0
+    if (value.length === 1 && parseInt(value) > 2) {
+      value = '0' + value;
+    }
+  
+    // If more than two characters, add a '/' after the 2nd digit
+    if (value.length > 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+  
+    event.target.value = value;
+  };
 
   return (
     <Layout>
       <div className="flex items-center justify-center min-h-screen bg-base-300 p-5">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full">
           {/* Steps Section */}
-          <ul className="steps mb-12 z-[0]">
+          <ul className="steps mb-12 z-[0] sm:w-1/2">
             <li className={step >= 0 ? "step step-primary" : "step"}>
               Shipping Address
             </li>

@@ -27,7 +27,7 @@ export default function Login() {
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>
                     </div>
-                    <div className="form-control mt-6">
+                    <div className="form-control mt-8">
                         <button className="btn btn-primary">Login</button>
                     </div>
                     <p>No account yet? <Link to="/signup" className="link link-primary">Sign up</Link></p>
