@@ -6,6 +6,11 @@ import Layout from "../components/Layout";
 import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
 
 export default function Cart() {
+  // Test
+  const handleButtonClick = () => {
+    console.log("Checkout Button Clicked!");
+  };
+
   // Sample data for demonstration
   const [products, setProducts] = useState([
     {
@@ -82,9 +87,13 @@ export default function Cart() {
         </table>
 
         <div className="flex justify-center">
-          <button className="btn btn-primary w-64">
-            <Link to="/checkout">Proceed to Checkout</Link>
-          </button>
+          <Link
+            to="/checkout"
+            className="btn btn-primary w-64"
+            onClick={handleButtonClick}
+          >
+            Proceed to Checkout
+          </Link>
         </div>
       </div>
     </Layout>
