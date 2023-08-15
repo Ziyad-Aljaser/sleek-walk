@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 
 import { SHOES } from "../data/ShoesData"; 
 
-const Shoes = ({ currentPage, itemsPerPage }) => {
+const Shoes = ({ currentPage, itemsPerPage, type }) => {
 
+  const filteredShoes = SHOES.filter(shoe => shoe.type === type);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const shoesToDisplay = SHOES.slice(startIndex, endIndex);
+  const shoesToDisplay = filteredShoes.slice(startIndex, endIndex);
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 p-10">

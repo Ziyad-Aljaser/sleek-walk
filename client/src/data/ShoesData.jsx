@@ -16,6 +16,7 @@ import men_dress_shoes_3 from "../assets/Shoes_Images/men_dress_shoes_3.png"
 export const SHOES = [
     {
       id: 1,
+      type: "Men",
       image: men_athletic_shoes_1,
       title: "Athletic Shoes 1",
       category: "Athletic",
@@ -23,6 +24,7 @@ export const SHOES = [
     },
     {
       id: 2,
+      type: "Men",
       image: men_athletic_shoes_2,
       title: "Athletic Shoes 2",
       category: "Athletic",
@@ -30,6 +32,7 @@ export const SHOES = [
     },
     {
       id: 3,
+      type: "Men",
       image: men_athletic_shoes_3,
       title: "Athletic Shoes 3",
       category: "Athletic",
@@ -37,6 +40,7 @@ export const SHOES = [
     },
     {
       id: 4,
+      type: "Men",
       image: men_casual_shoes_1,
       title: "Casual Shoes 1",
       category: "Casual",
@@ -44,6 +48,7 @@ export const SHOES = [
     },
     {
       id: 5,
+      type: "Men",
       image: men_casual_shoes_2,
       title: "Casual Shoes 2",
       category: "Casual",
@@ -51,6 +56,7 @@ export const SHOES = [
     },
     {
       id: 6,
+      type: "Men",
       image: men_casual_shoes_3,
       title: "Casual Shoes 3",
       category: "Casual",
@@ -58,6 +64,7 @@ export const SHOES = [
     },
     {
       id: 7,
+      type: "Men",
       image: men_dress_shoes_1,
       title: "Dress Shoes 1",
       category: "Dress",
@@ -65,6 +72,7 @@ export const SHOES = [
     },
     {
       id: 8,
+      type: "Men",
       image: men_dress_shoes_2,
       title: "Dress Shoes 2",
       category: "Dress",
@@ -72,6 +80,7 @@ export const SHOES = [
     },
     {
       id: 9,
+      type: "Men",
       image: men_dress_shoes_3,
       title: "Dress Shoes 3",
       category: "Dress",
