@@ -64,7 +64,7 @@ export default function Cart() {
   return (
     <Layout>
       <div className="p-2 sm:p-16 bg-base-300">
-        {/* Table Content */}
+        {/* Table */}
         <table className="table w-full">
           {/* Table Header */}
           <thead>
@@ -114,7 +114,7 @@ export default function Cart() {
         {/* Cart Summary */}
         <div className="flex justify-end p-5">
           <div className="w-full sm:w-1/4">
-            <div className="border rounded-lg shadow-lg overflow-hidden bg-base-200">
+            <div className="border rounded-xl shadow-lg overflow-hidden bg-base-200">
               <div className="p-4 text-xl font-bold text-center">
                 Cart Summary
               </div>
