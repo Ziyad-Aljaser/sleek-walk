@@ -43,6 +43,13 @@ export default function Cart() {
     console.log("Deleted Successfully");
   };
 
+  // Used for the cart summary
+  const subtotal = products.reduce((sum, product) => sum + product.total, 0);
+  const taxRate = 0.1; // 10% tax rate
+  const taxAmount = subtotal * taxRate;
+  const shippingFees = 5.0;
+  const total = subtotal + taxAmount + shippingFees;
+
   // The page when the cart is empty
   if (products.length === 0) {
     return (
@@ -57,8 +64,8 @@ export default function Cart() {
   return (
     <Layout>
       <div className="p-2 sm:p-16 bg-base-300">
+        {/* Table Content */}
         <table className="table w-full">
-
           {/* Table Header */}
           <thead>
             <tr>
@@ -89,20 +96,40 @@ export default function Cart() {
                         </div>
                       </div>
                     </div>
-                    <span className="ml-4 sm:text-xl">{product.product}</span>{" "}
                     {/* Displaying the product name */}
+                    <span className="ml-4 sm:text-xl">
+                      {product.product}
+                    </span>{" "}
                   </div>
                 </td>
 
-                <td>${product.price.toFixed(2)}</td>
-                <td>{product.qty}</td>
-                <td>${product.total.toFixed(2)}</td>
+                <td className="sm:text-xl">${product.price.toFixed(2)}</td>
+                <td className="sm:text-xl">{product.qty}</td>
+                <td className="sm:text-xl">${product.total.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
-
         </table>
 
+        {/* Cart Summary */}
+        <div className="flex justify-end p-5">
+          <div className="w-full sm:w-1/4">
+            <div className="border rounded-lg shadow-lg overflow-hidden bg-base-200">
+              <div className="p-4 text-xl font-bold text-center">
+                Cart Summary
+              </div>
+              <div className="p-4">
+                <p>Subtotal: ${subtotal.toFixed(2)}</p>
+                <p>Tax (10%): ${taxAmount.toFixed(2)}</p>
+                <p>Shipping: ${shippingFees.toFixed(2)}</p>
+                <hr className="my-4" />
+                <p className="font-bold">Total: ${total.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Checkout Button */}
         <div className="flex justify-center">
           <Link
             to="/checkout"
