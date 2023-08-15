@@ -29,7 +29,8 @@ export default function MenShop() {
   // Used for the pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(SHOES.length / itemsPerPage); // Calculate total pages
+  const filteredShoes = SHOES.filter(shoe => shoe.type === "Men");
+  const totalPages = Math.ceil(filteredShoes.length / itemsPerPage); // Calculate total pages based on filtered shoes
 
   return (
     <Layout>
@@ -40,22 +41,25 @@ export default function MenShop() {
         <Shoes currentPage={currentPage} itemsPerPage={itemsPerPage} type="Men"/>
 
         {/* Pagination Section */}
-        <div className="join flex justify-center shadow-xl mb-5">
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index + 1}
-              className={`join-item btn text-2xl ${
-                currentPage === index + 1 ? "btn-active" : ""
-              }`}
-              onClick={() => {
-                setCurrentPage(index + 1);
-                handleButtonClick();
-              }}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
+        {filteredShoes.length > itemsPerPage && (
+          <div className="join flex justify-center shadow-xl mb-5">
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index + 1}
+                className={`join-item btn text-2xl ${
+                  currentPage === index + 1 ? "btn-active" : ""
+                }`}
+                onClick={() => {
+                  setCurrentPage(index + 1);
+                  handleButtonClick();
+                }}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
+        
       </div>
     </Layout>
   );
