@@ -104,7 +104,7 @@ const Navbar = () => {
               <Link to="/men-shop">Men</Link>
             </li>
             <li class="text-xl">
-              <Link to="/">Women</Link>
+              <Link to="/women-shop">Women</Link>
             </li>
             <li class="text-xl">
               <Link to="/">Kids</Link>

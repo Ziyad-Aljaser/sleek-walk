@@ -20,6 +20,18 @@ export default function ShoeDetails() {
     Reviews: "Reviews Test",
   };
 
+  // Used to get the correct path for a given shoe type
+  function getTypePath(type) {
+    switch (type) {
+      case 'Men':
+        return 'men-shop';
+      case 'Women':
+        return 'women-shop';
+      default:
+        return type.toLowerCase();
+    }
+  }
+
   // Used to check the item
   if (!shoe) {
     return (
@@ -43,7 +55,7 @@ export default function ShoeDetails() {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/">Shop</Link>
+                  <Link to={`/${getTypePath(shoe.type)}`}>{shoe.type}</Link>
                 </li>
                 <li>{ shoe.title }</li>
               </ul>
