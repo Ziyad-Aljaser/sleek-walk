@@ -1,6 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+import { useShoeContext } from "./ShoeContext";
+
+import { SHOES } from "../data/ShoesData";
 
 import logo from "../assets/sleek_walk_logo.png";
 
@@ -24,6 +28,36 @@ const Navbar = () => {
       setTheme("light");
     }
   };
+
+  // Used for the search field
+  const { query, setQuery, filteredShoes, setFilteredShoes } = useShoeContext();
+
+  const handleSearch = (e) => {
+    const searchQuery = e.target.value;
+    setQuery(searchQuery);
+
+    if (searchQuery) {
+      const results = SHOES.filter((shoe) =>
+        shoe.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredShoes(results);
+    } else {
+      setFilteredShoes([]);
+    }
+  };
+
+  // Used to reset the search input value
+  const location = useLocation();
+
+  const resetSearch = () => {
+      setQuery('');
+      setFilteredShoes([]);
+  };
+  
+  useEffect(() => {
+      // Simply reset the search whenever the location pathname changes
+      resetSearch();
+  }, [location.pathname]);
 
   // set theme state in localstorage on mount & also update localstorage on state change
   useEffect(() => {
@@ -120,7 +154,29 @@ const Navbar = () => {
               type="text"
               placeholder="Search Shoes..."
               className="input input-bordered input-primary w-full"
+              value={query}
+              onChange={handleSearch}
             />
+            {/* Display Search Results */}
+            {query && (
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-1/6 absolute top-full absolute top-[78%]"
+              >
+                {filteredShoes.length > 0 ? (
+                  filteredShoes.slice(0, 3).map((shoe) => (
+                    <li key={shoe.id} className="my-2">
+                      <Link to={`/shoes-details/${shoe.id}`} onClick={resetSearch}>
+                        <img src={shoe.image} alt={shoe.title} width="60" className="rounded-lg" />
+                        <h3>{shoe.title}</h3>
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li className="my-2 text-center">No results found</li>
+                )}
+              </ul>
+            )}
           </div>
 
           {/* Cart */}

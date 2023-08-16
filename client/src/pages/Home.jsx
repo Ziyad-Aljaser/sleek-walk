@@ -77,7 +77,7 @@ export default function Home() {
 
         {/* Shoes Cards Section */}
         <h1 className="text-4xl p-7 font-semibold">Explore Shoes</h1>
-        <Shoes currentPage={currentPage} itemsPerPage={itemsPerPage} />
+        <Shoes currentPage={currentPage} itemsPerPage={itemsPerPage}/>
 
         {/* Pagination Section */}
         <div className="join flex justify-center shadow-xl mb-5">

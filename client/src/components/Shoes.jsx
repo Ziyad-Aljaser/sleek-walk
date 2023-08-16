@@ -6,7 +6,7 @@ import { SHOES } from "../data/ShoesData";
 
 const Shoes = ({ currentPage, itemsPerPage, type }) => {
 
-  const filteredShoes = SHOES.filter(shoe => shoe.type === type);
+  const filteredShoes = type ? SHOES.filter(shoe => shoe.type === type) : SHOES;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const shoesToDisplay = filteredShoes.slice(startIndex, endIndex);
