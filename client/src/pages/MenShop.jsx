@@ -47,31 +47,34 @@ export default function MenShop() {
       >
         <h1 className="text-4xl p-7 font-semibold">Men Shoes</h1>
 
-        {/* Sort Section */}
-        <div className="flex justify-start w-full ">
-          <select
-            className="select select-primary ml-10"
-            onChange={handleSortChange}
-          >
-            <option disabled selected>
-              Sort By
-            </option>
-            <option value="asc">Price: low to high</option>
-            <option value="desc">Price: high to low</option>
-          </select>
-        </div>
-
         {/* Drawer Section */}
         <div className="flex justify-start w-full">
           <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-              <label
-                htmlFor="my-drawer"
-                className="btn btn-primary drawer-button"
-              >
-                Filter
-              </label>
+              {/* Sort/Filter Container */}
+              <div className="flex flex-row justify-start gap-5">
+                {/* Sort Section */}
+                <select
+                  className="select select-primary ml-10"
+                  onChange={handleSortChange}
+                >
+                  <option disabled selected>
+                    Sort By
+                  </option>
+                  <option value="asc">Price: low to high</option>
+                  <option value="desc">Price: high to low</option>
+                </select>
+
+                {/* Filter Button Section */}
+                <label
+                  htmlFor="my-drawer"
+                  className="btn btn-primary drawer-button"
+                >
+                  Filter
+                </label>
+              </div>
+
               {/* Shoes Cards Section */}
               <Shoes
                 currentPage={currentPage}

@@ -47,47 +47,83 @@ export default function WomenShop() {
       >
         <h1 className="text-4xl p-7 font-semibold">Women Shoes</h1>
 
-        {/* Sort Section */}
+        {/* Drawer Section */}
         <div className="flex justify-start w-full">
-          <select
-            className="select select-primary ml-10"
-            onChange={handleSortChange}
-          >
-            <option disabled selected>
-              Sort By
-            </option>
-            <option value="asc">Price: low to high</option>
-            <option value="desc">Price: high to low</option>
-          </select>
-        </div>
+          <div className="drawer">
+            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-content">
+              {/* Sort/Filter Container */}
+              <div className="flex flex-row justify-start gap-5">
+                {/* Sort Section */}
+                <select
+                  className="select select-primary ml-10"
+                  onChange={handleSortChange}
+                >
+                  <option disabled selected>
+                    Sort By
+                  </option>
+                  <option value="asc">Price: low to high</option>
+                  <option value="desc">Price: high to low</option>
+                </select>
 
-        {/* Shoes Cards Section */}
-        <Shoes
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          type="Women"
-          sortOrder={sortOrder}
-        />
+                {/* Filter Button Section */}
+                <label
+                  htmlFor="my-drawer"
+                  className="btn btn-primary drawer-button"
+                >
+                  Filter
+                </label>
+              </div>
 
-        {/* Pagination Section */}
-        {filteredShoes.length > itemsPerPage && (
-          <div className="join flex justify-center shadow-xl mb-5">
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index + 1}
-                className={`join-item btn text-2xl ${
-                  currentPage === index + 1 ? "btn-active" : ""
-                }`}
-                onClick={() => {
-                  setCurrentPage(index + 1);
-                  handleButtonClick();
-                }}
-              >
-                {index + 1}
-              </button>
-            ))}
+              {/* Shoes Cards Section */}
+              <Shoes
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                type="Women"
+                sortOrder={sortOrder}
+              />
+
+              {/* Pagination Section */}
+              {filteredShoes.length > itemsPerPage && (
+                <div className="join flex justify-center mb-5">
+                  {[...Array(totalPages)].map((_, index) => (
+                    <button
+                      key={index + 1}
+                      className={`join-item btn text-2xl ${
+                        currentPage === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => {
+                        setCurrentPage(index + 1);
+                        handleButtonClick();
+                      }}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Drawer Side Section */}
+            <div className="drawer-side">
+              <label htmlFor="my-drawer" className="drawer-overlay"></label>
+              <ul className="menu py-24 w-80 h-full bg-base-200 text-base-content">
+                <li>
+                  <a href="#">Sidebar Item 1</a>
+                </li>
+                <li>
+                  <a href="#">Sidebar Item 2</a>
+                </li>
+                <li>
+                  <a href="#">Sidebar Item 3</a>
+                </li>
+                <li>
+                  <a href="#">Sidebar Item 4</a>
+                </li>
+              </ul>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </Layout>
   );
