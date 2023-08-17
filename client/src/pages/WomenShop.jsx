@@ -71,6 +71,18 @@ export default function WomenShop() {
                   htmlFor="my-drawer"
                   className="btn btn-primary drawer-button"
                 >
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    height="1.7em"
+                    width="1.7em"
+                  >
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
+                  </svg>
                   Filter
                 </label>
               </div>
@@ -89,7 +101,7 @@ export default function WomenShop() {
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index + 1}
-                      className={`join-item btn text-2xl ${
+                      className={`join-item btn text-2xl shadow-xl ${
                         currentPage === index + 1 ? "btn-active" : ""
                       }`}
                       onClick={() => {
