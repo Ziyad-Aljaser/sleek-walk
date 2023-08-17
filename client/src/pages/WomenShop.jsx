@@ -43,7 +43,7 @@ export default function WomenShop() {
       {/* Content Section */}
       <div
         ref={targetRef}
-        className="flex items-center flex-col justify-center p-3 bg-base-200"
+        className="flex items-center flex-col justify-center p-3 bg-base-300"
       >
         <h1 className="text-4xl p-7 font-semibold">Women Shoes</h1>
 
@@ -119,18 +119,39 @@ export default function WomenShop() {
             {/* Drawer Side Section */}
             <div className="drawer-side">
               <label htmlFor="my-drawer" className="drawer-overlay"></label>
-              <ul className="menu py-24 w-80 h-full bg-base-200 text-base-content">
-                <li>
-                  <a href="#">Sidebar Item 1</a>
+              <ul className="menu py-24 w-80 h-full bg-base-100 text-base-content">
+                <li className="border-b-2 py-5 text-4xl">Filters</li>
+                <li className="border-b-2 text-lg">
+                  <details close>
+                    <summary>Type</summary>
+                    <ul>
+                      <li>
+                        <a>Men</a>
+                      </li>
+                      <li>
+                        <a>Women</a>
+                      </li>
+                      <li>
+                        <a>Kids</a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
-                <li>
-                  <a href="#">Sidebar Item 2</a>
-                </li>
-                <li>
-                  <a href="#">Sidebar Item 3</a>
-                </li>
-                <li>
-                  <a href="#">Sidebar Item 4</a>
+                <li className="border-b-2 text-lg">
+                  <details close>
+                    <summary>Category</summary>
+                    <ul>
+                      <li>
+                        <a>Athletic</a>
+                      </li>
+                      <li>
+                        <a>Casual</a>
+                      </li>
+                      <li>
+                        <a>Dress</a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
               </ul>
             </div>
