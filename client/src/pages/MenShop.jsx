@@ -142,13 +142,31 @@ export default function MenShop() {
                     <summary>Category</summary>
                     <ul>
                       <li>
-                        <a>Athletic</a>
+                        <label class="label cursor-pointer flex justify-start">
+                          <input
+                            type="checkbox"
+                            class="checkbox checkbox-primary checkbox-sm"
+                          />
+                          <span class="label-text text-lg">Athletic</span>
+                        </label>
                       </li>
                       <li>
-                        <a>Casual</a>
+                        <label class="label cursor-pointer flex justify-start">
+                          <input
+                            type="checkbox"
+                            class="checkbox checkbox-primary checkbox-sm"
+                          />
+                          <span class="label-text text-lg">Casual</span>
+                        </label>
                       </li>
                       <li>
-                        <a>Dress</a>
+                        <label class="label cursor-pointer flex justify-start">
+                          <input
+                            type="checkbox"
+                            class="checkbox checkbox-primary checkbox-sm"
+                          />
+                          <span class="label-text text-lg">Dress</span>
+                        </label>
                       </li>
                     </ul>
                   </details>
