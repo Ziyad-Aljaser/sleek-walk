@@ -28,9 +28,15 @@ export default function WomenShop() {
   // Used for the pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  const filteredShoes = SHOES.filter(shoe => shoe.type === "Women");
+  const filteredShoes = SHOES.filter((shoe) => shoe.type === "Women");
   const totalPages = Math.ceil(filteredShoes.length / itemsPerPage); // Calculate total pages based on filtered shoes
-  
+
+  // Used for the sorting
+  const [sortOrder, setSortOrder] = useState("");
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+  };
 
   return (
     <Layout>
@@ -39,12 +45,28 @@ export default function WomenShop() {
         ref={targetRef}
         className="flex items-center flex-col justify-center p-3 bg-base-200"
       >
-        {/* Shoes Cards Section */}
         <h1 className="text-4xl p-7 font-semibold">Women Shoes</h1>
+
+        {/* Sort Section */}
+        <div className="flex justify-start w-full">
+          <select
+            className="select select-primary ml-10"
+            onChange={handleSortChange}
+          >
+            <option disabled selected>
+              Sort By
+            </option>
+            <option value="asc">Price: low to high</option>
+            <option value="desc">Price: high to low</option>
+          </select>
+        </div>
+
+        {/* Shoes Cards Section */}
         <Shoes
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           type="Women"
+          sortOrder={sortOrder}
         />
 
         {/* Pagination Section */}
