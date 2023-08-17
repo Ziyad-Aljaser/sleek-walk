@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import { useShoeContext } from "./ShoeContext";
 
@@ -49,15 +48,15 @@ const Navbar = () => {
   // Used to reset the search input value
   const location = useLocation();
 
-  const resetSearch = () => {
-      setQuery('');
-      setFilteredShoes([]);
-  };
-  
+  const resetSearch = useCallback(() => {
+    setQuery('');
+    setFilteredShoes([]);
+  }, [setQuery, setFilteredShoes]);
+
   useEffect(() => {
-      // Simply reset the search whenever the location pathname changes
-      resetSearch();
-  }, [location.pathname]);
+    // Simply reset the search whenever the location pathname changes
+    resetSearch();
+  }, [location.pathname, resetSearch]);
 
   // set theme state in localstorage on mount & also update localstorage on state change
   useEffect(() => {
@@ -166,8 +165,16 @@ const Navbar = () => {
                 {filteredShoes.length > 0 ? (
                   filteredShoes.slice(0, 3).map((shoe) => (
                     <li key={shoe.id} className="my-2">
-                      <Link to={`/shoes-details/${shoe.id}`} onClick={resetSearch}>
-                        <img src={shoe.image} alt={shoe.title} width="60" className="rounded-lg" />
+                      <Link
+                        to={`/shoes-details/${shoe.id}`}
+                        onClick={resetSearch}
+                      >
+                        <img
+                          src={shoe.image}
+                          alt={shoe.title}
+                          width="60"
+                          className="rounded-lg"
+                        />
                         <h3>{shoe.title}</h3>
                       </Link>
                     </li>
