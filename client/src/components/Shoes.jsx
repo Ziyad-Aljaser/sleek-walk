@@ -4,8 +4,19 @@ import { Link } from "react-router-dom";
 
 import { SHOES } from "../data/ShoesData";
 
-const Shoes = ({ currentPage, itemsPerPage, type, sortOrder }) => {
-  let filteredShoes = type ? SHOES.filter((shoe) => shoe.type === type) : SHOES;
+const Shoes = ({
+  currentPage,
+  itemsPerPage,
+  type,
+  sortOrder,
+  categoryFilter,
+}) => {
+  let filteredShoes = SHOES.filter((shoe) => {
+    return (
+      (!type || shoe.type === type) &&
+      (categoryFilter.length === 0 || categoryFilter.includes(shoe.category))
+    );
+  });
 
   // Sort shoes based on sortOrder
   if (sortOrder === "asc") {

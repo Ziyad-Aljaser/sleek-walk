@@ -25,17 +25,39 @@ export default function MenShop() {
     }
   };
 
-  // Used for the pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const filteredShoes = SHOES.filter((shoe) => shoe.type === "Men");
-  const totalPages = Math.ceil(filteredShoes.length / itemsPerPage); // Calculate total pages based on filtered shoes
 
   // Used for the sorting
   const [sortOrder, setSortOrder] = useState("");
 
+  // Used to handle the sort changes
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
+  };
+
+  // Used for the filtering
+  const [categoryFilter, setCategoryFilter] = useState([]);
+
+  // Used for the pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const filteredShoes = SHOES.filter((shoe) => {
+    return (
+      shoe.type === "Men" &&
+      (categoryFilter.length === 0 || categoryFilter.includes(shoe.category))
+    );
+  });
+  const totalPages = Math.ceil(filteredShoes.length / itemsPerPage);
+
+  // Used to handle the filter changes
+  const handleCategoryChange = (event) => {
+    const category = event.target.value;
+    if (event.target.checked) {
+      setCategoryFilter((prev) => [...prev, category]);
+    } else {
+      setCategoryFilter((prev) => prev.filter((cat) => cat !== category));
+    }
+    // Reset currentPage to 1 when filter changes
+    setCurrentPage(1);
   };
 
   return (
@@ -93,6 +115,7 @@ export default function MenShop() {
                 itemsPerPage={itemsPerPage}
                 type="Men"
                 sortOrder={sortOrder}
+                categoryFilter={categoryFilter}
               />
 
               {/* Pagination Section */}
@@ -145,6 +168,8 @@ export default function MenShop() {
                         <label class="label cursor-pointer flex justify-start">
                           <input
                             type="checkbox"
+                            value="Athletic"
+                            onChange={handleCategoryChange}
                             class="checkbox checkbox-primary checkbox-sm"
                           />
                           <span class="label-text text-lg">Athletic</span>
@@ -154,6 +179,8 @@ export default function MenShop() {
                         <label class="label cursor-pointer flex justify-start">
                           <input
                             type="checkbox"
+                            value="Casual"
+                            onChange={handleCategoryChange}
                             class="checkbox checkbox-primary checkbox-sm"
                           />
                           <span class="label-text text-lg">Casual</span>
@@ -163,6 +190,8 @@ export default function MenShop() {
                         <label class="label cursor-pointer flex justify-start">
                           <input
                             type="checkbox"
+                            value="Dress"
+                            onChange={handleCategoryChange}
                             class="checkbox checkbox-primary checkbox-sm"
                           />
                           <span class="label-text text-lg">Dress</span>
