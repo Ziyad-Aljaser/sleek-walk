@@ -145,7 +145,7 @@ export default function Signup() {
                   </label>
                   <input
                     type="text"
-                    placeholder="**** **** **** ****"
+                    placeholder="card number"
                     className="input input-bordered input-primary"
                     onChange={handleCreditCardChange}
                     maxLength={19} // 16 digits + 3 spaces
