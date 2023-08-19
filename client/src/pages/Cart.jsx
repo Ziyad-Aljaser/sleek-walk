@@ -64,56 +64,58 @@ export default function Cart() {
   return (
     <Layout>
       <div className="p-2 sm:p-16 bg-base-300">
-        {/* Table */}
-        <table className="table w-full">
-          {/* Table Header */}
-          <thead>
-            <tr>
-              <th className="text-xl font-bold p-2">Product</th>
-              <th className="text-xl font-bold p-2">Price</th>
-              <th className="text-xl font-bold p-2">QTY</th>
-              <th className="text-xl font-bold p-2">Total</th>
-            </tr>
-          </thead>
+        {/* Wrap the table and cart summary in a flex container */}
+        <div className="flex flex-col sm:flex-row">
+          {/* Table */}
+          <table className="table w-full">
+            {/* Table Header */}
+            <thead>
+              <tr>
+                <th className="text-xl font-bold p-2">Product</th>
+                <th className="text-xl font-bold p-2">Price</th>
+                <th className="text-xl font-bold p-2">QTY</th>
+                <th className="text-xl font-bold p-2">Total</th>
+              </tr>
+            </thead>
 
-          {/* Table Content */}
-          <tbody>
-            {products.map((product, index) => (
-              <tr key={index}>
-                {/* Product image with the delete button */}
-                <td className="py-8">
-                  <div className="flex items-center">
-                    <div className="indicator z-[0] relative">
-                      <span
-                        className="indicator-item badge badge-secondary cursor-pointer"
-                        onClick={() => handleDelete(product.product)} // Using product name to identify which product to delete
-                      >
-                        ✕
-                      </span>
-                      <div className="avatar">
-                        <div className="w-16 sm:w-24 rounded">
-                          <img src={product.img} alt={product.product} />
+            {/* Table Content */}
+            <tbody>
+              {products.map((product, index) => (
+                <tr key={index}>
+                  {/* Product image with the delete button */}
+                  <td className="py-8">
+                    <div className="flex items-center">
+                      <div className="indicator z-[0] relative">
+                        <span
+                          className="indicator-item badge badge-secondary cursor-pointer"
+                          onClick={() => handleDelete(product.product)}
+                        >
+                          ✕
+                        </span>
+                        <div className="avatar">
+                          <div className="w-16 sm:w-24 rounded">
+                            <img src={product.img} alt={product.product} />
+                          </div>
                         </div>
                       </div>
+                      {/* Displaying the product name */}
+                      <span className="ml-4 sm:text-xl">
+                        {product.product}
+                      </span>{" "}
                     </div>
-                    {/* Displaying the product name */}
-                    <span className="ml-4 sm:text-xl">
-                      {product.product}
-                    </span>{" "}
-                  </div>
-                </td>
+                  </td>
 
-                <td className="sm:text-xl">${product.price.toFixed(2)}</td>
-                <td className="sm:text-xl">{product.qty}</td>
-                <td className="sm:text-xl">${product.total.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  <td className="sm:text-xl">${product.price.toFixed(2)}</td>
+                  <td className="sm:text-xl">{product.qty}</td>
+                  <td className="sm:text-xl">${product.total.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        {/* Cart Summary */}
-        <div className="flex justify-end p-5">
-          <div className="w-full sm:w-1/4">
+          {/* Cart Summary and Checkout Button */}
+          <div className="flex flex-col space-y-4 sm:w-1/4 mt-5 sm:mt-0 sm:ml-5 mb-12">
+            {/* Cart Summary */}
             <div className="border rounded-xl shadow-lg overflow-hidden bg-base-200">
               <div className="p-4 text-xl font-bold text-center">
                 Cart Summary
@@ -126,18 +128,16 @@ export default function Cart() {
                 <p className="font-bold">Total: ${total.toFixed(2)}</p>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Checkout Button */}
-        <div className="flex justify-center">
-          <Link
-            to="/checkout"
-            className="btn btn-primary w-64"
-            onClick={handleButtonClick}
-          >
-            Proceed to Checkout
-          </Link>
+            {/* Checkout Button */}
+            <Link
+              to="/checkout"
+              className="btn btn-primary w-full"
+              onClick={handleButtonClick}
+            >
+              Proceed to Checkout
+            </Link>
+          </div>
         </div>
       </div>
     </Layout>
