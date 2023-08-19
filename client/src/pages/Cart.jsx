@@ -15,6 +15,7 @@ export default function Cart() {
   const [products, setProducts] = useState([
     {
       product: "Apple",
+      size: 10,
       price: 1.2,
       qty: 4,
       total: 4.8,
@@ -22,6 +23,7 @@ export default function Cart() {
     },
     {
       product: "Banana",
+      size: 8,
       price: 0.8,
       qty: 5,
       total: 4.0,
@@ -29,12 +31,29 @@ export default function Cart() {
     },
     {
       product: "Cherry",
+      size: 9,
       price: 2.5,
       qty: 3,
       total: 7.5,
       img: men_dress_shoes_1,
     },
   ]);
+
+  // Qty Slecetion Handler
+  const handleQtyChange = (event, productToUpdate) => {
+    const newQty = parseInt(event.target.value);
+
+    // Update the products state
+    setProducts((prevProducts) => {
+      return prevProducts.map((product) => {
+        if (product.product === productToUpdate.product) {
+          const newTotal = product.price * newQty;
+          return { ...product, qty: newQty, total: newTotal };
+        }
+        return product;
+      });
+    });
+  };
 
   // Delete Button Handler
   const handleDelete = (productName) => {
@@ -63,16 +82,16 @@ export default function Cart() {
 
   return (
     <Layout>
-      <div className="p-2 sm:p-16 bg-base-300">
+      <div className="py-2 sm:p-16 bg-base-300">
         {/* Wrap the table and cart summary in a flex container */}
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col lg:flex-row">
           {/* Table */}
           <table className="table w-full">
             {/* Table Header */}
             <thead>
               <tr>
                 <th className="text-xl font-bold p-2">Product</th>
-                <th className="text-xl font-bold p-2">Price</th>
+                <th className="text-xl font-bold p-2">Size</th>
                 <th className="text-xl font-bold p-2">QTY</th>
                 <th className="text-xl font-bold p-2">Total</th>
               </tr>
@@ -93,20 +112,35 @@ export default function Cart() {
                           ✕
                         </span>
                         <div className="avatar">
-                          <div className="w-16 sm:w-24 rounded">
+                          <div className="w-12 sm:w-24 rounded">
                             <img src={product.img} alt={product.product} />
                           </div>
                         </div>
                       </div>
                       {/* Displaying the product name */}
-                      <span className="ml-4 sm:text-xl">
+                      <span className="sm:ml-4 sm:text-xl">
                         {product.product}
                       </span>{" "}
                     </div>
                   </td>
 
-                  <td className="sm:text-xl">${product.price.toFixed(2)}</td>
-                  <td className="sm:text-xl">{product.qty}</td>
+                  <td className="sm:text-xl">{product.size}</td>
+                  <td>
+                    <select
+                      className="select select-primary"
+                      value={product.qty}
+                      onChange={(e) => handleQtyChange(e, product)}
+                    >
+                      {Array.from({ length: 9 }, (_, index) => index + 1).map(
+                        (num) => (
+                          <option key={num} value={num}>
+                            {num}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </td>
+
                   <td className="sm:text-xl">${product.total.toFixed(2)}</td>
                 </tr>
               ))}
@@ -114,7 +148,7 @@ export default function Cart() {
           </table>
 
           {/* Cart Summary and Checkout Button */}
-          <div className="flex flex-col space-y-4 sm:w-1/4 mt-5 sm:mt-0 sm:ml-5 mb-12">
+          <div className="flex flex-col space-y-4 lg:w-1/4 mt-5 lg:mt-0 :ml-5 mb-12">
             {/* Cart Summary */}
             <div className="border rounded-xl shadow-lg overflow-hidden bg-base-200">
               <div className="p-4 text-xl font-bold text-center">
