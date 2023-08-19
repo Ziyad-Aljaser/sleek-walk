@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
-import { SHOES } from '../data/ShoesData'; // Importing SHOES data from Home.jsx
+import { SHOES } from "../data/ShoesData"; // Importing SHOES data from Home.jsx
 
 import Layout from "../components/Layout";
-
 
 export default function ShoeDetails() {
   // Used to find the item
   const { id } = useParams();
-  const shoe = SHOES.find(shoe => shoe.id === Number(id));
+  const shoe = SHOES.find((shoe) => shoe.id === Number(id));
 
   // Used for the tab section
   const [activeTab, setActiveTab] = useState("Description");
   const content = {
     Description: "Description Test",
-    "Product Details": "Product Details Test",
+    "Product Details": `${shoe.type}, ${shoe.category}`,
     "Vendor Info": "Vendor Info Test",
     Reviews: "Reviews Test",
   };
@@ -23,29 +22,63 @@ export default function ShoeDetails() {
   // Used to get the correct path for a given shoe type
   function getTypePath(type) {
     switch (type) {
-      case 'Men':
-        return 'men-shop';
-      case 'Women':
-        return 'women-shop';
+      case "Men":
+        return "men-shop";
+      case "Women":
+        return "women-shop";
       default:
         return type.toLowerCase();
     }
   }
 
+  // Used for the Qty
+  const maxQty = 3;
+  const [qty, setQty] = useState(1); // Initial quantity set to 1
+
+  const decreaseQty = () => {
+    if (qty > 1) {
+      setQty((prevQty) => prevQty - 1);
+    }
+  };
+
+  const increaseQty = () => {
+    if (qty < maxQty) {
+      setQty((prevQty) => prevQty + 1);
+    }
+  };
+
+
   // Used to check the item
   if (!shoe) {
     return (
-        <div className="alert alert-error">
-          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          <span>Error! Shoe not found. <Link to="/" className="link link-primary">Back Home</Link></span>
-        </div>
+      <div className="alert alert-error">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>
+          Error! Shoe not found.{" "}
+          <Link to="/" className="link link-primary">
+            Back Home
+          </Link>
+        </span>
+      </div>
     );
   }
+
 
   return (
     <Layout>
       <div className="bg-base-300">
-
         {/* Breadcrumbs Section */}
         <div className="border-b py-6">
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
@@ -57,7 +90,7 @@ export default function ShoeDetails() {
                 <li>
                   <Link to={`/${getTypePath(shoe.type)}`}>{shoe.type}</Link>
                 </li>
-                <li>{ shoe.title }</li>
+                <li>{shoe.title}</li>
               </ul>
             </div>
           </div>
@@ -66,43 +99,93 @@ export default function ShoeDetails() {
         {/* Content Section */}
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col w-full lg:flex-row">
-
             {/* Image Section */}
             <div className="max-w-md py-14">
-                  <img
-                    src={shoe.image}
-                    className="object-cover rounded-lg"
-                    alt={shoe.title}
-                  />
+              <img
+                src={shoe.image}
+                className="object-cover rounded-lg"
+                alt={shoe.title}
+              />
             </div>
 
             {/* Divider */}
             <div className="divider lg:divider-horizontal p-6" />
 
             {/* Details Section */}
-            <div className="grid flex-shrink my-14">
+            <div className="grid flex-shrink sm:my-14">
               <div className="flex flex-col space-y-5 lg:pl-4">
-
                 <div className="grid md:grid-cols-2">
                   <h2 className="text-2xl font-bold">
-                    {shoe.title} <div className="badge badge-secondary text-xs">New</div>
+                    {shoe.title}{" "}
+                    <div className="badge badge-secondary text-xs">New</div>
                   </h2>
                   <div className="rating rating-md md:ml-auto">
-                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
-                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
-                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled />
-                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" checked disabled />
-                    <input type="radio" name="rating-5" className="mask mask-star-2 bg-purple-500" disabled/>
+                    <input
+                      type="radio"
+                      name="rating-5"
+                      className="mask mask-star-2 bg-purple-500"
+                      disabled
+                    />
+                    <input
+                      type="radio"
+                      name="rating-5"
+                      className="mask mask-star-2 bg-purple-500"
+                      disabled
+                    />
+                    <input
+                      type="radio"
+                      name="rating-5"
+                      className="mask mask-star-2 bg-purple-500"
+                      disabled
+                    />
+                    <input
+                      type="radio"
+                      name="rating-5"
+                      className="mask mask-star-2 bg-purple-500"
+                      checked
+                      disabled
+                    />
+                    <input
+                      type="radio"
+                      name="rating-5"
+                      className="mask mask-star-2 bg-purple-500"
+                      disabled
+                    />
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-semibold">
-                  {shoe.price}
-                </h3>
-                <p>
-                  <span>Shoes Type:</span> {shoe.category}
-                </p>
-                <button type="button" className="btn btn-primary w-[200px]">
+                <div className="pb-20">
+                  <h3 className="text-3xl font-semibold">{shoe.price}</h3>
+                </div>
+
+                <div>
+                  <label className="label">
+                    <span className="label-text">Select Your Size</span>
+                  </label>
+                  <select className="select select-primary sm:w-1/4 mr-4">
+                    <option disabled selected>
+                      Size
+                    </option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                  </select>
+                    <button
+                      onClick={decreaseQty}
+                      className="btn btn-outline btn-circle sm:mr-3"
+                    >
+                      -
+                    </button>
+                    <span>{qty}</span>
+                    <button
+                      onClick={increaseQty}
+                      className="btn btn-outline btn-circle sm:ml-3"
+                    >
+                      +
+                    </button>
+                  </div>
+                <button type="button" className="btn btn-primary w-1/2">
                   Add to Cart
                 </button>
 
@@ -124,13 +207,10 @@ export default function ShoeDetails() {
                   </div>
                   <p>{content[activeTab]}</p>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </Layout>
   );
