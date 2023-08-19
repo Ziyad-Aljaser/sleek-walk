@@ -32,7 +32,7 @@ export default function ShoeDetails() {
   }
 
   // Used for the Qty
-  const maxQty = 3;
+  const maxQty = 9;
   const [qty, setQty] = useState(1); // Initial quantity set to 1
 
   const decreaseQty = () => {
@@ -46,7 +46,6 @@ export default function ShoeDetails() {
       setQty((prevQty) => prevQty + 1);
     }
   };
-
 
   // Used to check the item
   if (!shoe) {
@@ -74,7 +73,6 @@ export default function ShoeDetails() {
       </div>
     );
   }
-
 
   return (
     <Layout>
@@ -158,33 +156,46 @@ export default function ShoeDetails() {
                   <h3 className="text-3xl font-semibold">{shoe.price}</h3>
                 </div>
 
-                <div>
-                  <label className="label">
-                    <span className="label-text">Select Your Size</span>
-                  </label>
-                  <select className="select select-primary sm:w-1/4 mr-4">
-                    <option disabled selected>
-                      Size
-                    </option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                  </select>
-                    <button
-                      onClick={decreaseQty}
-                      className="btn btn-outline btn-circle sm:mr-3"
-                    >
-                      -
-                    </button>
-                    <span>{qty}</span>
-                    <button
-                      onClick={increaseQty}
-                      className="btn btn-outline btn-circle sm:ml-3"
-                    >
-                      +
-                    </button>
+                <div className="flex items-start">
+                  {/* Left column: Size selection */}
+                  <div className="mr-11">
+                    <label className="label block mb-1">
+                      <span className="label-text">Select Your Size</span>
+                    </label>
+                    <select className="select select-primary">
+                      <option disabled selected>
+                        Size
+                      </option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                      <option>11</option>
+                    </select>
                   </div>
+
+                  {/* Right column: Quantity controls */}
+                  <div className="flex flex-col">
+                    <label className="label mb-2">
+                      <span className="label-text">Qty</span>
+                    </label>
+                    <div className="flex items-center">
+                      <button
+                        onClick={decreaseQty}
+                        className="btn btn-primary mr-3"
+                      >
+                        -
+                      </button>
+                      <span>{qty}</span>
+                      <button
+                        onClick={increaseQty}
+                        className="btn btn-primary ml-3"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <button type="button" className="btn btn-primary w-1/2">
                   Add to Cart
                 </button>
