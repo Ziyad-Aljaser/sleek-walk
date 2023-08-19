@@ -9,7 +9,7 @@ const Shoes = ({
   itemsPerPage,
   type,
   sortOrder,
-  categoryFilter,
+  categoryFilter = [], // providing a default value
 }) => {
   let filteredShoes = SHOES.filter((shoe) => {
     return (

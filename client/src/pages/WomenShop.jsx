@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout";
 import Shoes from "../components/Shoes";
+
 import { SHOES } from "../data/ShoesData";
 
 export default function WomenShop() {
@@ -24,7 +26,6 @@ export default function WomenShop() {
       });
     }
   };
-
 
   // Used for the sorting
   const [sortOrder, setSortOrder] = useState("");
@@ -149,13 +150,13 @@ export default function WomenShop() {
                     <summary>Type</summary>
                     <ul>
                       <li>
-                        <a>Men</a>
+                        <Link to="/men-shop">Men</Link>
                       </li>
                       <li>
-                        <a>Women</a>
+                        <Link to="/women-shop">Women</Link>
                       </li>
                       <li>
-                        <a>Kids</a>
+                        <Link to="/">Kids</Link>
                       </li>
                     </ul>
                   </details>
@@ -164,39 +165,21 @@ export default function WomenShop() {
                   <details close>
                     <summary>Category</summary>
                     <ul>
-                      <li>
-                        <label class="label cursor-pointer flex justify-start">
-                          <input
-                            type="checkbox"
-                            value="Athletic"
-                            onChange={handleCategoryChange}
-                            class="checkbox checkbox-primary checkbox-sm"
-                          />
-                          <span class="label-text text-lg">Athletic</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label class="label cursor-pointer flex justify-start">
-                          <input
-                            type="checkbox"
-                            value="Casual"
-                            onChange={handleCategoryChange}
-                            class="checkbox checkbox-primary checkbox-sm"
-                          />
-                          <span class="label-text text-lg">Casual</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label class="label cursor-pointer flex justify-start">
-                          <input
-                            type="checkbox"
-                            value="Dress"
-                            onChange={handleCategoryChange}
-                            class="checkbox checkbox-primary checkbox-sm"
-                          />
-                          <span class="label-text text-lg">Dress</span>
-                        </label>
-                      </li>
+                      {["Athletic", "Casual", "Dress"].map((category) => (
+                        <li key={category}>
+                          <label className="label cursor-pointer flex justify-start">
+                            <input
+                              type="checkbox"
+                              value={category}
+                              onChange={handleCategoryChange}
+                              class="checkbox checkbox-primary checkbox-sm"
+                            />
+                            <span className="label-text text-lg">
+                              {category}
+                            </span>
+                          </label>
+                        </li>
+                      ))}
                     </ul>
                   </details>
                 </li>
