@@ -142,7 +142,7 @@ export default function Cart() {
                             </p>
                             <div className="modal-action">
                               <button
-                                className="btn"
+                                className="btn btn-secondary"
                                 onClick={() => {
                                   handleDelete(selectedProduct.product);
                                   setSelectedProduct(null);
