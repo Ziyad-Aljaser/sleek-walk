@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout";
@@ -62,6 +62,19 @@ export default function Cart() {
     console.log("Deleted Successfully");
   };
 
+  // Used for the remove confirmation modal
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const modalRef = useRef(null);
+
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    const modalElement = document.getElementById("delete_modal");
+    if (modalElement) {
+      modalElement.showModal();
+    }
+  };
+
   // Used for the cart summary
   const subtotal = products.reduce((sum, product) => sum + product.total, 0);
   const taxRate = 0.1; // 10% tax rate
@@ -105,12 +118,48 @@ export default function Cart() {
                   <td className="py-8">
                     <div className="flex items-center">
                       <div className="indicator z-[0] relative">
+                        {/* Trigger Modal */}
                         <span
                           className="indicator-item badge badge-secondary cursor-pointer"
-                          onClick={() => handleDelete(product.product)}
+                          onClick={() => openModal(product)}
                         >
                           ✕
                         </span>
+
+                        {/* Delete Modal */}
+                        <dialog
+                          ref={modalRef}
+                          id="delete_modal"
+                          className="modal"
+                        >
+                          <form method="dialog" className="modal-box">
+                            <h3 className="font-bold text-lg">
+                              Remove Confirmation
+                            </h3>
+                            <p className="py-4">
+                              Are you sure you want to remove{" "}
+                              {selectedProduct?.product}?
+                            </p>
+                            <div className="modal-action">
+                              <button
+                                className="btn"
+                                onClick={() => {
+                                  handleDelete(selectedProduct.product);
+                                  setSelectedProduct(null);
+                                }}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                className="btn"
+                                onClick={() => setSelectedProduct(null)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </form>
+                        </dialog>
+
                         <div className="avatar">
                           <div className="w-12 sm:w-24 rounded">
                             <img src={product.img} alt={product.product} />
@@ -124,7 +173,10 @@ export default function Cart() {
                     </div>
                   </td>
 
+                  {/* Size Section */}
                   <td className="sm:text-xl">{product.size}</td>
+
+                  {/* Qty Section */}
                   <td>
                     <select
                       className="select select-primary"
@@ -141,6 +193,7 @@ export default function Cart() {
                     </select>
                   </td>
 
+                  {/* Total Price Section */}
                   <td className="sm:text-xl">${product.total.toFixed(2)}</td>
                 </tr>
               ))}
