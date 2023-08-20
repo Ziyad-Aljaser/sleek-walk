@@ -2,6 +2,9 @@ import React, { useState } from "react";
 
 import Layout from "../components/Layout";
 
+import shopping_bag from "../assets/shopping_bag.png";
+
+
 export default function Signup() {
   const [step, setStep] = useState(0);
 
@@ -20,17 +23,17 @@ export default function Signup() {
   // Regular expression to match non-alphabetic characters
   const handleNameChange = (event) => {
     const nonAlphabetical = /[^A-Za-z\s]/g;
-    event.target.value = event.target.value.replace(nonAlphabetical, '');
+    event.target.value = event.target.value.replace(nonAlphabetical, "");
   };
 
   // Regular expression to remove non-numeric characters
   const handleCreditCardChange = (event) => {
     const nonNumeric = /[^0-9]/g;
-    let value = event.target.value.replace(nonNumeric, '');
-  
+    let value = event.target.value.replace(nonNumeric, "");
+
     // Add a space after every 4 digits
-    value = value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-  
+    value = value.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ");
+
     event.target.value = value;
   };
 
@@ -38,18 +41,18 @@ export default function Signup() {
   const handleExpirationDateChange = (event) => {
     // Regular expression to remove non-numeric characters and existing slashes
     const nonNumeric = /[^0-9]/g;
-    let value = event.target.value.replace(nonNumeric, '');
-  
+    let value = event.target.value.replace(nonNumeric, "");
+
     // If the first character is bigger than 2, prepend with 0
     if (value.length === 1 && parseInt(value) > 2) {
-      value = '0' + value;
+      value = "0" + value;
     }
-  
+
     // If more than two characters, add a '/' after the 2nd digit
     if (value.length > 2) {
-      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      value = value.substring(0, 2) + "/" + value.substring(2, 4);
     }
-  
+
     event.target.value = value;
   };
 
@@ -72,7 +75,6 @@ export default function Signup() {
 
           <div className="card bg-base-100 shadow-xl w-full max-w-md">
             <div className="card-body">
-
               <h1 className="text-4xl font-bold text-center mb-6">Checkout</h1>
 
               {/* Address Section */}
@@ -129,7 +131,6 @@ export default function Signup() {
               {/* Payment Secion */}
               {step === 1 && (
                 <div className="form-control">
-
                   <label className="label">
                     <span className="label-text">Cardholder Name</span>
                   </label>
@@ -166,7 +167,6 @@ export default function Signup() {
                       maxLength="3"
                     />
                   </div>
-
                 </div>
               )}
 
@@ -198,7 +198,21 @@ export default function Signup() {
                   />
 
                   <div className="form-control mt-8">
-                    <button className="btn btn-primary">Complete Order</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => window.order_modal.showModal()}
+                    >
+                      Complete Order
+                    </button>
+                    <dialog id="order_modal" className="modal">
+                      <form method="dialog" className="modal-box">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          ✕
+                        </button>
+                        <img src={shopping_bag} alt="Shopping Bag" className="w-1/3 max-w-xs mx-auto" />
+                        <h1 className="font-bold text-xl text-center py-12">Your order has been placed successfully!</h1>
+                      </form>
+                    </dialog>
                   </div>
                 </div>
               )}
@@ -214,10 +228,8 @@ export default function Signup() {
                   </button>
                 </div>
               )}
-              
             </div>
           </div>
-
         </div>
       </div>
     </Layout>
