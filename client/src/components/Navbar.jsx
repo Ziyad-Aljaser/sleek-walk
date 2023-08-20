@@ -160,7 +160,7 @@ const Navbar = () => {
             {query && (
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-1/6 absolute top-full top-[79%]"
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-1/6 absolute top-full top-[80%]"
               >
                 {filteredShoes.length > 0 ? (
                   filteredShoes.slice(0, 3).map((shoe) => (
