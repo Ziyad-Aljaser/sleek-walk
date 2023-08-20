@@ -210,11 +210,11 @@ export default function Cart() {
           <div className="flex flex-col space-y-4 lg:w-1/4 mt-5 lg:mt-0 :ml-5 mb-12">
             {/* Cart Summary */}
             <div className="border rounded-xl shadow-lg overflow-hidden bg-neutral-content">
-              <div className="p-4 text-xl font-bold text-center">
+              <div className="p-4 text-xl font-bold text-center text-black">
                 Cart Summary
               </div>
               <img src={cart_summary} alt="cart summary" className="mx-auto" />
-              <div className="p-4">
+              <div className="p-4 text-black">
                 <p>Subtotal: ${subtotal.toFixed(2)}</p>
                 <p>Tax (10%): ${taxAmount.toFixed(2)}</p>
                 <p>Shipping: ${shippingFees.toFixed(2)}</p>
