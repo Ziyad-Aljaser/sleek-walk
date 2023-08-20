@@ -7,13 +7,12 @@ import MenShop from "./pages/MenShop";
 import WomenShop from "./pages/WomenShop";
 import ShoeDetails from "./pages/ShoeDetails";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout"
+import Checkout from "./pages/Checkout";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 
 import ScrollToTop from "./components/ScrollToTop";
-import { ShoeProvider } from './components/ShoeContext';
-
+import { ShoeProvider } from "./components/ShoeContext";
 
 function App() {
   return (

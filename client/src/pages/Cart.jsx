@@ -172,7 +172,9 @@ export default function Cart() {
                         {/* Displaying the product name */}
                         <span className="sm:text-xl">{product.product}</span>
                         {/* Displaying the product price */}
-                        <div className="sm:text-xl md:mt-2">${product.price}</div>
+                        <div className="sm:text-xl md:mt-2">
+                          ${product.price}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -211,7 +213,7 @@ export default function Cart() {
               <div className="p-4 text-xl font-bold text-center">
                 Cart Summary
               </div>
-                <img src={cart_summary} alt="cart summary" className="mx-auto" />
+              <img src={cart_summary} alt="cart summary" className="mx-auto" />
               <div className="p-4">
                 <p>Subtotal: ${subtotal.toFixed(2)}</p>
                 <p>Tax (10%): ${taxAmount.toFixed(2)}</p>

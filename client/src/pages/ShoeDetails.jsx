@@ -42,7 +42,7 @@ export default function ShoeDetails() {
   const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
 
   const handleAddButtonClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to the top smoothly
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
     setShowAlert(true); // Display the alert when the button is clicked
   };
 
@@ -87,31 +87,31 @@ export default function ShoeDetails() {
   return (
     <Layout>
       <div className="bg-base-300">
-      {/* Alert Section */}
-      {showAlert && ( // Conditional rendering based on the showAlert state
-        <div className="alert alert-success">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+        {/* Alert Section */}
+        {showAlert && ( // Conditional rendering based on the showAlert state
+          <div className="alert alert-success">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
 
-          <span>
-          Successfully added {shoe.title} to the cart! {" "}
-            <Link to="/cart" className="link link-primary">
-               Go to cart
-            </Link>
-          </span>
-        </div>
-      )}
+            <span>
+              Successfully added {shoe.title} to the cart!{" "}
+              <Link to="/cart" className="link link-primary">
+                Go to cart
+              </Link>
+            </span>
+          </div>
+        )}
         {/* Breadcrumbs Section */}
         <div className="border-b py-6">
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4">

@@ -1,19 +1,18 @@
-import men_athletic_shoes_1 from "../assets/Shoes_Images/men_athletic_shoes_1.png"
-import men_athletic_shoes_2 from "../assets/Shoes_Images/men_athletic_shoes_2.png"
-import men_athletic_shoes_3 from "../assets/Shoes_Images/men_athletic_shoes_3.png"
+import men_athletic_shoes_1 from "../assets/Shoes_Images/men_athletic_shoes_1.png";
+import men_athletic_shoes_2 from "../assets/Shoes_Images/men_athletic_shoes_2.png";
+import men_athletic_shoes_3 from "../assets/Shoes_Images/men_athletic_shoes_3.png";
 
-import men_casual_shoes_1 from "../assets/Shoes_Images/men_casual_shoes_1.png"
-import men_casual_shoes_2 from "../assets/Shoes_Images/men_casual_shoes_2.png"
-import men_casual_shoes_3 from "../assets/Shoes_Images/men_casual_shoes_3.png"
+import men_casual_shoes_1 from "../assets/Shoes_Images/men_casual_shoes_1.png";
+import men_casual_shoes_2 from "../assets/Shoes_Images/men_casual_shoes_2.png";
+import men_casual_shoes_3 from "../assets/Shoes_Images/men_casual_shoes_3.png";
 
-import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png"
-import men_dress_shoes_2 from "../assets/Shoes_Images/men_dress_shoes_2.png"
-import men_dress_shoes_3 from "../assets/Shoes_Images/men_dress_shoes_3.png"
+import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
+import men_dress_shoes_2 from "../assets/Shoes_Images/men_dress_shoes_2.png";
+import men_dress_shoes_3 from "../assets/Shoes_Images/men_dress_shoes_3.png";
 
-import women_athletic_shoes_1 from "../assets/Shoes_Images/women_athletic_shoes_1.png"
-import women_athletic_shoes_2 from "../assets/Shoes_Images/women_athletic_shoes_2.png"
-import women_athletic_shoes_3 from "../assets/Shoes_Images/women_athletic_shoes_3.png"
-
+import women_athletic_shoes_1 from "../assets/Shoes_Images/women_athletic_shoes_1.png";
+import women_athletic_shoes_2 from "../assets/Shoes_Images/women_athletic_shoes_2.png";
+import women_athletic_shoes_3 from "../assets/Shoes_Images/women_athletic_shoes_3.png";
 
 // Shoes Data
 export const SHOES = [

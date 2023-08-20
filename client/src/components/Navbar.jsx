@@ -49,7 +49,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const resetSearch = useCallback(() => {
-    setQuery('');
+    setQuery("");
     setFilteredShoes([]);
   }, [setQuery, setFilteredShoes]);
 
