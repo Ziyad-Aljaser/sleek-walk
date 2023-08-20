@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout";
 
@@ -206,9 +207,9 @@ export default function Signup() {
                     </button>
                     <dialog id="order_modal" className="modal">
                       <form method="dialog" className="modal-box">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                        <Link to={"/"} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                           ✕
-                        </button>
+                        </Link>
                         <img src={shopping_bag} alt="Shopping Bag" className="w-1/3 max-w-xs mx-auto" />
                         <h1 className="font-bold text-xl text-center py-12">Your order has been placed successfully!</h1>
                       </form>
