@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 
 import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
+import cart_summary from "../assets/cart_summary.png";
 
 export default function Cart() {
   // Test
@@ -203,10 +204,11 @@ export default function Cart() {
           {/* Cart Summary and Checkout Button */}
           <div className="flex flex-col space-y-4 lg:w-1/4 mt-5 lg:mt-0 :ml-5 mb-12">
             {/* Cart Summary */}
-            <div className="border rounded-xl shadow-lg overflow-hidden bg-base-200">
+            <div className="border rounded-xl shadow-lg overflow-hidden bg-neutral-content">
               <div className="p-4 text-xl font-bold text-center">
                 Cart Summary
               </div>
+              <img src={cart_summary} alt="cart summary" />
               <div className="p-4">
                 <p>Subtotal: ${subtotal.toFixed(2)}</p>
                 <p>Tax (10%): ${taxAmount.toFixed(2)}</p>
