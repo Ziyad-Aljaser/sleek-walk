@@ -10,15 +10,6 @@ export default function ShoeDetails() {
   const { id } = useParams();
   const shoe = SHOES.find((shoe) => shoe.id === Number(id));
 
-  // Used for the tab section
-  const [activeTab, setActiveTab] = useState("Description");
-  const content = {
-    Description: "Description Test",
-    "Product Details": `${shoe.type}, ${shoe.category}`,
-    "Vendor Info": "Vendor Info Test",
-    Reviews: "Reviews Test",
-  };
-
   // Used to get the correct path for a given shoe type
   function getTypePath(type) {
     switch (type) {
@@ -47,6 +38,17 @@ export default function ShoeDetails() {
     }
   };
 
+  // Used for the cart button click to show the alert
+  const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
+
+  const handleAddButtonClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to the top smoothly
+    setShowAlert(true); // Display the alert when the button is clicked
+  };
+
+  // Used for the tab section
+  const [activeTab, setActiveTab] = useState("Description");
+
   // Used to check the item
   if (!shoe) {
     return (
@@ -74,9 +76,42 @@ export default function ShoeDetails() {
     );
   }
 
+  // Used for the tab section
+  const content = {
+    Description: "Description Test",
+    "Product Details": `${shoe.type}, ${shoe.category}`,
+    "Vendor Info": "Vendor Info Test",
+    Reviews: "Reviews Test",
+  };
+
   return (
     <Layout>
       <div className="bg-base-300">
+      {/* Alert Section */}
+      {showAlert && ( // Conditional rendering based on the showAlert state
+        <div className="alert alert-success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+
+          <span>
+          Successfully added {shoe.title} to the cart! {" "}
+            <Link to="/cart" className="link link-primary">
+               Go to cart
+            </Link>
+          </span>
+        </div>
+      )}
         {/* Breadcrumbs Section */}
         <div className="border-b py-6">
           <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
@@ -196,7 +231,11 @@ export default function ShoeDetails() {
                   </div>
                 </div>
 
-                <button type="button" className="btn btn-primary w-1/2">
+                <button
+                  type="button"
+                  className="btn btn-primary w-1/2"
+                  onClick={handleAddButtonClick}
+                >
                   Add to Cart
                 </button>
 
