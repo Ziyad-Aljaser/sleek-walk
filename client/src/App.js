@@ -14,6 +14,8 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 
 import ScrollToTop from "./components/ScrollToTop";
+
+import { AuthProvider } from './contexts/AuthContext';
 import { ShoeProvider } from "./components/ShoeContext";
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
     <>
       <ShoeProvider>
         <ScrollToTop />
+        <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -33,6 +36,7 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
         </Routes>
+        </AuthProvider>
       </ShoeProvider>
     </>
   );
