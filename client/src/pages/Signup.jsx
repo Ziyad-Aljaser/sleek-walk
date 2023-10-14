@@ -1,23 +1,46 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
+import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';  
 import Layout from '../components/Layout';
 
 export default function Signup() {
-  const { signIn, error } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const { signUp } = useAuth();  
+  const [state, setState] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+
+  const [error, setError] = useState("");
   const [signupSuccess, setSignupSuccess] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await signIn(email, password);
-      setSignupSuccess(true);
-    } catch {
-      setSignupSuccess(false);
+  function handleForm(e) {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault(); 
+
+    if (state.password !== state.passwordConfirm) {
+      console.error("Passwords do not match");
+      setError("Passwords do not match");
+      return;
     }
-  };
+
+    try {
+      await signUp(state.email, state.password);
+      setError(""); 
+      // Optionally, redirect to another page or set a success state
+      console.log("Created Account Successfuly!");
+      setSignupSuccess(true);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }
 
   return (
     <Layout>
@@ -26,6 +49,7 @@ export default function Signup() {
           <div className="card-body">
             <h1 className="text-4xl font-bold text-center mb-6">New Account</h1>
 
+            {/* Used to show the Error/Success notification to the user */}
             {error ? (
               <div className="alert alert-error">
                 <span>
@@ -34,7 +58,7 @@ export default function Signup() {
               </div>
             ) : signupSuccess && (
               <div className="alert alert-success">
-                <span>Signup successful! Welcome!</span>
+                <span>Signup Successful, Welcome!</span>
               </div>
             )}
 
@@ -45,10 +69,10 @@ export default function Signup() {
                 </label>
                 <input
                   type="text"
+                  name="fullName"
                   placeholder="Full Name"
                   className="input input-bordered input-primary"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  onChange={handleForm}
                   required
                 />
               </div>
@@ -59,10 +83,10 @@ export default function Signup() {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
                   className="input input-bordered input-primary"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleForm}
                   required
                 />
               </div>
@@ -73,10 +97,24 @@ export default function Signup() {
                 </label>
                 <input
                   type="password"
+                  name="password"
                   placeholder="Password"
                   className="input input-bordered input-primary"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleForm}
+                  required
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Confirm Password</span>
+                </label>
+                <input
+                  type="password"
+                  name="passwordConfirm"
+                  placeholder="Confirm Password"
+                  className="input input-bordered input-primary"
+                  onChange={handleForm}
                   required
                 />
               </div>

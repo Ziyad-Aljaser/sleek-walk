@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import {getAuth, GoogleAuthProvider } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
+// Your Firebase configuration object
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "sleek-walk.firebaseapp.com",
@@ -11,6 +12,7 @@ const firebaseConfig = {
   measurementId: "G-3W4T1NHEDZ"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app)
-export const googleProvider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig); // Initialize Firebase
+export const auth = getAuth(app); // Get Auth instance
+
+export { createUserWithEmailAndPassword, signInWithEmailAndPassword }; // Export the functions
