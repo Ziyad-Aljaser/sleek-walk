@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { useShoeContext } from "./ShoeContext";
-import { AuthContext } from "../contexts/AuthContext.js"; // Import AuthContext
+import { useAuth } from "../contexts/AuthContext.js"; // Import AuthContext
 
 import { SHOES } from "../data/ShoesData";
 
@@ -68,16 +68,19 @@ const Navbar = () => {
   }, [theme]);
 
   // Used for user authentication
-  const { isAuthenticated, logout } = useContext(AuthContext); // Destructure isAuthenticated from context
+  const { currentUser, logout } = useAuth();
 
   // Used to handle the logout
   const handleLogout = async () => {
     try {
       await logout();
-    } catch (err) {
-      console.error(err);
+      // Optionally, redirect user to homepage or show a notification
+      console.log("Successfully Logged Out!");
+    } catch (error) {
+      console.error("Failed to logout: ", error);
     }
   };
+  
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
@@ -259,7 +262,7 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              {isAuthenticated ? ( // Conditional rendering based on isAuthenticated
+              {currentUser  ? ( // Conditional rendering based on currentUser
                 <>
                   <li>
                     <a className="justify-between" href="/profile">
