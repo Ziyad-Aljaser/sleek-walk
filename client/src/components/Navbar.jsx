@@ -80,7 +80,6 @@ const Navbar = () => {
       console.error("Failed to logout: ", error);
     }
   };
-  
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
@@ -262,23 +261,22 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              {currentUser  ? ( // Conditional rendering based on currentUser
+              {currentUser ? ( // Conditional rendering based on currentUser
                 <>
-                  <li>
-                  Welcome, {currentUser.displayName}!
+                  <li className="menu-title">
+                    <span className="text-purple-500">Welcome, {currentUser.displayName}!</span>
                   </li>
-                  <li>
+
+                  <li className="mt-2">
                     <a className="justify-between" href="/profile">
                       Profile
                     </a>
                   </li>
 
-                  <div className="divider"></div>
-
-                  <li>
-                    <button onClick={handleLogout}>
-                      Logout
-                    </button>
+                  <div className="divider -mt-0.5"></div>
+                  {/* - before mt is for forcing the button to go up */}
+                  <li className="-mt-5">
+                    <button onClick={handleLogout}>Logout</button>
                   </li>
                 </>
               ) : (

@@ -27,7 +27,9 @@ export function AuthProvider({ children }) {
     return auth.signOut();
   }
 
-  // Used
+  // The useEffect is used to keep track of the user's login status.
+  // It automatically updates the currentUser state when the user logs in or out.
+  // The "cleanup" function (unsubscribe) stops this monitoring when it's not needed to avoid memory leaks
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(setCurrentUser);
     return unsubscribe;
