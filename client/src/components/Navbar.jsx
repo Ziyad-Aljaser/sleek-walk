@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect, useContext } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { useShoeContext } from "./ShoeContext";
-import { useAuth } from "../contexts/AuthContext.js"; // Import AuthContext
+import { useShoeContext } from "../contexts/ShoeContext";
+import { useAuth } from "../contexts/AuthContext"; // Import AuthContext
 
 import { SHOES } from "../data/ShoesData";
 

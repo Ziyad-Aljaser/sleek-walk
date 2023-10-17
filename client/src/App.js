@@ -16,7 +16,7 @@ import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
 
 import { AuthProvider } from './contexts/AuthContext';
-import { ShoeProvider } from "./components/ShoeContext";
+import { ShoeProvider } from "./contexts/ShoeContext";
 
 function App() {
   return (
