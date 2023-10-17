@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../config/firebase'; 
+import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '../config/firebase'; 
 
 export const AuthContext = createContext();
 
@@ -14,22 +14,23 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function signUp(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signUp(email, password, fullName) {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    if (fullName) {
+      await updateProfile(userCredential.user, { displayName: fullName });
+    }
+    setCurrentUser(userCredential.user);
+    return userCredential;
   }
-
+  
   function logout() {
     return auth.signOut();
   }
 
+  // Used
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user);
-      console.log(user.uid);
-    //   console.log(user.uidisplayNamed);
-    });
-
-    return unsubscribe; // unsubscribe on unmount
+    const unsubscribe = auth.onAuthStateChanged(setCurrentUser);
+    return unsubscribe;
   }, []);
 
   const value = {

@@ -31,7 +31,7 @@ export default function Signup() {
     }
 
     try {
-      await signUp(state.email, state.password);
+      await signUp(state.email, state.password, state.fullName);
       setError(""); 
       // Optionally, redirect to another page or set a success state
       console.log("Created Account Successfuly!");

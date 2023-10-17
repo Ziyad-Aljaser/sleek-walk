@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
 
 // Your Firebase configuration object
 const firebaseConfig = {
@@ -15,4 +15,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig); // Initialize Firebase
 export const auth = getAuth(app); // Get Auth instance
 
-export { createUserWithEmailAndPassword, signInWithEmailAndPassword }; // Export the functions
+export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile  }; // Export the functions

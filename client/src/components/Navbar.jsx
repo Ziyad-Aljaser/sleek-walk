@@ -265,6 +265,9 @@ const Navbar = () => {
               {currentUser  ? ( // Conditional rendering based on currentUser
                 <>
                   <li>
+                  Welcome, {currentUser.displayName}!
+                  </li>
+                  <li>
                     <a className="justify-between" href="/profile">
                       Profile
                     </a>
