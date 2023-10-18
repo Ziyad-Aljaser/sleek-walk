@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
+import Profile from "./pages/Profile";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/men-shop" element={<MenShop />} />
           <Route path="/women-shop" element={<WomenShop />} />
           <Route path="/shoes-details/:id" element={<ShoeDetails />} />

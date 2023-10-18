@@ -175,7 +175,7 @@ const Navbar = () => {
             {query && (
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-1/6 absolute top-full top-[80%]"
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-1/6 absolute top-full"
               >
                 {filteredShoes.length > 0 ? (
                   filteredShoes.slice(0, 3).map((shoe) => (
@@ -259,7 +259,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 top-[125%]"
             >
               {currentUser ? ( // Conditional rendering based on currentUser
                 <>
@@ -268,9 +268,10 @@ const Navbar = () => {
                   </li>
 
                   <li className="mt-2">
-                    <a className="justify-between" href="/profile">
+                    {/* <a className="justify-between" href="/profile">
                       Profile
-                    </a>
+                    </a> */}
+                    <Link to="/profile">Profile</Link>
                   </li>
 
                   <div className="divider -mt-0.5"></div>
