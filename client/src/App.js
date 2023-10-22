@@ -15,9 +15,12 @@ import ContactUs from "./pages/ContactUs";
 import Profile from "./pages/Profile";
 
 import ScrollToTop from "./components/ScrollToTop";
+import PrivateWrapper from './components/PrivateWrapper';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { ShoeProvider } from "./contexts/ShoeContext";
+
+
 
 function App() {
   return (
@@ -29,7 +32,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <-- Used to protect the path form unlogged users*/}
+          <Route path="/profile" element={
+              <PrivateWrapper>
+                <Profile />
+              </PrivateWrapper>
+            } />
           <Route path="/men-shop" element={<MenShop />} />
           <Route path="/women-shop" element={<WomenShop />} />
           <Route path="/shoes-details/:id" element={<ShoeDetails />} />
