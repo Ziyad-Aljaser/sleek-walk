@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate  } from 'react-router-dom';
+
 import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '../config/firebase'; 
 
 export const AuthContext = createContext();
@@ -9,6 +11,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const navigate = useNavigate(); // <-- Get the navigate function
 
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -24,7 +27,9 @@ export function AuthProvider({ children }) {
   }
   
   function logout() {
-    return auth.signOut();
+    return auth.signOut().then(() => {
+      navigate('/login'); // Used to navigate to login after logout
+    });
   }
 
   // The useEffect is used to keep track of the user's login status.
