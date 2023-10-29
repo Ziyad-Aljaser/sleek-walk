@@ -8,8 +8,8 @@ export default function Profile() {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center min-h-screen bg-base-300 p-4 -mt-12">
-        <div className="card w-full max-w-4xl bg-base-100 shadow-xl">
+      <div className="flex items-center justify-center min-h-screen bg-base-300 p-4">
+        <div className="card w-full max-w-4xl bg-base-100 shadow-xl -mt-12">
           <div className="card-body">
 
             {/* Profile Header */}
