@@ -44,7 +44,7 @@ export default function Profile() {
                   <>
                     <div className="form-control">
                       <label className="label">
-                        <span className="label-text">First Name</span>
+                        <span className="label-text font-bold">First Name</span>
                       </label>
                       <input
                         type="text"
@@ -56,7 +56,7 @@ export default function Profile() {
                     </div>
                     <div className="form-control mt-4">
                       <label className="label">
-                        <span className="label-text">Last Name</span>
+                        <span className="label-text font-bold">Last Name</span>
                       </label>
                       <input
                         type="text"
@@ -71,7 +71,7 @@ export default function Profile() {
                 {detailToShow === 'Email' && (
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Email</span>
+                      <span className="label-text font-bold">Email</span>
                     </label>
                     <input
                       type="email"
