@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
 
-import db from "../config/firebase";
+import { db } from "../config/firebase";
 
 import {
   getDocs,
