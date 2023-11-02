@@ -20,3 +20,18 @@ export const db = getFirestore(app); // Get Database instance
 export const auth = getAuth(app); // Get Auth instance
 
 export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile }; // Export the functions
+
+  // addresses database structure:
+  // /firestore
+  
+  // --------------------------------------------------------------
+
+  // carts database structure:
+  // /firestore
+  // /carts (collection)
+  //   /{UserID} (document)
+  //     - status: (boolean) - true for completed, false for active/not completed
+  //     /cart_items (subcollection)
+  //       /{ItemID} (document)
+  //         - productID: (string)
+  //         - quantity: (int)
