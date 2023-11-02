@@ -83,7 +83,7 @@ export default function Cart() {
                   <td className="py-8">
                     <div className="flex items-center">
                       <div className="sm:ml-4">
-                        <span className="sm:text-xl">{item.productID}</span>
+                        <span className="sm:text-xl">{item.title}</span>
                         <div className="sm:text-xl md:mt-2">${item.price}</div>
                       </div>
                     </div>
