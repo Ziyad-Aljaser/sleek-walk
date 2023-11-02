@@ -17,35 +17,11 @@ export default function ShoeDetails() {
   const maxQty = 9;
   const [qty, setQty] = useState(1); // Initial quantity set to 1
 
-    // Used for the cart button click to show the alert
-    const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
+  // Used for the cart button click to show the alert
+  const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
 
-    // Used for the tab section
-    const [activeTab, setActiveTab] = useState("Description");
-
-  // Used to get the correct path for a given shoe type
-  function getTypePath(type) {
-    switch (type) {
-      case "Men":
-        return "men-shop";
-      case "Women":
-        return "women-shop";
-      default:
-        return type.toLowerCase();
-    }
-  }
-
-  const decreaseQty = () => {
-    if (qty > 1) {
-      setQty((prevQty) => prevQty - 1);
-    }
-  };
-
-  const increaseQty = () => {
-    if (qty < maxQty) {
-      setQty((prevQty) => prevQty + 1);
-    }
-  };
+  // Used for the tab section
+  const [activeTab, setActiveTab] = useState("Description");
 
   // Used to check the item
   if (!shoe) {
@@ -74,6 +50,30 @@ export default function ShoeDetails() {
     );
   }
 
+  // Used to get the correct path for a given shoe type
+  function getTypePath(type) {
+    switch (type) {
+      case "Men":
+        return "men-shop";
+      case "Women":
+        return "women-shop";
+      default:
+        return type.toLowerCase();
+    }
+  }
+
+  const decreaseQty = () => {
+    if (qty > 1) {
+      setQty((prevQty) => prevQty - 1);
+    }
+  };
+
+  const increaseQty = () => {
+    if (qty < maxQty) {
+      setQty((prevQty) => prevQty + 1);
+    }
+  };
+
   // Used for the tab section
   const content = {
     Description: "Description Test",
@@ -82,6 +82,11 @@ export default function ShoeDetails() {
     Reviews: "Reviews Test",
   };
 
+  // Function to handle size change
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  };
+  
   // Function to handle adding items to cart
   const handleAddButtonClick = async () => {
     // You'll need to get the current user's ID from your authentication context or state
@@ -112,11 +117,6 @@ export default function ShoeDetails() {
       console.error("Error adding to cart: ", error);
       alert("There was an issue adding the item to the cart.");
     }
-  };
-
-  // Function to handle size change
-  const handleSizeChange = (event) => {
-    setSize(event.target.value);
   };
 
   return (
