@@ -34,6 +34,7 @@ export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
   //     /cart_items (subcollection)
   //       /{ItemID} (document)
   //         - productID: (string)
-  //         - price: int
-  //         - size: int
+  //         - title: (string)
+  //         - price: (int)
+  //         - size: (int)
   //         - quantity: (int)
