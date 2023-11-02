@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+import { db } from "../config/firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
+
 import { SHOES } from "../data/ShoesData"; // Importing SHOES data from Home.jsx
 
 import Layout from "../components/Layout";
@@ -9,6 +12,16 @@ export default function ShoeDetails() {
   // Used to find the item
   const { id } = useParams();
   const shoe = SHOES.find((shoe) => shoe.id === Number(id));
+  const [size, setSize] = useState(); // State to manage the selected shoe size
+  // Used for the Qty
+  const maxQty = 9;
+  const [qty, setQty] = useState(1); // Initial quantity set to 1
+
+    // Used for the cart button click to show the alert
+    const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
+
+    // Used for the tab section
+    const [activeTab, setActiveTab] = useState("Description");
 
   // Used to get the correct path for a given shoe type
   function getTypePath(type) {
@@ -22,10 +35,6 @@ export default function ShoeDetails() {
     }
   }
 
-  // Used for the Qty
-  const maxQty = 9;
-  const [qty, setQty] = useState(1); // Initial quantity set to 1
-
   const decreaseQty = () => {
     if (qty > 1) {
       setQty((prevQty) => prevQty - 1);
@@ -37,17 +46,6 @@ export default function ShoeDetails() {
       setQty((prevQty) => prevQty + 1);
     }
   };
-
-  // Used for the cart button click to show the alert
-  const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
-
-  const handleAddButtonClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
-    setShowAlert(true); // Display the alert when the button is clicked
-  };
-
-  // Used for the tab section
-  const [activeTab, setActiveTab] = useState("Description");
 
   // Used to check the item
   if (!shoe) {
@@ -82,6 +80,43 @@ export default function ShoeDetails() {
     "Product Details": `${shoe.type}, ${shoe.category}`,
     "Vendor Info": "Vendor Info Test",
     Reviews: "Reviews Test",
+  };
+
+  // Function to handle adding items to cart
+  const handleAddButtonClick = async () => {
+    // You'll need to get the current user's ID from your authentication context or state
+    const userId = "UserID"; // Replace with actual logic to get current user's ID
+
+    if (!size) {
+      alert("Please select a size");
+      return;
+    }
+
+    const cartItem = {
+      productID: id,
+      title: shoe.title,
+      price: shoe.price,
+      size: size,
+      quantity: qty,
+    };
+
+    try {
+      // Reference to the user's cart item document
+      const cartItemRef = doc(collection(db, `carts/${userId}/cart_items`));
+
+      // Set the cart item data
+      await setDoc(cartItemRef, cartItem);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
+      setShowAlert(true); // Display the alert when the button is clicked
+    } catch (error) {
+      console.error("Error adding to cart: ", error);
+      alert("There was an issue adding the item to the cart.");
+    }
+  };
+
+  // Function to handle size change
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
   };
 
   return (
@@ -188,7 +223,7 @@ export default function ShoeDetails() {
                 </div>
 
                 <div className="pb-20">
-                  <h3 className="text-3xl font-semibold">{shoe.price}</h3>
+                  <h3 className="text-3xl font-semibold">${shoe.price}</h3>
                 </div>
 
                 <div className="flex items-start">
@@ -197,14 +232,18 @@ export default function ShoeDetails() {
                     <label className="label block mb-1">
                       <span className="label-text">Select Your Size</span>
                     </label>
-                    <select className="select select-primary">
+                    <select
+                      className="select select-primary"
+                      value={size}
+                      onChange={handleSizeChange}
+                    >
                       <option disabled selected>
                         Size
                       </option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
                     </select>
                   </div>
 
