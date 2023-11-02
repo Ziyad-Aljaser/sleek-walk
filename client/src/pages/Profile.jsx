@@ -27,8 +27,6 @@ export default function Profile() {
 
   const [userAddress, setUserAddress] = useState(null);
 
-  console.log(db);
-
   const addressesCollectionRef = collection(db, "addresses");
 
   useEffect(() => {
