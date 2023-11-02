@@ -1,13 +1,61 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
+import { db } from "../config/firebase";
+import { collection, getDocs } from "firebase/firestore";
+
 import Layout from "../components/Layout";
 
 import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
 import cart_summary from "../assets/cart_summary.png";
 
 export default function Cart() {
-  // Test
+
+  // carts database structure:
+  // /firestore
+  // /carts (collection)
+  //   /{UserID} (document)
+  //     - status: (boolean) - true for completed, false for active/not completed
+  //     /cart_items (subcollection)
+  //       /{ItemID} (document)
+  //         - productID: (string)
+  //         - quantity: (int)
+
+  // Function used to get ItemIDs and their details from a user's cart
+  async function getCartItemsForUser(userId) {
+    try {
+      // Creating a reference to the user's cart_items subcollection
+      const cartItemsRef = collection(db, "carts", userId, "cart_items");
+
+      // Fetching the documents from the cart_items subcollection
+      const cartSnapshot = await getDocs(cartItemsRef);
+
+      // Mapping over the documents to extract the ItemID and details
+      const cartItemsDetails = cartSnapshot.docs.map((doc) => {
+        const itemDetails = doc.data();
+        console.log(`Details for ItemID ${doc.id}:`, itemDetails); // Log each item's details
+        return {
+          ItemID: doc.id,
+          ...itemDetails, // Spread the item details
+        };
+      });
+
+      // Log the array of item details
+      console.log(`Cart Items for user ${userId}:`, cartItemsDetails);
+
+      // Return the array of item details if needed
+      return cartItemsDetails;
+    } catch (error) {
+      // Log and rethrow the error if something goes wrong
+      console.error("Error fetching cart items: ", error);
+      throw error; // Rethrow the error so it can be handled by the caller
+    }
+  }
+  // Example usage:
+  const userId = "UserID"; // Replace with the actual UserID
+  getCartItemsForUser(userId);
+
+  // Test button
   const handleButtonClick = () => {
     console.log("Checkout Button Clicked!");
   };
