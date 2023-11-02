@@ -22,7 +22,7 @@ export const SHOES = [
     image: men_athletic_shoes_1,
     title: "Sleek Cloud X1",
     category: "Athletic",
-    price: "$40",
+    price: 40,
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ export const SHOES = [
     image: men_athletic_shoes_2,
     title: "Sleek Cloud X2",
     category: "Athletic",
-    price: "$70.99",
+    price: 70.99,
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ export const SHOES = [
     image: men_athletic_shoes_3,
     title: "Sleek Cloud X3",
     category: "Athletic",
-    price: "$58",
+    price: 58,
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ export const SHOES = [
     image: men_casual_shoes_1,
     title: "ComfortStep C1",
     category: "Casual",
-    price: "$53",
+    price: 53,
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ export const SHOES = [
     image: men_casual_shoes_2,
     title: "ComfortStep C2",
     category: "Casual",
-    price: "$68",
+    price: 68,
   },
   {
     id: 6,
@@ -62,7 +62,7 @@ export const SHOES = [
     image: men_casual_shoes_3,
     title: "ComfortStep C3",
     category: "Casual",
-    price: "$98",
+    price: 98,
   },
   {
     id: 7,
@@ -70,7 +70,7 @@ export const SHOES = [
     image: men_dress_shoes_1,
     title: "Sleek Elegance D1",
     category: "Dress",
-    price: "$298",
+    price: 298,
   },
   {
     id: 8,
@@ -78,7 +78,7 @@ export const SHOES = [
     image: men_dress_shoes_2,
     title: "Sleek Elegance D2",
     category: "Dress",
-    price: "$198",
+    price: 198,
   },
   {
     id: 9,
@@ -86,7 +86,7 @@ export const SHOES = [
     image: men_dress_shoes_3,
     title: "Sleek Elegance D3",
     category: "Dress",
-    price: "$318",
+    price: 318,
   },
   {
     id: 10,
@@ -94,7 +94,7 @@ export const SHOES = [
     image: women_athletic_shoes_1,
     title: "Sleek Swift Z1",
     category: "Athletic",
-    price: "$212",
+    price: 212,
   },
   {
     id: 11,
@@ -102,7 +102,7 @@ export const SHOES = [
     image: women_athletic_shoes_2,
     title: "Sleek Swift Z2",
     category: "Athletic",
-    price: "$134",
+    price: 134,
   },
   {
     id: 12,
@@ -110,6 +110,6 @@ export const SHOES = [
     image: women_athletic_shoes_3,
     title: "Sleek Swift Z3",
     category: "Athletic",
-    price: "$348",
+    price: 348,
   },
 ];

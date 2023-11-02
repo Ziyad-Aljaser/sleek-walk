@@ -21,11 +21,11 @@ const Shoes = ({
   // Sort shoes based on sortOrder
   if (sortOrder === "asc") {
     filteredShoes = filteredShoes.sort(
-      (a, b) => parseFloat(a.price.slice(1)) - parseFloat(b.price.slice(1))
+      (a, b) => parseFloat(a.price) - parseFloat(b.price)
     );
   } else if (sortOrder === "desc") {
     filteredShoes = filteredShoes.sort(
-      (a, b) => parseFloat(b.price.slice(1)) - parseFloat(a.price.slice(1))
+      (a, b) => parseFloat(b.price) - parseFloat(a.price)
     );
   }
 
@@ -52,7 +52,7 @@ const Shoes = ({
 
             {/* Price/Button Section */}
             <div className="card-actions flex items-center justify-between space-y-4">
-              <p className="text-3xl font-medium mt-2">{shoe.price}</p>
+              <p className="text-3xl font-medium mt-2">${shoe.price}</p>
               <Link
                 to={`/shoes-details/${shoe.id}`}
                 className="btn btn-primary"
