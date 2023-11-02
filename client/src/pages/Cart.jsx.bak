@@ -19,6 +19,8 @@ export default function Cart() {
   //     /cart_items (subcollection)
   //       /{ItemID} (document)
   //         - productID: (string)
+  //         - price: int
+  //         - size: int
   //         - quantity: (int)
 
   // Function used to get ItemIDs and their details from a user's cart
