@@ -26,8 +26,9 @@ export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
   
   // --------------------------------------------------------------
 
-  // carts database structure:
-  // /firestore
+  // carts firestore database structures:
+
+  // (Old)
   // /carts (collection)
   //   /{UserID} (document)
   //     - status: (boolean) - true for completed, false for active/not completed
@@ -38,3 +39,17 @@ export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
   //         - price: (int)
   //         - size: (int)
   //         - quantity: (int)
+
+  // (New)
+  // /users (collection)
+  //   /{UserID} (document)
+  //     /user_carts (subcollection)
+  //       /{CartID} (document)
+  //         - status: (boolean) - true for completed, false for active/not completed
+  //         /cart_items (subcollection)
+  //           /{ItemID} (document)
+  //             - productID: (int)
+  //             - title: (string)
+  //             - price: (float)
+  //             - size: (int)
+  //             - quantity: (int)
