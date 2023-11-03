@@ -21,26 +21,11 @@ export const auth = getAuth(app); // Get Auth instance
 
 export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile }; // Export the functions
 
-  // addresses database structure:
-  // /firestore
   
   // --------------------------------------------------------------
 
-  // carts firestore database structures:
+  // Firestore Database Structurs:
 
-  // (Old)
-  // /carts (collection)
-  //   /{UserID} (document)
-  //     - status: (boolean) - true for completed, false for active/not completed
-  //     /cart_items (subcollection)
-  //       /{ItemID} (document)
-  //         - productID: (string)
-  //         - title: (string)
-  //         - price: (int)
-  //         - size: (int)
-  //         - quantity: (int)
-
-  // (New)
   // /users (collection)
   //   /{UserID} (document)
   //     /user_carts (subcollection)
@@ -53,3 +38,11 @@ export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
   //             - price: (float)
   //             - size: (int)
   //             - quantity: (int)
+  //     /user_address (subcollection)
+  //       /{AddressID} (document)
+  //         - country: (string)
+  //         - city: (string)
+  //         - street: (string)
+
+  // --------------------------------------------------------------
+
