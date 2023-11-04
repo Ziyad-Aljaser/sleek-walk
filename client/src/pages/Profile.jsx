@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
@@ -39,30 +39,33 @@ export default function Profile() {
     { name: "United States" },
   ];
 
-  // Use useMemo to memoize the reference to the user's address collection in Firestore
-  // to avoid unnecessary recalculations and re-renders
-  const userAddressCollectionRef = useMemo(() => {
-    return collection(db, "users", testUserID, "user_address");
-  }, [testUserID]); // Dependency array ensures this only recalculates if testUserID changes
+  // Asynchronous function to fetch user address
+  const getUserAddress = async () => {
+    const userAddressRef = collection(db, `users/${testUserID}/user_address`);
+    const querySnapshot = await getDocs(userAddressRef);
+    if (!querySnapshot.empty) {
+      return querySnapshot.docs[0].data();
+    } else {
+      // Handle the case where the user has no address
+      return null;
+    }
+  };
 
-  // useEffect hook to fetch the user's address on component mount or when the reference changes
+  // Effect hook to fetch user address from Firestore on component mount
   useEffect(() => {
-    console.log("Profile useEffect triggered");
-
-    const fetchUserAddress = async () => {
-      console.log("Fetching user address...");
-      const querySnapshot = await getDocs(userAddressCollectionRef);
-      if (!querySnapshot.empty) {
-        const addressData = querySnapshot.docs[0].data();
+    console.log("Address useEffect triggered");
+    const fetchAddress = async () => {
+      const addressData = await getUserAddress();
+      if (addressData) {
         setUserAddress(addressData);
-        console.log("Data found");
       } else {
         console.log("No address data found");
+        setUserAddress(null); // Ensure user address is set to null if not found
       }
     };
 
-    fetchUserAddress();
-  }, [userAddressCollectionRef]); // The dependency array includes the memoized ref
+    fetchAddress();
+  }, [testUserID]); // Dependency on testUserID to refetch if it changes
 
   // Function to handle saving the address to Firestore
   const handleSaveAddress = async () => {
