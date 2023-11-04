@@ -1,67 +1,86 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { collection, getDocs, doc, updateDoc, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default function Cart() {
- // State to hold the list of cart items
- const [cartItems, setCartItems] = useState([]);
- // Currently using a static user ID for testing and demonstration purposes
- const userId = "UserID";
+  // State to hold the list of cart items
+  const [cartItems, setCartItems] = useState([]);
+  // Currently using a static user ID for testing and demonstration purposes
+  const userId = "UserID";
 
- // Asynchronous function to fetch active cart ID
- const getActiveCartId = async () => {
-   const userCartsRef = collection(db, `users/${userId}/user_carts`);
-   const activeCartSnapshot = await getDocs(query(userCartsRef, where("status", "==", false)));
-   if (!activeCartSnapshot.empty) {
-     return activeCartSnapshot.docs[0].id;
-   } else {
-     // Handle the case where there is no active cart
-     return null;
-   }
- };
+  // Asynchronous function to fetch active cart ID
+  const getActiveCartId = async () => {
+    const userCartsRef = collection(db, `users/${userId}/user_carts`);
+    const activeCartSnapshot = await getDocs(
+      query(userCartsRef, where("status", "==", false))
+    );
+    if (!activeCartSnapshot.empty) {
+      return activeCartSnapshot.docs[0].id;
+    } else {
+      // Handle the case where there is no active cart
+      return null;
+    }
+  };
 
- // Effect hook to fetch cart items from Firestore on component mount
- useEffect(() => {
-   const fetchCartItems = async () => {
-     const activeCartId = await getActiveCartId();
-     if (activeCartId) {
-       const cartItemsCollectionRef = collection(db, `users/${userId}/user_carts/${activeCartId}/cart_items`);
-       try {
-         const querySnapshot = await getDocs(cartItemsCollectionRef);
-         const items = querySnapshot.docs.map(doc => ({
-           id: doc.id,
-           ...doc.data()
-         }));
-         setCartItems(items);
-       } catch (error) {
-         console.error("Error fetching cart items: ", error);
-       }
-     }
-   };
+  // Effect hook to fetch cart items from Firestore on component mount
+  useEffect(() => {
+    console.log("Cart useEffect triggered");
+    const fetchCartItems = async () => {
+      const activeCartId = await getActiveCartId();
+      if (activeCartId) {
+        const cartItemsCollectionRef = collection(
+          db,
+          `users/${userId}/user_carts/${activeCartId}/cart_items`
+        );
+        try {
+          const querySnapshot = await getDocs(cartItemsCollectionRef);
+          const items = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setCartItems(items);
+        } catch (error) {
+          console.error("Error fetching cart items: ", error);
+        }
+      }
+    };
 
-   fetchCartItems();
- }, [userId]); // Dependency on userId to refetch if it changes
+    fetchCartItems();
+  }, [userId]); // Dependency on userId to refetch if it changes
 
- // Function to handle quantity changes for cart items
- const handleQtyChange = async (e, item) => {
-   const newQuantity = parseInt(e.target.value, 10);
-   const activeCartId = await getActiveCartId();
+  // Function to handle quantity changes for cart items
+  const handleQtyChange = async (e, item) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    const activeCartId = await getActiveCartId();
 
-   if (activeCartId) {
-     const cartItemRef = doc(db, `users/${userId}/user_carts/${activeCartId}/cart_items`, item.id);
-     try {
-       await updateDoc(cartItemRef, {
-         quantity: newQuantity,
-       });
-       setCartItems(cartItems.map(ci =>
-         ci.id === item.id ? { ...ci, quantity: newQuantity } : ci
-       ));
-     } catch (error) {
-       console.error("Error updating quantity: ", error);
-     }
-   }
- };
+    if (activeCartId) {
+      const cartItemRef = doc(
+        db,
+        `users/${userId}/user_carts/${activeCartId}/cart_items`,
+        item.id
+      );
+      try {
+        await updateDoc(cartItemRef, {
+          quantity: newQuantity,
+        });
+        setCartItems(
+          cartItems.map((ci) =>
+            ci.id === item.id ? { ...ci, quantity: newQuantity } : ci
+          )
+        );
+      } catch (error) {
+        console.error("Error updating quantity: ", error);
+      }
+    }
+  };
 
   return (
     <Layout>
