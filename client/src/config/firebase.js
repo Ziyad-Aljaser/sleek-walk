@@ -24,7 +24,7 @@ export { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
   
   // --------------------------------------------------------------
 
-  // Firestore Database Structurs:
+  // Firestore Database Structure:
 
   // /users (collection)
   //   /{UserID} (document)

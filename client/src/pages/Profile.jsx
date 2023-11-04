@@ -1,112 +1,105 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import Layout from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
 
-import {
-  getDocs,
-  collection,
-  addDoc,
-  query,
-  where,
-} from "firebase/firestore";
+import { getDocs, collection, doc, setDoc } from "firebase/firestore";
 
 export default function Profile() {
+  // Get the current user from the authentication hook
   const { currentUser } = useAuth();
 
-  // Used to split the display name into first and last names
+  // Extract and split the user's name into first and last names
   const [firstName, lastName] = (currentUser.displayName || "").split(" ");
 
-  // useState to manage which detail is displayed (Name or Email)
+  // State to manage which detail section to show
   const [detailToShow, setDetailToShow] = useState("Name");
 
-  // Used to show the address fields
+  // A test user ID for demonstration purposes
+  const testUserID = "UserIDTest";
+
+  // State for toggling the address section's visibility
   const [showAddressSection, setShowAddressSection] = useState(false);
 
+  // State to store the user's address if it exists
   const [userAddress, setUserAddress] = useState(null);
 
-  const addressesCollectionRef = collection(db, "addresses");
-
-  useEffect(() => {
-    const fetchUserAddress = async () => {
-      const q = query(
-        addressesCollectionRef,
-        where("userID", "==", currentUser.uid)
-      );
-
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        const addressData = querySnapshot.docs[0].data().addressDetails;
-        setUserAddress(addressData);
-      }
-    };
-
-    fetchUserAddress();
-  }, [currentUser.uid, addressesCollectionRef]);
-
+  // States for address input fields
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
 
+  // Hardcoded list of countries for the select dropdown
   const countries = [
-    { code: "CAN", name: "Canada" },
-    { code: "KSA", name: "Saudi Arabia" },
-    { code: "GBR", name: "United Kingdom" },
-    { code: "USA", name: "United States" },
+    { name: "Canada" },
+    { name: "Saudi Arabia" },
+    { name: "United Kingdom" },
+    { name: "United States" },
   ];
 
-  // useEffect (() => {
-  //   const getAddressesList = async () => {
-  //     try {
-  //       const data = await getDocs(addressesCollectionRef);
-  //       const filteredData = data.docs.map((doc) => ({
-  //         ...doc.data(),
-  //         id: doc.id,
-  //       }));
-  //       console.log(filteredData)
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  // Use useMemo to memoize the reference to the user's address collection in Firestore
+  // to avoid unnecessary recalculations and re-renders
+  const userAddressCollectionRef = useMemo(() => {
+    return collection(db, "users", testUserID, "user_address");
+  }, [testUserID]); // Dependency array ensures this only recalculates if testUserID changes
 
-  //   getAddressesList();
-  // }, []);
+  // useEffect hook to fetch the user's address on component mount or when the reference changes
+  useEffect(() => {
+    console.log("Profile useEffect triggered");
 
+    const fetchUserAddress = async () => {
+      console.log("Fetching user address...");
+      const querySnapshot = await getDocs(userAddressCollectionRef);
+      if (!querySnapshot.empty) {
+        const addressData = querySnapshot.docs[0].data();
+        setUserAddress(addressData);
+        console.log("Data found");
+      } else {
+        console.log("No address data found");
+      }
+    };
+
+    fetchUserAddress();
+  }, [userAddressCollectionRef]); // The dependency array includes the memoized ref
+
+  // Function to handle saving the address to Firestore
   const handleSaveAddress = async () => {
     if (country && city && street) {
       try {
-        const addressDetails = {
-          country: country,
-          city: city,
-          street: street,
-        };
+        const addressDetails = { country, city, street };
+        const userAddressDocRef = doc(
+          db,
+          "users",
+          testUserID,
+          "user_address",
+          "single_address"
+        );
 
-        await addDoc(addressesCollectionRef, {
-          userID: currentUser.uid,
-          addressDetails: addressDetails,
-        });
+        // Merge true allows to update the document or create it if it doesn't exist
+        await setDoc(userAddressDocRef, addressDetails, { merge: true });
 
         alert("Address saved successfully!");
-
-        // Optionally, you can reset the form fields after successful submission
-        setCountry("");
-        setCity("");
-        setStreet("");
-        // If you have a state or method to show a success message, use it here
-        // showSuccessMessage('Address saved successfully!');
+        setUserAddress(addressDetails);
+        setShowAddressSection(false);
       } catch (err) {
         alert("Error saving address. Please try again.");
         console.error(err);
-        // If you have a state or method to show an error message, use it here
-        // showErrorMessage('Failed to save address. Please try again.');
       }
     } else {
-      // If you have a state or method to show an error message, use it here
-      // showErrorMessage('Please fill all address fields.');
       alert("Please fill out all the address details.");
     }
+  };
+  // Function to handle adding a new address or editing the current one
+  const handleAddressChange = () => {
+    // Clear the address fields
+    setCountry("");
+    setCity("");
+    setStreet("");
+
+    // Show the address section with empty fields
+    setShowAddressSection(true);
   };
 
   return (
@@ -186,115 +179,122 @@ export default function Profile() {
                 )}
                 {detailToShow === "Address" && (
                   <div className="form-control">
-
-                    {userAddress ? (
-                      <>
+                    {showAddressSection ? (
+                      // Address Form for Adding or Updating
+                      <div>
+                        {/* Country */}
                         <div className="form-control">
                           <label className="label">
-                            <span className="label-text font-bold">Country</span>
+                            <span className="label-text">Country</span>
+                          </label>
+                          <select
+                            className="select select-bordered select-primary w-full"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                          >
+                            <option disabled value="">
+                              Select a country
+                            </option>
+                            {countries.map((c) => (
+                              <option value={c.name}>{c.name}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* City */}
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text">City</span>
                           </label>
                           <input
                             type="text"
-                            name="country"
-                            value={userAddress.country}
+                            placeholder="City"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="input input-bordered input-primary"
+                          />
+                        </div>
+
+                        {/* Street */}
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text">Street</span>
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Street"
+                            value={street}
+                            onChange={(e) => setStreet(e.target.value)}
+                            className="input input-bordered input-primary"
+                          />
+                        </div>
+
+                        {/* Save or Update Address Button */}
+                        <button
+                          onClick={handleSaveAddress}
+                          className="btn btn-primary mt-2"
+                        >
+                          {userAddress ? "Update Address" : "Save Address"}
+                        </button>
+                      </div>
+                    ) : userAddress ? (
+                      // Existing Address Display
+                      <>
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text font-bold">
+                              Country
+                            </span>
+                          </label>
+                          <input
+                            type="text"
+                            value={userAddress.country || ""}
                             className="input input-bordered input-primary"
                             readOnly
                           />
                         </div>
+
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text font-bold">City</span>
                           </label>
                           <input
                             type="text"
-                            name="city"
-                            value={userAddress.city}
+                            value={userAddress.city || ""}
                             className="input input-bordered input-primary"
                             readOnly
                           />
                         </div>
+
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text font-bold">Street</span>
                           </label>
                           <input
                             type="text"
-                            name="street"
-                            value={userAddress.street}
+                            value={userAddress.street || ""}
                             className="input input-bordered input-primary"
                             readOnly
                           />
                         </div>
+
+                        {/* Button to Edit the Existing Address */}
+                        <button
+                          onClick={handleAddressChange}
+                          className="btn btn-primary mt-10"
+                        >
+                          Change Address
+                        </button>
                       </>
                     ) : (
                       <>
-                        {showAddressSection ? (
-                          <div>
-                            {/* Country */}
-                            <div className="form-control">
-                              <label className="label">
-                                <span className="label-text">Country</span>
-                              </label>
-                              <select
-                                className="select select-bordered select-primary w-full"
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                              >
-                                <option disabled value="">
-                                  Select a country
-                                </option>
-                                {countries.map((c) => (
-                                  <option key={c.code} value={c.code}>
-                                    {c.name}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-
-                            {/* City */}
-                            <div className="form-control">
-                              <label className="label">
-                                <span className="label-text">City</span>
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="city"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                                className="input input-bordered input-primary"
-                              />
-                            </div>
-
-                            {/* Street */}
-                            <div className="form-control">
-                              <label className="label">
-                                <span className="label-text">Street</span>
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="street"
-                                value={street}
-                                onChange={(e) => setStreet(e.target.value)}
-                                className="input input-bordered input-primary"
-                              />
-                            </div>
-
-                            {/* Save Address Button */}
-                            <button
-                              onClick={handleSaveAddress} // Remember to implement the handleSaveAddress function
-                              className="btn btn-primary mt-2"
-                            >
-                              Save Address
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => setShowAddressSection(true)}
-                            className="btn btn-primary mt-2"
-                          >
-                            Add Address
-                          </button>
-                        )}
+                        <p>No address found. Please add an address.</p>
+                        <button
+                          onClick={handleAddressChange}
+                          className="btn btn-primary mt-2"
+                        >
+                          Add Address
+                        </button>
                       </>
                     )}
                   </div>
