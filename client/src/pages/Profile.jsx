@@ -51,7 +51,7 @@ export default function Profile() {
     }
   };
 
-  // Effect hook to fetch user address from Firestore on component mount
+  // Effect hook to fetch user address from Firestore
   useEffect(() => {
     console.log("Address useEffect triggered");
     const fetchAddress = async () => {
