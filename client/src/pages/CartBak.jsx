@@ -58,7 +58,7 @@ export default function Cart() {
   getCartItemsForUser(userId);
 
   // Test button
-  const handleButtonClick = () => {
+  const CartButtonClick = () => {
     console.log("Checkout Button Clicked!");
   };
 
