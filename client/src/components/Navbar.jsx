@@ -1,6 +1,14 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { db } from "../config/firebase";
+import {
+  collection,
+  getDocs,
+  query as firebaseQuery,
+  where,
+} from "firebase/firestore";
+
 import { useShoeContext } from "../contexts/ShoeContext";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -80,6 +88,55 @@ const Navbar = () => {
       console.error("Failed to logout: ", error);
     }
   };
+
+  // --------------- Used to display the items count/subtotal ---------------
+  const userId = "UserID";
+  const [itemCount, setItemCount] = useState(0);
+  const [subtotal, setSubtotal] = useState(0.0);
+
+  // Asynchronous function to fetch active cart ID
+  const getActiveCartId = async () => {
+    const userCartsRef = collection(db, `users/${userId}/user_carts`);
+    const activeCartSnapshot = await getDocs(
+      firebaseQuery(userCartsRef, where("status", "==", false))
+    );
+    if (!activeCartSnapshot.empty) {
+      return activeCartSnapshot.docs[0].id;
+    } else {
+      // Handle the case where there is no active cart
+      return null;
+    }
+  };
+
+  // Effect hook to fetch cart items from Firestore on component mount
+  useEffect(() => {
+    console.log("Cart useEffect triggered");
+    const fetchCartItems = async () => {
+      const activeCartId = await getActiveCartId();
+      if (activeCartId) {
+        const cartItemsCollectionRef = collection(
+          db,
+          `users/${userId}/user_carts/${activeCartId}/cart_items`
+        );
+        try {
+          const querySnapshot = await getDocs(cartItemsCollectionRef);
+          let totalItemCount = 0;
+          let totalSubtotal = 0.0;
+          querySnapshot.docs.forEach((doc) => {
+            const data = doc.data();
+            totalItemCount += data.quantity; // Add the item's quantity to the total count
+            totalSubtotal += data.price * data.quantity; // Calculate the subtotal
+          });
+          setItemCount(totalItemCount); // Update the state with the new item count
+          setSubtotal(totalSubtotal); // Update the state with the new subtotal
+        } catch (error) {
+          console.error("Error fetching cart items: ", error);
+        }
+      }
+    };
+
+    fetchCartItems();
+  }, [userId]); // Dependency on userId to refetch if it changes
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
@@ -217,7 +274,9 @@ const Navbar = () => {
                 >
                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {itemCount}
+                </span>
               </div>
             </label>
             <div
@@ -225,8 +284,8 @@ const Navbar = () => {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg">{itemCount} Items</span>
+                <span className="text-info">Subtotal: ${subtotal.toFixed(2)}</span>
                 <div className="card-actions">
                   <Link
                     to="/cart"
@@ -264,7 +323,9 @@ const Navbar = () => {
               {currentUser ? ( // Conditional rendering based on currentUser
                 <>
                   <li className="menu-title">
-                    <span className="text-purple-500">Welcome, {currentUser.displayName}!</span>
+                    <span className="text-purple-500">
+                      Welcome, {currentUser.displayName}!
+                    </span>
                   </li>
 
                   <li className="mt-2">
