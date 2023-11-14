@@ -157,7 +157,7 @@ export default function Cart() {
 
   return (
     <Layout>
-      {/* Delete Modal */}
+      {/* Delete Conformation Modal */}
       <dialog ref={modalRef} id="delete_modal" className="modal">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Remove Confirmation</h3>
@@ -230,7 +230,7 @@ export default function Cart() {
                   {/* Size Section */}
                   <td className="sm:text-xl">{item.size}</td>
                   {/* Qty Section */}
-                  <td>
+                  <td className="p-0">
                     <select
                       className="select select-primary"
                       value={item.quantity}
