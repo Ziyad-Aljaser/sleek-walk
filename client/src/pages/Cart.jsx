@@ -199,9 +199,9 @@ export default function Cart() {
             <tbody>
               {cartItems.map((item) => (
                 <tr key={item.id}>
-                  {/* Product image with the delete button */}
-                  <td className="py-8">
-                    <div className="flex items-center">
+                  {/* Product image/description with the delete button */}
+                  <td className="lg:py-8">
+                    <div className="flex flex-col sm:flex-row items-center">
                       <div className="indicator z-[0] relative">
                         {/* Trigger Modal */}
                         <span
@@ -219,11 +219,9 @@ export default function Cart() {
                           </div>
                         </div>
                       </div>
-                      {/* Displaying the product name */}
-                      <div className="sm:ml-4">
-                        {/* Displaying the product name */}
+                      {/* Displaying the product name/price */}
+                      <div className="text-center sm:text-left sm:ml-4 mt-2 sm:mt-0">
                         <span className="sm:text-xl">{item.title}</span>
-                        {/* Displaying the product price */}
                         <div className="sm:text-xl md:mt-2">${item.price}</div>
                       </div>
                     </div>
