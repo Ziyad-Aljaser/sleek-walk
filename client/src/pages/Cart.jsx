@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   collection,
@@ -7,6 +7,7 @@ import {
   updateDoc,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
@@ -19,6 +20,7 @@ export default function Cart() {
   // State to hold the list of cart items
   const [cartItems, setCartItems] = useState([]);
   const userId = "UserID"; // Currently using a static user ID for testing and demonstration purposes
+  const [activeCartId, setActiveCartId] = useState(null);
 
   // Asynchronous function to fetch active cart ID
   const getActiveCartId = async () => {
@@ -32,6 +34,7 @@ export default function Cart() {
   useEffect(() => {
     const fetchCartItems = async () => {
       const activeCartId = await getActiveCartId();
+      setActiveCartId(activeCartId);
       if (activeCartId) {
         const cartItemsCollectionRef = collection(
           db,
@@ -54,7 +57,10 @@ export default function Cart() {
   }, [userId]); // Dependency on userId to refetch if it changes
 
   // Calculate cart summary based on fetched cart items
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   const taxRate = 0.1; // 10% tax rate
   const taxAmount = subtotal * taxRate;
   const shippingFees = 5.0;
@@ -91,6 +97,53 @@ export default function Cart() {
     console.log("Checkout Button Clicked!");
   };
 
+  // Used for the remove confirmation modal
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const modalRef = useRef(null);
+
+  // Delete Button Handler
+  const handleDelete = async (productName) => {
+    console.log("handleDelete called with:", productName); // Debugging
+    // Find the item that needs to be deleted
+    const itemToDelete = cartItems.find((item) => item.title === productName);
+
+    if (itemToDelete && activeCartId) {
+      // Check if activeCartId is not null
+      try {
+        // Reference to the item in the Firestore database
+        const itemRef = doc(
+          db,
+          `users/${userId}/user_carts/${activeCartId}/cart_items`,
+          itemToDelete.id
+        );
+
+        // Delete the item from Firestore
+        await deleteDoc(itemRef);
+
+        // Filter out the deleted item from the cartItems state
+        const updatedCartItems = cartItems.filter(
+          (item) => item.id !== itemToDelete.id
+        );
+        setCartItems(updatedCartItems);
+
+        console.log("Deleted Successfully");
+      } catch (error) {
+        console.error("Error deleting cart item: ", error);
+      }
+    }
+  };
+
+  // Used for the remove confirmation modal
+  const openModal = (product) => {
+    console.log("openModal called with:", product); // Debugging
+    setSelectedProduct(product);
+    const modalElement = modalRef.current;
+    if (modalElement) {
+      modalElement.showModal();
+    }
+  };
+
   // The page when the cart is empty
   if (cartItems.length === 0) {
     return (
@@ -104,6 +157,30 @@ export default function Cart() {
 
   return (
     <Layout>
+      {/* Delete Modal */}
+      <dialog ref={modalRef} id="delete_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Remove Confirmation</h3>
+          <p className="py-4">
+            Are you sure you want to remove {selectedProduct?.title}?
+          </p>
+          <div className="modal-action">
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                handleDelete(selectedProduct?.title);
+                setSelectedProduct(null);
+              }}
+            >
+              Confirm
+            </button>
+            <button className="btn" onClick={() => setSelectedProduct(null)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </dialog>
+
       <div className="py-2 sm:p-16 bg-base-300">
         {/* Wrap the products table and cart summary in a flex container */}
         <div className="flex flex-col lg:flex-row">
@@ -122,8 +199,27 @@ export default function Cart() {
             <tbody>
               {cartItems.map((item) => (
                 <tr key={item.id}>
+                  {/* Product image with the delete button */}
                   <td className="py-8">
                     <div className="flex items-center">
+                      <div className="indicator z-[0] relative">
+                        {/* Trigger Modal */}
+                        <span
+                          className="indicator-item badge badge-secondary cursor-pointer"
+                          onClick={() => {
+                            openModal(item);
+                          }}
+                        >
+                          ✕
+                        </span>
+
+                        <div className="avatar">
+                          <div className="w-12 sm:w-24 rounded">
+                            <img src={men_dress_shoes_1} alt={item.title} />
+                          </div>
+                        </div>
+                      </div>
+                      {/* Displaying the product name */}
                       <div className="sm:ml-4">
                         {/* Displaying the product name */}
                         <span className="sm:text-xl">{item.title}</span>
@@ -132,6 +228,7 @@ export default function Cart() {
                       </div>
                     </div>
                   </td>
+
                   {/* Size Section */}
                   <td className="sm:text-xl">{item.size}</td>
                   {/* Qty Section */}
