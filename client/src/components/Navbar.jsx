@@ -91,6 +91,7 @@ const Navbar = () => {
 
   // --------------- Used to display the items count/subtotal ---------------
   const userId = "UserID";
+  // const userId = currentUser.uid;
   const [itemCount, setItemCount] = useState(0);
   const [subtotal, setSubtotal] = useState(0.0);
 

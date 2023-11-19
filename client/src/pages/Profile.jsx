@@ -18,7 +18,7 @@ export default function Profile() {
   const [detailToShow, setDetailToShow] = useState("Name");
 
   // A test user ID for demonstration purposes
-  const testUserID = "UserIDTest";
+  const UserID = currentUser.uid;
 
   // State for toggling the address section's visibility
   const [showAddressSection, setShowAddressSection] = useState(false);
@@ -39,21 +39,21 @@ export default function Profile() {
     { name: "United States" },
   ];
 
-  // Asynchronous function to fetch user address
-  const getUserAddress = async () => {
-    const userAddressRef = collection(db, `users/${testUserID}/user_address`);
-    const querySnapshot = await getDocs(userAddressRef);
-    if (!querySnapshot.empty) {
-      return querySnapshot.docs[0].data();
-    } else {
-      // Handle the case where the user has no address
-      return null;
-    }
-  };
-
   // Effect hook to fetch user address from Firestore
   useEffect(() => {
     console.log("Address useEffect triggered");
+    // Asynchronous function to fetch user address
+    const getUserAddress = async () => {
+      const userAddressRef = collection(db, `users/${UserID}/user_address`);
+      const querySnapshot = await getDocs(userAddressRef);
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+      } else {
+        // Handle the case where the user has no address
+        return null;
+      }
+    };
+
     const fetchAddress = async () => {
       const addressData = await getUserAddress();
       if (addressData) {
@@ -65,7 +65,7 @@ export default function Profile() {
     };
 
     fetchAddress();
-  }, [testUserID]); // Dependency on testUserID to refetch if it changes
+  }, [UserID]); // Dependency on testUserID to refetch if it changes
 
   // Function to handle saving the address to Firestore
   const handleSaveAddress = async () => {
@@ -75,7 +75,7 @@ export default function Profile() {
         const userAddressDocRef = doc(
           db,
           "users",
-          testUserID,
+          UserID,
           "user_address",
           "single_address"
         );

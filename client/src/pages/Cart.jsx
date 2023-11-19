@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   collection,
@@ -11,25 +11,29 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
+import { useAuth } from "../contexts/AuthContext";
+
 import Layout from "../components/Layout";
 
 import cart_summary from "../assets/cart_summary.png";
 import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
 
 export default function Cart() {
+  const { currentUser } = useAuth();
   // State to hold the list of cart items
   const [cartItems, setCartItems] = useState([]);
-  const userId = "UserID"; // Currently using a static user ID for testing and demonstration purposes
+  console.log(currentUser.uid);
+  const userId = currentUser.uid; // Currently using a static user ID for testing and demonstration purposes
   const [activeCartId, setActiveCartId] = useState(null);
 
   // Asynchronous function to fetch active cart ID
-  const getActiveCartId = async () => {
+  const getActiveCartId = useCallback(async () => {
     const userCartsRef = collection(db, `users/${userId}/user_carts`);
     const activeCartSnapshot = await getDocs(
       query(userCartsRef, where("status", "==", false))
     );
     return activeCartSnapshot.empty ? null : activeCartSnapshot.docs[0].id;
-  };
+  }, [userId]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -54,7 +58,7 @@ export default function Cart() {
     };
 
     fetchCartItems();
-  }, [userId]); // Dependency on userId to refetch if it changes
+  }, [userId, getActiveCartId]); // Dependency on userId to refetch if it changes
 
   // Calculate cart summary based on fetched cart items
   const subtotal = cartItems.reduce(

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+import { useAuth } from "../contexts/AuthContext";
+
 import { db } from "../config/firebase";
 import { doc, setDoc, collection, getDocs, query, where } from "firebase/firestore";
 
@@ -9,6 +11,8 @@ import { SHOES } from "../data/ShoesData"; // Importing SHOES data from Home.jsx
 import Layout from "../components/Layout";
 
 export default function ShoeDetails() {
+  const { currentUser } = useAuth();
+
   // Used to find the item
   const { id } = useParams();
   const shoe = SHOES.find((shoe) => shoe.id === Number(id));
@@ -90,7 +94,7 @@ export default function ShoeDetails() {
   // Function to handle adding items to cart
 const handleAddButtonClick = async () => {
   // You'll need to get the current user's ID from your authentication context or state
-  const userId = "UserID"; // Replace with actual logic to get current user's ID
+  const userId = currentUser.uid; // Replace with actual logic to get current user's ID
 
   if (!size) {
     alert("Please select a size");
