@@ -1,3 +1,4 @@
+// TODO - Update the card as a seperate component
 // Shoes.jsx
 import React from "react";
 import { Link } from "react-router-dom";
