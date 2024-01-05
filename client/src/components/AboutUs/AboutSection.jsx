@@ -1,23 +1,7 @@
 import React from "react";
-import ScrollButton from "./ScrollButton";
 import about_img from "../../assets/about_img.png";
 
-const AboutSection = ({ targetRef }) => {
-  // Create the function to smoothly scroll to the target div
-  const handleButtonClick = () => {
-    if (targetRef.current) {
-      // Calculate the top position of the target element
-      const targetTop =
-        targetRef.current.getBoundingClientRect().top + window.scrollY;
-      // Define an offset
-      const offset = 80;
-      // Scroll to the target position minus the offset
-      window.scrollTo({
-        top: targetTop - offset,
-        behavior: "smooth",
-      });
-    }
-  };
+const AboutSection = ({ handleButtonClick }) => {
   return (
     <div className="hero py-8 sm:py-14 bg-base-300">
       <div className="hero-content grid md:grid-cols-2 gap-8">
@@ -35,7 +19,9 @@ const AboutSection = ({ targetRef }) => {
             the place for you. As you may already know, we aren’t like other
             online shoes stores
           </p>
-          <ScrollButton onClick={() => handleButtonClick(targetRef)} />
+          <button className="btn btn-primary mt-4" onClick={handleButtonClick}>
+            Our Goal
+          </button>
         </div>
       </div>
     </div>
