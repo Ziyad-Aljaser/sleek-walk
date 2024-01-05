@@ -14,7 +14,7 @@ const Footer = () => {
       </div>
 
       <div className="grid grid-flow-col gap-4">
-        <a href="https://github.com/Ziyad-Aljaser" target="_blank">
+        <a href="https://github.com/Ziyad-Aljaser" target="_blank" rel="noopener noreferrer">
           <svg
             width="20"
             height="20"
@@ -29,7 +29,7 @@ const Footer = () => {
 
       <div>
         <p>
-          Copyright © 2023 - All right reserved by Sleek Walk Industries Ltd
+          Copyright © 2024 - All right reserved by Sleek Walk Industries Ltd
         </p>
       </div>
     </footer>
