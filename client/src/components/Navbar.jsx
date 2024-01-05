@@ -90,8 +90,8 @@ const Navbar = () => {
   };
 
   // --------------- Used to display the items count/subtotal ---------------
-  const userId = "UserID";
-  // const userId = currentUser.uid;
+  // const userId = "UserID";
+  const userId = currentUser?.uid;
   const [itemCount, setItemCount] = useState(0);
   const [subtotal, setSubtotal] = useState(0.0);
 
@@ -137,7 +137,7 @@ const Navbar = () => {
     };
 
     fetchCartItems();
-  }, [userId]); // Dependency on userId to refetch if it changes
+  })
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">

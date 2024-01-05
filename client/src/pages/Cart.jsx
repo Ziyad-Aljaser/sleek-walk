@@ -22,8 +22,8 @@ export default function Cart() {
   const { currentUser } = useAuth();
   // State to hold the list of cart items
   const [cartItems, setCartItems] = useState([]);
-  console.log(currentUser.uid);
-  const userId = currentUser.uid; // Currently using a static user ID for testing and demonstration purposes
+  console.log(currentUser?.uid);
+  const userId = currentUser?.uid;
   const [activeCartId, setActiveCartId] = useState(null);
 
   // Asynchronous function to fetch active cart ID
