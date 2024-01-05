@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import goal_img from "../../assets/goal_img.png";
 import { Link } from "react-router-dom";
 
-const GoalSection = forwardRef((props, ref) => {
+const GoalSection = forwardRef((ref) => {
   return (
     <div ref={ref} className="hero sm:py-16 bg-base-300">
       <div className="hero-content grid md:grid-cols-2 gap-8">
