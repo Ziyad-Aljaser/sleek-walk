@@ -1,9 +1,15 @@
 // AddressForm.js
 import React from 'react';
 
-const AddressForm = ({ country, setCountry, city, setCity, street, setStreet, countries, readonly }) => {
+const AddressForm = ({ country, setCountry, city, setCity, street, setStreet, readonly }) => {
   const handleChange = (setter) => readonly ? () => {} : setter;
-
+  // Hardcoded list of countries for the select dropdown
+  const countries = [
+    { name: "Canada" },
+    { name: "Saudi Arabia" },
+    { name: "United Kingdom" },
+    { name: "United States" },
+  ];
   return (
     <div>
       {/* Country */}
@@ -15,7 +21,7 @@ const AddressForm = ({ country, setCountry, city, setCity, street, setStreet, co
           className="select select-bordered select-primary w-full"
           value={country}
           onChange={(e) => handleChange(setCountry)(e.target.value)}
-          disabled={readonly}
+          readOnly={readonly}
         >
           <option disabled value="">Select a country</option>
           {!readonly && countries.map((c, index) => (
