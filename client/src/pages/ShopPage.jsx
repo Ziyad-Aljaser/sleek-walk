@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SHOES } from "../data/ShoesData";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import useSmoothScroll from "../hooks/useSmoothScroll";
 import DrawerSection from "../components/ShopPage/DrawerSection";
 

@@ -13,7 +13,7 @@ import { db } from "../config/firebase";
 
 import { useAuth } from "../contexts/AuthContext";
 
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 
 import cart_summary from "../assets/cart_summary.png";
 import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";

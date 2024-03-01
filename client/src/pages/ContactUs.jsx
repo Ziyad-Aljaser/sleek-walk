@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import HeaderSection from "../components/ContactUs/HeaderSection";
 import ContactMethodsSection from "../components/ContactUs/ContactMethodsSection";
 import ContactFormSection from "../components/ContactUs/ContactFormSection";

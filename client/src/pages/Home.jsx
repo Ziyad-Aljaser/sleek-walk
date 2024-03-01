@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import HeroSection from "../components/Home/HeroSection";
 import ShoesSection from "../components/Home/ShoesSection";
 import useSmoothScroll from "../hooks/useSmoothScroll";

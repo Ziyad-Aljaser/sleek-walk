@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { db } from "../config/firebase";
+import { db } from "../../config/firebase";
 import {
   collection,
   getDocs,
@@ -9,12 +9,12 @@ import {
   where,
 } from "firebase/firestore";
 
-import { useShoeContext } from "../contexts/ShoeContext";
-import { useAuth } from "../contexts/AuthContext";
+import { useShoeContext } from "../../contexts/ShoeContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-import { SHOES } from "../data/ShoesData";
+import { SHOES } from "../../data/ShoesData";
 
-import logo from "../assets/sleek_walk_logo.png";
+import logo from "../../assets/sleek_walk_logo.png";
 
 const Navbar = () => {
   // Test

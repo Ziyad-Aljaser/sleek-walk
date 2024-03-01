@@ -8,7 +8,7 @@ import { doc, setDoc, collection, getDocs, query, where } from "firebase/firesto
 
 import { SHOES } from "../data/ShoesData"; // Importing SHOES data from Home.jsx
 
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 
 export default function ShoeDetails() {
   const { currentUser } = useAuth();
