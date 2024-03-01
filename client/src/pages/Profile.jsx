@@ -32,14 +32,6 @@ export default function Profile() {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
 
-  // Hardcoded list of countries for the select dropdown
-  const countries = [
-    { name: "Canada" },
-    { name: "Saudi Arabia" },
-    { name: "United Kingdom" },
-    { name: "United States" },
-  ];
-
   // Effect hook to fetch user address from Firestore
   useEffect(() => {
     console.log("Address useEffect triggered");
@@ -187,14 +179,13 @@ export default function Profile() {
                       // Address Form for Adding or Updating
                       <div>
                         <AddressForm
-                          country={userAddress?.country}
+                          country={country}
                           setCountry={setCountry}
-                          city={userAddress?.city}
+                          city={city}
                           setCity={setCity}
-                          street={userAddress?.street}
+                          street={street}
                           setStreet={setStreet}
-                          countries={countries}
-                          readonly={!!userAddress} // This will pass true if userAddress is not null
+                          readonly={false}
                         />
 
                         {/* Save or Update Address Button */}
@@ -216,7 +207,6 @@ export default function Profile() {
                           setCity={setCity}
                           street={userAddress?.street}
                           setStreet={setStreet}
-                          countries={countries}
                           readonly={!!userAddress} // This will pass true if userAddress is not null
                         />
                         {/* Button to Edit the Existing Address */}
