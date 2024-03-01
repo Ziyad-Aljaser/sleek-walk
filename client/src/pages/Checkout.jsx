@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout/Layout";
-import AddressForm from "../components/AddressForm";
+import Address from "../components/Checkout/Address";
+import Payment from "../components/Checkout/Payment";
 
 import shopping_bag from "../assets/shopping_bag.png";
 import { useAuth } from "../contexts/AuthContext";
@@ -25,14 +26,6 @@ export default function Checkout() {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
-
-  // Hardcoded list of countries for the select dropdown
-  const countries = [
-    { name: "Canada" },
-    { name: "Saudi Arabia" },
-    { name: "United Kingdom" },
-    { name: "United States" },
-  ];
 
   // Effect hook to fetch user address from Firestore
   useEffect(() => {
@@ -95,10 +88,22 @@ export default function Checkout() {
       } else {
         alert("Please fill out all the address details.");
       }
+    } else if (step === 1) {
+      // Basic validation: Check if the form is valid
+      if (formIsValid) {
+        nextStep(); // Proceed to the next step
+      } else {
+        alert("Please fill out all the payment details.");
+      }
     }
   };
 
   const [step, setStep] = useState(0);
+  const [formIsValid, setFormIsValid] = useState(false);
+  const updateFormValidity = (isValid) => {
+    setFormIsValid(isValid);
+  };
+
 
   const nextStep = () => {
     if (step < 3) {
@@ -110,42 +115,6 @@ export default function Checkout() {
     if (step > 0) {
       setStep(step - 1);
     }
-  };
-
-  // Regular expression to match non-alphabetic characters
-  const handleNameChange = (event) => {
-    const nonAlphabetical = /[^A-Za-z\s]/g;
-    event.target.value = event.target.value.replace(nonAlphabetical, "");
-  };
-
-  // Regular expression to remove non-numeric characters
-  const handleCreditCardChange = (event) => {
-    const nonNumeric = /[^0-9]/g;
-    let value = event.target.value.replace(nonNumeric, "");
-
-    // Add a space after every 4 digits
-    value = value.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ");
-
-    event.target.value = value;
-  };
-
-  // Regular expression to remove non-numeric characters and existing slashes
-  const handleExpirationDateChange = (event) => {
-    // Regular expression to remove non-numeric characters and existing slashes
-    const nonNumeric = /[^0-9]/g;
-    let value = event.target.value.replace(nonNumeric, "");
-
-    // If the first character is bigger than 2, prepend with 0
-    if (value.length === 1 && parseInt(value) > 2) {
-      value = "0" + value;
-    }
-
-    // If more than two characters, add a '/' after the 2nd digit
-    if (value.length > 2) {
-      value = value.substring(0, 2) + "/" + value.substring(2, 4);
-    }
-
-    event.target.value = value;
   };
 
   return (
@@ -172,32 +141,15 @@ export default function Checkout() {
               {/* Address Section */}
               {step === 0 && (
                 <div>
-                  {userAddress ? (
-                    // Existing Address Display
-                    <AddressForm
-                      country={userAddress?.country}
-                      setCountry={setCountry}
-                      city={userAddress?.city}
-                      setCity={setCity}
-                      street={userAddress?.street}
-                      setStreet={setStreet}
-                      countries={countries}
-                      readonly={!!userAddress} // This will pass true if userAddress is not null
-                    />
-                  ) : (
-                    // Address Form for Adding
-                    <AddressForm
-                      country={userAddress?.country}
-                      setCountry={setCountry}
-                      city={userAddress?.city}
-                      setCity={setCity}
-                      street={userAddress?.street}
-                      setStreet={setStreet}
-                      countries={countries}
-                      readonly={!!userAddress} // This will pass true if userAddress is not null
-                    />
-                  )}
-
+                  <Address
+                    userAddress={userAddress}
+                    country={country}
+                    setCountry={setCountry}
+                    city={city}
+                    setCity={setCity}
+                    street={street}
+                    setStreet={setStreet}
+                  />
                   <div className="form-control mt-8">
                     <button
                       onClick={() => {
@@ -214,43 +166,16 @@ export default function Checkout() {
 
               {/* Payment Secion */}
               {step === 1 && (
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Cardholder Name</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="cardholder name"
-                    className="input input-bordered input-primary"
-                    onChange={handleNameChange}
-                  />
-
-                  <label className="label mt-5">
-                    <span className="label-text">Credit Card Information</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="card number"
-                    className="input input-bordered input-primary"
-                    onChange={handleCreditCardChange}
-                    maxLength={19} // 16 digits + 3 spaces
-                  />
-
-                  <div className="flex flex-col sm:flex-row">
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      className="input input-bordered input-primary sm:w-1/4 mt-5 sm:mr-5"
-                      onChange={handleExpirationDateChange}
-                      maxLength="5"
-                    />
-                    <input
-                      type="password"
-                      placeholder="CVC"
-                      className="input input-bordered input-primary sm:w-1/4 mt-5"
-                      maxLength="3"
-                    />
-                  </div>
+                <div>
+                  <Payment updateFormValidity={updateFormValidity}/>
+                  <div className="form-control mt-6 flex flex-row justify-between">
+                  <button onClick={prevStep} className="btn btn-primary w-1/4">
+                    Back
+                  </button>
+                  <button onClick={handleNextClick} disabled={!formIsValid} className="btn btn-primary w-1/4">
+                    Next
+                  </button>
+                </div>
                 </div>
               )}
 
@@ -310,17 +235,6 @@ export default function Checkout() {
                 </div>
               )}
 
-              {/* Next/Back Section */}
-              {step > 0 && step < 2 && (
-                <div className="form-control mt-6 flex flex-row justify-between">
-                  <button onClick={prevStep} className="btn btn-primary w-1/4">
-                    Back
-                  </button>
-                  <button onClick={nextStep} className="btn btn-primary w-1/4">
-                    Next
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
