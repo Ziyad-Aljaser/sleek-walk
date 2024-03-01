@@ -1,11 +1,103 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
+import AddressForm from "../components/AddressForm";
 
 import shopping_bag from "../assets/shopping_bag.png";
+import { useAuth } from "../contexts/AuthContext";
 
-export default function Signup() {
+import { db } from "../config/firebase";
+
+import { getDocs, collection, doc, setDoc } from "firebase/firestore";
+
+export default function Checkout() {
+  // Get the current user from the authentication hook
+  const { currentUser } = useAuth();
+
+  // A test user ID for demonstration purposes
+  const UserID = currentUser.uid;
+
+  // State to store the user's address if it exists
+  const [userAddress, setUserAddress] = useState(null);
+
+  // States for address input fields
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+
+  // Hardcoded list of countries for the select dropdown
+  const countries = [
+    { name: "Canada" },
+    { name: "Saudi Arabia" },
+    { name: "United Kingdom" },
+    { name: "United States" },
+  ];
+
+  // Effect hook to fetch user address from Firestore
+  useEffect(() => {
+    console.log("Address useEffect triggered");
+    // Asynchronous function to fetch user address
+    const getUserAddress = async () => {
+      const userAddressRef = collection(db, `users/${UserID}/user_address`);
+      const querySnapshot = await getDocs(userAddressRef);
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+      } else {
+        // Handle the case where the user has no address
+        return null;
+      }
+    };
+
+    const fetchAddress = async () => {
+      const addressData = await getUserAddress();
+      if (addressData) {
+        setUserAddress(addressData);
+      } else {
+        console.log("No address data found");
+        setUserAddress(null); // Ensure user address is set to null if not found
+      }
+    };
+
+    fetchAddress();
+  }, [UserID]); // Dependency on testUserID to refetch if it changes
+
+  // Function to handle saving the address to Firestore
+  const handleSaveAddress = async () => {
+    if (country && city && street) {
+      try {
+        const addressDetails = { country, city, street };
+        const userAddressDocRef = doc(
+          db,
+          "users",
+          UserID,
+          "user_address",
+          "single_address"
+        );
+
+        // Merge true allows to update the document or create it if it doesn't exist
+        await setDoc(userAddressDocRef, addressDetails, { merge: true });
+
+        alert("Address saved successfully!");
+        setUserAddress(addressDetails);
+      } catch (err) {
+        alert("Error saving address. Please try again.");
+        console.error(err);
+      }
+    }
+  };
+
+  const handleNextClick = () => {
+    if (step === 0) {
+      // Basic validation: Check if country, city, or street is empty
+      if (userAddress || (country && city && street)) {
+        nextStep(); // Proceed to the next step
+      } else {
+        alert("Please fill out all the address details.");
+      }
+    }
+  };
+
   const [step, setStep] = useState(0);
 
   const nextStep = () => {
@@ -80,48 +172,40 @@ export default function Signup() {
               {/* Address Section */}
               {step === 0 && (
                 <div>
-                  {/* Counrty */}
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Country</span>
-                    </label>
-                    <select className="select select-bordered select-primary w-full">
-                      <option disabled selected>
-                        Select a country
-                      </option>
-                      <option value="CAN">Canada</option>
-                      <option value="KSA">Saudi Arabia</option>
-                      <option value="GBR">United Kingdom</option>
-                      <option value="USA">United States</option>
-                    </select>
-                  </div>
-
-                  {/* City */}
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">City</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="city"
-                      className="input input-bordered input-primary"
+                  {userAddress ? (
+                    // Existing Address Display
+                    <AddressForm
+                      country={userAddress?.country}
+                      setCountry={setCountry}
+                      city={userAddress?.city}
+                      setCity={setCity}
+                      street={userAddress?.street}
+                      setStreet={setStreet}
+                      countries={countries}
+                      readonly={!!userAddress} // This will pass true if userAddress is not null
                     />
-                  </div>
-
-                  {/* Street */}
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Street</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="street"
-                      className="input input-bordered input-primary"
+                  ) : (
+                    // Address Form for Adding
+                    <AddressForm
+                      country={userAddress?.country}
+                      setCountry={setCountry}
+                      city={userAddress?.city}
+                      setCity={setCity}
+                      street={userAddress?.street}
+                      setStreet={setStreet}
+                      countries={countries}
+                      readonly={!!userAddress} // This will pass true if userAddress is not null
                     />
-                  </div>
+                  )}
 
                   <div className="form-control mt-8">
-                    <button onClick={nextStep} className="btn btn-primary">
+                    <button
+                      onClick={() => {
+                        handleNextClick();
+                        handleSaveAddress();
+                      }}
+                      className="btn btn-primary"
+                    >
                       Next
                     </button>
                   </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
+import AddressForm from "../components/AddressForm";
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
@@ -149,7 +150,7 @@ export default function Profile() {
                         name="firstName"
                         value={firstName}
                         className="input input-bordered input-primary"
-                        readOnly
+                        disabled
                       />
                     </div>
                     <div className="form-control mt-4">
@@ -161,7 +162,7 @@ export default function Profile() {
                         name="lastName"
                         value={lastName}
                         className="input input-bordered input-primary"
-                        readOnly
+                        disabled
                       />
                     </div>
                   </>
@@ -176,7 +177,7 @@ export default function Profile() {
                       name="email"
                       value={currentUser.email}
                       className="input input-bordered input-primary"
-                      readOnly
+                      disabled
                     />
                   </div>
                 )}
@@ -185,52 +186,16 @@ export default function Profile() {
                     {showAddressSection ? (
                       // Address Form for Adding or Updating
                       <div>
-                        {/* Country */}
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text">Country</span>
-                          </label>
-                          <select
-                            className="select select-bordered select-primary w-full"
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                          >
-                            <option disabled value="">
-                              Select a country
-                            </option>
-                            {countries.map((c) => (
-                              <option value={c.name}>{c.name}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        {/* City */}
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text">City</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="City"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            className="input input-bordered input-primary"
-                          />
-                        </div>
-
-                        {/* Street */}
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text">Street</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Street"
-                            value={street}
-                            onChange={(e) => setStreet(e.target.value)}
-                            className="input input-bordered input-primary"
-                          />
-                        </div>
+                        <AddressForm
+                          country={userAddress?.country}
+                          setCountry={setCountry}
+                          city={userAddress?.city}
+                          setCity={setCity}
+                          street={userAddress?.street}
+                          setStreet={setStreet}
+                          countries={countries}
+                          readonly={!!userAddress} // This will pass true if userAddress is not null
+                        />
 
                         {/* Save or Update Address Button */}
                         <button
@@ -243,44 +208,17 @@ export default function Profile() {
                     ) : userAddress ? (
                       // Existing Address Display
                       <>
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text font-bold">
-                              Country
-                            </span>
-                          </label>
-                          <input
-                            type="text"
-                            value={userAddress.country || ""}
-                            className="input input-bordered input-primary"
-                            readOnly
-                          />
-                        </div>
-
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text font-bold">City</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={userAddress.city || ""}
-                            className="input input-bordered input-primary"
-                            readOnly
-                          />
-                        </div>
-
-                        <div className="form-control">
-                          <label className="label">
-                            <span className="label-text font-bold">Street</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={userAddress.street || ""}
-                            className="input input-bordered input-primary"
-                            readOnly
-                          />
-                        </div>
-
+                        {/* Existing Address Display */}
+                        <AddressForm
+                          country={userAddress?.country}
+                          setCountry={setCountry}
+                          city={userAddress?.city}
+                          setCity={setCity}
+                          street={userAddress?.street}
+                          setStreet={setStreet}
+                          countries={countries}
+                          readonly={!!userAddress} // This will pass true if userAddress is not null
+                        />
                         {/* Button to Edit the Existing Address */}
                         <button
                           onClick={handleAddressChange}
