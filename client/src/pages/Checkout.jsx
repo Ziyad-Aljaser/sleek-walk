@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout/Layout";
 import Address from "../components/Checkout/Address";
 import Payment from "../components/Checkout/Payment";
+import ReviewConfirm from "../components/Checkout/ReviewConfirm";
+import SuccessDialog from "../components/Checkout/SuccessDialog";
 
-import shopping_bag from "../assets/shopping_bag.png";
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
@@ -182,56 +182,9 @@ export default function Checkout() {
               {/* Review & Confirm */}
               {step === 2 && (
                 <div>
-                  <p className="text-center mb-6">
-                    Review your details and confirm
-                  </p>
+                  <ReviewConfirm />
 
-                  <label className="label">
-                    <span className="label-text">First Name</span>
-                  </label>
-                  <input
-                    type="fname"
-                    placeholder="first name"
-                    className="input input-bordered w-full max-w-xs"
-                    disabled
-                  />
-
-                  <label className="label">
-                    <span className="label-text">last Name</span>
-                  </label>
-                  <input
-                    type="lname"
-                    placeholder="last name"
-                    className="input input-bordered w-full max-w-xs"
-                    disabled
-                  />
-
-                  <div className="form-control mt-8">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => window.order_modal.showModal()}
-                    >
-                      Complete Order
-                    </button>
-                    <dialog id="order_modal" className="modal">
-                      <form method="dialog" className="modal-box">
-                        <Link
-                          to={"/"}
-                          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                        >
-                          ✕
-                        </Link>
-                        <img
-                          src={shopping_bag}
-                          alt="Shopping Bag"
-                          className="w-1/3 max-w-xs mx-auto"
-                        />
-                        <h1 className="font-bold text-xl text-center py-12">
-                          Your order has been placed successfully!
-                        </h1>
-                      </form>
-                    </dialog>
-                  </div>
+                  <SuccessDialog />
                 </div>
               )}
 
