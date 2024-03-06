@@ -13,6 +13,9 @@ import { db } from "../config/firebase";
 
 import { useAuth } from "../contexts/AuthContext";
 
+import useTaxRate from "../hooks/useTaxRate";
+import useShipping from "../hooks/useShipping";
+
 import Layout from "../components/Layout/Layout";
 
 import cart_summary from "../assets/cart_summary.png";
@@ -65,9 +68,8 @@ export default function Cart() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const taxRate = 0.1; // 10% tax rate
-  const taxAmount = subtotal * taxRate;
-  const shippingFees = 5.0;
+  const taxAmount = useTaxRate(subtotal);
+  const shippingFees = useShipping();
   const total = subtotal + taxAmount + shippingFees;
 
   // Function to handle quantity changes for cart items
