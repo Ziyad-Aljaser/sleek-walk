@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   collection,
   getDocs,
   doc,
   updateDoc,
-  query,
-  where,
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 import { useAuth } from "../contexts/AuthContext";
+import { getActiveCartId } from "../utils/FirestoreUtils";
 
 import useTaxRate from "../hooks/useTaxRate";
 import useShipping from "../hooks/useShipping";
@@ -29,18 +28,9 @@ export default function Cart() {
   const userId = currentUser?.uid;
   const [activeCartId, setActiveCartId] = useState(null);
 
-  // Asynchronous function to fetch active cart ID
-  const getActiveCartId = useCallback(async () => {
-    const userCartsRef = collection(db, `users/${userId}/user_carts`);
-    const activeCartSnapshot = await getDocs(
-      query(userCartsRef, where("status", "==", false))
-    );
-    return activeCartSnapshot.empty ? null : activeCartSnapshot.docs[0].id;
-  }, [userId]);
-
   useEffect(() => {
     const fetchCartItems = async () => {
-      const activeCartId = await getActiveCartId();
+      const activeCartId = await getActiveCartId(userId, db);
       setActiveCartId(activeCartId);
       if (activeCartId) {
         const cartItemsCollectionRef = collection(
@@ -61,7 +51,7 @@ export default function Cart() {
     };
 
     fetchCartItems();
-  }, [userId, getActiveCartId]); // Dependency on userId to refetch if it changes
+  }, [userId]); // Dependency on userId to refetch if it changes
 
   // Calculate cart summary based on fetched cart items
   const subtotal = cartItems.reduce(

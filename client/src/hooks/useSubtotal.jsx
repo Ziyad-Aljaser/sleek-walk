@@ -1,27 +1,14 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query as firebaseQuery, where } from 'firebase/firestore';
+import { getActiveCartId } from '../utils/FirestoreUtils';
+import { collection, getDocs } from 'firebase/firestore';
 
 // Custom hook to fetch subtotal
 const useSubtotal = (userId, db) => {
   const [subtotal, setSubtotal] = useState(0.0);
 
-  // Asynchronous function to fetch active cart ID
-  const getActiveCartId = async () => {
-    const userCartsRef = collection(db, `users/${userId}/user_carts`);
-    const activeCartSnapshot = await getDocs(
-      firebaseQuery(userCartsRef, where("status", "==", false))
-    );
-    if (!activeCartSnapshot.empty) {
-      return activeCartSnapshot.docs[0].id;
-    } else {
-      // Handle the case where there is no active cart
-      return null;
-    }
-  };
-
   useEffect(() => {
     const fetchCartItems = async () => {
-      const activeCartId = await getActiveCartId();
+      const activeCartId = await getActiveCartId(userId, db);
       if (activeCartId) {
         const cartItemsCollectionRef = collection(
           db,
@@ -42,7 +29,7 @@ const useSubtotal = (userId, db) => {
     };
 
     fetchCartItems();
-  }, [userId, db]); // Dependency array to re-run the effect if userId or db changes
+  }, [userId]); // Dependency array to re-run the effect if userId changes
 
   return subtotal;
 };
