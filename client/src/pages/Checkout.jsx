@@ -6,6 +6,9 @@ import Payment from "../components/Checkout/Payment";
 import ReviewConfirm from "../components/Checkout/ReviewConfirm";
 import SuccessDialog from "../components/Checkout/SuccessDialog";
 
+import useItemCount from "../hooks/useItemCount";
+import useSubtotal from "../hooks/useSubtotal";
+
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
@@ -17,7 +20,7 @@ export default function Checkout() {
   const { currentUser } = useAuth();
 
   // A test user ID for demonstration purposes
-  const UserID = currentUser.uid;
+  const userId = currentUser.uid;
 
   // State to store the user's address if it exists
   const [userAddress, setUserAddress] = useState(null);
@@ -27,12 +30,15 @@ export default function Checkout() {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
 
+  const itemCount = useItemCount(userId, db);
+  const subtotal = useSubtotal(userId, db);
+
   // Effect hook to fetch user address from Firestore
   useEffect(() => {
     console.log("Address useEffect triggered");
     // Asynchronous function to fetch user address
     const getUserAddress = async () => {
-      const userAddressRef = collection(db, `users/${UserID}/user_address`);
+      const userAddressRef = collection(db, `users/${userId}/user_address`);
       const querySnapshot = await getDocs(userAddressRef);
       if (!querySnapshot.empty) {
         return querySnapshot.docs[0].data();
@@ -53,7 +59,7 @@ export default function Checkout() {
     };
 
     fetchAddress();
-  }, [UserID]); // Dependency on testUserID to refetch if it changes
+  }, [userId]); // Dependency on userId to refetch if it changes
 
   // Function to handle saving the address to Firestore
   const handleSaveAddress = async () => {
@@ -63,7 +69,7 @@ export default function Checkout() {
         const userAddressDocRef = doc(
           db,
           "users",
-          UserID,
+          userId,
           "user_address",
           "single_address"
         );
@@ -98,7 +104,7 @@ export default function Checkout() {
     }
   };
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [formIsValid, setFormIsValid] = useState(false);
   const updateFormValidity = (isValid) => {
     setFormIsValid(isValid);
@@ -182,7 +188,7 @@ export default function Checkout() {
               {/* Review & Confirm */}
               {step === 2 && (
                 <div>
-                  <ReviewConfirm />
+                  <ReviewConfirm itemCount={itemCount} subtotal={subtotal} />
 
                   <SuccessDialog />
                 </div>
