@@ -2,17 +2,14 @@ import React, { useCallback, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { db } from "../../config/firebase";
-import {
-  collection,
-  getDocs,
-  query as firebaseQuery,
-  where,
-} from "firebase/firestore";
 
 import { useShoeContext } from "../../contexts/ShoeContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 import { SHOES } from "../../data/ShoesData";
+
+import useItemCount from "../../hooks/useItemCount";
+import useSubtotal from "../../hooks/useSubtotal";
 
 import logo from "../../assets/sleek_walk_logo.png";
 
@@ -21,6 +18,7 @@ const Navbar = () => {
   const handleButtonClick = () => {
     console.log("Cart Button Clicked!");
   };
+
 
   // Used for the light/dark mode
   // use theme from local storage if available or set light theme
@@ -92,52 +90,8 @@ const Navbar = () => {
   // --------------- Used to display the items count/subtotal ---------------
   // const userId = "UserID";
   const userId = currentUser?.uid;
-  const [itemCount, setItemCount] = useState(0);
-  const [subtotal, setSubtotal] = useState(0.0);
-
-  // Asynchronous function to fetch active cart ID
-  const getActiveCartId = async () => {
-    const userCartsRef = collection(db, `users/${userId}/user_carts`);
-    const activeCartSnapshot = await getDocs(
-      firebaseQuery(userCartsRef, where("status", "==", false))
-    );
-    if (!activeCartSnapshot.empty) {
-      return activeCartSnapshot.docs[0].id;
-    } else {
-      // Handle the case where there is no active cart
-      return null;
-    }
-  };
-
-  // Effect hook to fetch cart items from Firestore on component mount
-  useEffect(() => {
-    console.log("Cart useEffect triggered");
-    const fetchCartItems = async () => {
-      const activeCartId = await getActiveCartId();
-      if (activeCartId) {
-        const cartItemsCollectionRef = collection(
-          db,
-          `users/${userId}/user_carts/${activeCartId}/cart_items`
-        );
-        try {
-          const querySnapshot = await getDocs(cartItemsCollectionRef);
-          let totalItemCount = 0;
-          let totalSubtotal = 0.0;
-          querySnapshot.docs.forEach((doc) => {
-            const data = doc.data();
-            totalItemCount += data.quantity; // Add the item's quantity to the total count
-            totalSubtotal += data.price * data.quantity; // Calculate the subtotal
-          });
-          setItemCount(totalItemCount); // Update the state with the new item count
-          setSubtotal(totalSubtotal); // Update the state with the new subtotal
-        } catch (error) {
-          console.error("Error fetching cart items: ", error);
-        }
-      }
-    };
-
-    fetchCartItems();
-  })
+  const itemCount = useItemCount(userId, db);
+  const subtotal = useSubtotal(userId, db);
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
