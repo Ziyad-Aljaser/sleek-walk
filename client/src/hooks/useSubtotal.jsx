@@ -29,7 +29,7 @@ const useSubtotal = (userId, db) => {
     };
 
     fetchCartItems();
-  }, [userId]); // Dependency array to re-run the effect if userId changes
+  }, [userId, db]); // Dependency array to re-run the effect if userId changes
 
   return subtotal;
 };
