@@ -65,7 +65,7 @@ export default function Cart() {
   // Function to handle quantity changes for cart items
   const handleQtyChange = async (e, item) => {
     const newQuantity = parseInt(e.target.value, 10);
-    const activeCartId = await getActiveCartId();
+    const activeCartId = await getActiveCartId(userId, db);
 
     if (activeCartId) {
       const cartItemRef = doc(
