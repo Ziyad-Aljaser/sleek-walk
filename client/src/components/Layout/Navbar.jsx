@@ -10,6 +10,7 @@ import { SHOES } from "../../data/ShoesData";
 
 import useItemCount from "../../hooks/useItemCount";
 import useSubtotal from "../../hooks/useSubtotal";
+import { getUserRole } from "../../utils/FirestoreUtils";
 
 import logo from "../../assets/sleek_walk_logo.png";
 
@@ -18,7 +19,6 @@ const Navbar = () => {
   const handleButtonClick = () => {
     console.log("Cart Button Clicked!");
   };
-
 
   // Used for the light/dark mode
   // use theme from local storage if available or set light theme
@@ -92,6 +92,23 @@ const Navbar = () => {
   const userId = currentUser?.uid;
   const itemCount = useItemCount(userId, db);
   const subtotal = useSubtotal(userId, db);
+
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const userId = currentUser?.uid;
+      try {
+        const role = await getUserRole(userId, db);
+        setUserRole(role);
+      } catch (error) {
+        console.error("Error fetching user role: ", error);
+      }
+    };
+
+    fetchUserRole();
+  }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
+  console.log("User Role: ", userRole);
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
@@ -240,7 +257,9 @@ const Navbar = () => {
             >
               <div className="card-body">
                 <span className="font-bold text-lg">{itemCount} Items</span>
-                <span className="text-info">Subtotal: ${subtotal.toFixed(2)}</span>
+                <span className="text-info">
+                  Subtotal: ${subtotal.toFixed(2)}
+                </span>
                 <div className="card-actions">
                   <Link
                     to="/cart"
@@ -282,13 +301,19 @@ const Navbar = () => {
                       Welcome, {currentUser.displayName}!
                     </span>
                   </li>
-
-                  <li className="mt-2">
-                    {/* <a className="justify-between" href="/profile">
-                      Profile
-                    </a> */}
-                    <Link to="/profile">Profile</Link>
-                  </li>
+                  {userRole === "Admin" ? (
+                    <>
+                      <li className="mt-2">
+                        <Link to="/admin-dashboard">Admin Dashboard</Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li className="mt-2">
+                        <Link to="/profile">Profile</Link>
+                      </li>
+                    </>
+                  )}
 
                   <div className="divider -mt-0.5"></div>
                   {/* - before mt is for forcing the button to go up */}
