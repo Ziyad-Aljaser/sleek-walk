@@ -4,7 +4,9 @@ import Layout from "../components/Layout/Layout";
 import Address from "../components/Checkout/Address";
 import Payment from "../components/Checkout/Payment";
 import ReviewConfirm from "../components/Checkout/ReviewConfirm";
-import SuccessDialog from "../components/Checkout/SuccessDialog";
+import SuccessDialog from "../components/SuccessDialog";
+
+import shopping_bag from "../assets/shopping_bag.png";
 
 import useItemCount from "../hooks/useItemCount";
 import useSubtotal from "../hooks/useSubtotal";
@@ -24,6 +26,8 @@ export default function Checkout() {
 
   // State to store the user's address if it exists
   const [userAddress, setUserAddress] = useState(null);
+
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   // States for address input fields
   const [country, setCountry] = useState("");
@@ -110,7 +114,6 @@ export default function Checkout() {
     setFormIsValid(isValid);
   };
 
-
   const nextStep = () => {
     if (step < 3) {
       setStep(step + 1);
@@ -173,15 +176,22 @@ export default function Checkout() {
               {/* Payment Secion */}
               {step === 1 && (
                 <div>
-                  <Payment updateFormValidity={updateFormValidity}/>
+                  <Payment updateFormValidity={updateFormValidity} />
                   <div className="form-control mt-6 flex flex-row justify-between">
-                  <button onClick={prevStep} className="btn btn-primary w-1/4">
-                    Back
-                  </button>
-                  <button onClick={handleNextClick} disabled={!formIsValid} className="btn btn-primary w-1/4">
-                    Next
-                  </button>
-                </div>
+                    <button
+                      onClick={prevStep}
+                      className="btn btn-primary w-1/4"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={handleNextClick}
+                      disabled={!formIsValid}
+                      className="btn btn-primary w-1/4"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -190,10 +200,18 @@ export default function Checkout() {
                 <div>
                   <ReviewConfirm itemCount={itemCount} subtotal={subtotal} />
 
-                  <SuccessDialog />
+                  <div className="form-control mt-8">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => setShowSuccessDialog(true)}
+                    >
+                      Complete Order
+                    </button>
+                  </div>
+
+                  {showSuccessDialog && <SuccessDialog text={"Your order has been placed successfully"} img={shopping_bag}/>}
                 </div>
               )}
-
             </div>
           </div>
         </div>
