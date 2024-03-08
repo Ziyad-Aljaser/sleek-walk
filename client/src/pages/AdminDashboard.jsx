@@ -1,13 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../components/Layout/Layout";
 
+import SuccessDialog from "../components/SuccessDialog";
+
 export default function AdminDashboard() {
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("AdminDashboard");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+
+  // No need to store image in state since it will be handled by FormData upon form submission
+  const [formData, setFormData] = useState({
+    title: "",
+    type: "",
+    category: "",
+    price: "",
+  });
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
-  const handleForm = (e) => {
-    console.log("AdminDashboard submit form");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3001/api/shoes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Data successfully saved", result);
+        // Handle success (e.g., reset the form, show a success message)
+        e.target.reset(); // Reset the form if using <form> element
+        setFormData({
+          title: "",
+          type: "",
+          category: "",
+          price: "",
+        });
+        setShowSuccessDialog(true);
+      } else {
+        // Handle HTTP errors
+        console.error("Failed to save data", response);
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error("Error saving data:", error);
+    }
   };
 
   return (
@@ -19,7 +65,7 @@ export default function AdminDashboard() {
               Add New Shoes
             </h1>
 
-            <form onSubmit={handleLogin} className="flex flex-wrap">
+            <form onSubmit={handleSubmit} className="flex flex-wrap">
               <div className="w-full md:w-1/2 px-6">
                 {/* Left Column */}
                 <div className="form-control mb-6">
@@ -27,8 +73,9 @@ export default function AdminDashboard() {
                     <span className="label-text font-bold">Title</span>
                   </label>
                   <input
+                    name="title"
                     className="input input-bordered input-primary"
-                    onChange={handleForm}
+                    onChange={handleFormChange}
                     required
                   />
                 </div>
@@ -38,8 +85,9 @@ export default function AdminDashboard() {
                     <span className="label-text font-bold">Type</span>
                   </label>
                   <select
+                    name="type"
                     className="select select-bordered select-primary"
-                    onChange={handleForm}
+                    onChange={handleFormChange}
                     required
                   >
                     <option value="">Please select</option>
@@ -68,8 +116,9 @@ export default function AdminDashboard() {
                     <span className="label-text font-bold">Category</span>
                   </label>
                   <select
+                    name="category"
                     className="select select-bordered select-primary"
-                    onChange={handleForm}
+                    onChange={handleFormChange}
                     required
                   >
                     <option value="">Please select</option>
@@ -83,9 +132,10 @@ export default function AdminDashboard() {
                     <span className="label-text font-bold">Price</span>
                   </label>
                   <input
+                    name="price"
                     type="number"
                     className="input input-bordered input-primary"
-                    onChange={handleForm}
+                    onChange={handleFormChange}
                     required
                     step="1" // Allows only integer values
                     max="9999" // Maximum value of 9999
@@ -95,15 +145,18 @@ export default function AdminDashboard() {
 
               {/* Used for the add button */}
               <div className="w-full flex justify-center mt-12 py-6">
-                {" "}
                 {/* Centering Container */}
                 <div className="form-control w-1/2">
-                  {" "}
-                  {/* Button's Container */}
                   <button type="submit" className="btn btn-primary w-full">
                     Add
                   </button>
                 </div>
+
+                {showSuccessDialog && (
+                  <SuccessDialog
+                    text={"Your item has been added successfully"}
+                  />
+                )}
               </div>
             </form>
           </div>
