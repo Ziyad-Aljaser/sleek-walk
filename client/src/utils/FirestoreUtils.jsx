@@ -9,7 +9,7 @@ import {
 
 // Function to fetch active cart ID
 export const getActiveCartId = async (userId, db) => {
-  console.log("Fetching active cart ID for user: ", userId);
+  // console.log("Fetching active cart ID for user: ", userId);
   const userCartsRef = collection(db, `users/${userId}/user_carts`);
   const activeCartSnapshot = await getDocs(
     firebaseQuery(userCartsRef, where("status", "==", false))
@@ -24,7 +24,7 @@ export const getActiveCartId = async (userId, db) => {
 
 // Function to fetch user role
 export const getUserRole = async (userId, db) => {
-  console.log("Fetching user role for user: ", userId);
+  // console.log("Fetching user role for user: ", userId);
   const userDocRef = doc(db, "users", userId);
   const userDocSnapshot = await getDoc(userDocRef);
 

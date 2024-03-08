@@ -108,7 +108,7 @@ const Navbar = () => {
 
     fetchUserRole();
   }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
-  console.log("User Role: ", userRole);
+  // console.log("User Role: ", userRole);
 
   return (
     <div className="sticky top-0 z-[1] bg-base-200 py-2">
