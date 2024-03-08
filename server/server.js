@@ -1,36 +1,52 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const { MongoClient } = require('mongodb');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const { MongoClient } = require("mongodb");
 
 const app = express();
-app.use(cors());
+
+app.use(cors()); // Enables CORS for all routes
+app.use(express.json()); // Parses JSON body requests
+
 const port = process.env.PORT || 3001;
 
-async function listShoes(client) {
-    // Corrected to access the "sleek-walk" database and then the "shoes" collection
-    const shoes = await client.db("sleek-walk").collection("shoes").find().toArray();
-    return shoes;
-}
+// Connect to MongoDB
+const client = new MongoClient(process.env.MONGODB_API);
+client.connect();
+const db = client.db("sleek-walk"); // Your database name
+const shoesCollection = db.collection("shoes"); // Your collection name
 
-app.get('/api/shoes', async (req, res) => {
-    const url = process.env.MONGODB_API;
-    const client = new MongoClient(url);
+// GET endpoint to fetch all shoes
+app.get("/api/shoes", async (req, res) => {
+  try {
+    const shoes = await shoesCollection.find().toArray();
+    res.json(shoes);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Error fetching shoes data");
+  }
+});
 
-    try {
-        // Connect to the MongoDB
-        await client.connect();
+app.post("/api/shoes", async (req, res) => {
+  try {
+    const { title, type, category, price } = req.body;
+    // Assuming `price` is sent as a string, you may need to convert it to a number
+    const parsedPrice = parseInt(price, 10);
 
-        // Fetch data from the "shoes" collection in the "sleek-walk" database
-        const shoes = await listShoes(client);
-        res.json(shoes);
-    } catch (e) {
-        console.error(e);
-        res.status(500).send('Error connecting to database');
-    } finally {
-        // Ensure the MongoDB client closes connection after operation is complete
-        await client.close();
-    }
+    // Validate data here...
+
+    const result = await shoesCollection.insertOne({
+      title,
+      type,
+      category,
+      price: parsedPrice, // ensure this is a number
+    });
+
+    res.status(201).json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Error adding new shoe");
+  }
 });
 
 app.listen(port, () => {
