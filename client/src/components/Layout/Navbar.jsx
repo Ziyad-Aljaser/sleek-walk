@@ -6,7 +6,7 @@ import { db } from "../../config/firebase";
 import { useShoeContext } from "../../contexts/ShoeContext";
 import { useAuth } from "../../contexts/AuthContext";
 
-import { SHOES } from "../../data/ShoesData";
+import useShoesData from "../../data/useShoesData";
 
 import useItemCount from "../../hooks/useItemCount";
 import useSubtotal from "../../hooks/useSubtotal";
@@ -19,6 +19,9 @@ const Navbar = () => {
   const handleButtonClick = () => {
     console.log("Cart Button Clicked!");
   };
+
+  const { shoes } = useShoesData();
+
 
   // Used for the light/dark mode
   // use theme from local storage if available or set light theme
@@ -43,7 +46,7 @@ const Navbar = () => {
     setQuery(searchQuery);
 
     if (searchQuery) {
-      const results = SHOES.filter((shoe) =>
+      const results = shoes.filter((shoe) =>
         shoe.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredShoes(results);
@@ -208,9 +211,9 @@ const Navbar = () => {
               >
                 {filteredShoes.length > 0 ? (
                   filteredShoes.slice(0, 3).map((shoe) => (
-                    <li key={shoe.id} className="my-2">
+                    <li key={shoe._id} className="my-2">
                       <Link
-                        to={`/shoes-details/${shoe.id}`}
+                        to={`/shoes-details/${shoe._id}`}
                         onClick={resetSearch}
                       >
                         <img
