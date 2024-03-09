@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout/Layout";
 
+import completeImg from "../assets/complete.png";
+
 import SuccessDialog from "../components/SuccessDialog";
 
 export default function AdminDashboard() {
@@ -25,35 +27,47 @@ export default function AdminDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:3001/api/shoes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Data successfully saved", result);
-        // Handle success (e.g., reset the form, show a success message)
-        e.target.reset(); // Reset the form if using <form> element
-        setFormData({
-          title: "",
-          type: "",
-          category: "",
-          price: "",
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+      const base64String = reader.result;
+
+      try {
+        const response = await fetch("http://localhost:3001/api/shoes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            image: base64String, // Add image as a base64 string
+          }),
         });
-        setShowSuccessDialog(true);
-      } else {
-        // Handle HTTP errors
-        console.error("Failed to save data", response);
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("Data successfully saved", result);
+          // Handle success (e.g., reset the form, show a success message)
+          e.target.reset(); // Reset the form if using <form> element
+          setFormData({
+            title: "",
+            type: "",
+            category: "",
+            price: "",
+          });
+          setShowSuccessDialog(true);
+        } else {
+          // Handle HTTP errors
+          console.error("Failed to save data", response);
+        }
+      } catch (error) {
+        // Handle network errors
+        console.error("Error saving data:", error);
       }
-    } catch (error) {
-      // Handle network errors
-      console.error("Error saving data:", error);
-    }
+    };
   };
 
   return (
@@ -103,6 +117,7 @@ export default function AdminDashboard() {
                   </label>
                   <input
                     type="file"
+                    name="image"
                     className="file-input file-input-bordered"
                     required
                   />
@@ -154,7 +169,7 @@ export default function AdminDashboard() {
 
                 {showSuccessDialog && (
                   <SuccessDialog
-                    text={"Your item has been added successfully"}
+                    text="Your item has been added successfully" img={completeImg}
                   />
                 )}
               </div>
