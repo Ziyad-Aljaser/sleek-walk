@@ -1,21 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
-import { doc, setDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
-import { SHOES } from "../data/ShoesData"; // Importing SHOES data from Home.jsx
+import useShoesData from "../data/useShoesData";
 
 import Layout from "../components/Layout/Layout";
 
 export default function ShoeDetails() {
   const { currentUser } = useAuth();
 
-  // Used to find the item
   const { id } = useParams();
-  const shoe = SHOES.find((shoe) => shoe.id === Number(id));
+  const { shoes, isLoading, error } = useShoesData();
+  const [shoe, setShoe] = useState(null);
+
+  useEffect(() => {
+    if (shoes.length > 0) {
+      const foundShoe = shoes.find((s) => s._id === id);
+      setShoe(foundShoe);
+    }
+  }, [id, shoes]);
+
   const [size, setSize] = useState(); // State to manage the selected shoe size
   // Used for the Qty
   const maxQty = 9;
@@ -28,6 +43,8 @@ export default function ShoeDetails() {
   const [activeTab, setActiveTab] = useState("Description");
 
   // Used to check the item
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading shoes: {error}</div>;
   if (!shoe) {
     return (
       <div className="alert alert-error">
@@ -92,53 +109,56 @@ export default function ShoeDetails() {
   };
 
   // Function to handle adding items to cart
-const handleAddButtonClick = async () => {
-  // You'll need to get the current user's ID from your authentication context or state
-  const userId = currentUser.uid; // Replace with actual logic to get current user's ID
+  const handleAddButtonClick = async () => {
+    // You'll need to get the current user's ID from your authentication context or state
+    const userId = currentUser.uid; // Replace with actual logic to get current user's ID
 
-  if (!size) {
-    alert("Please select a size");
-    return;
-  }
-
-  const cartItem = {
-    productID: parseInt(id, 10), // Ensure the productID is an integer
-    title: shoe.title,
-    price: parseFloat(shoe.price), // Ensure the price is a float
-    size: parseInt(size, 10), // Ensure size is stored as an integer
-    quantity: parseInt(qty, 10), // Ensure quantity is stored as an integer
-  };
-
-  try {
-    // Logic to determine the user's active CartID or create a new one if it doesn't exist
-    const userCartsRef = collection(db, `users/${userId}/user_carts`);
-    const activeCartSnapshot = await getDocs(query(userCartsRef, where("status", "==", false)));
-    
-    let cartId;
-
-    if (activeCartSnapshot.empty) {
-      // No active cart, create a new cart document
-      const cartDocRef = doc(userCartsRef);
-      cartId = cartDocRef.id;
-      await setDoc(cartDocRef, { status: false });
-    } else {
-      // Active cart exists, use the first active cart found
-      cartId = activeCartSnapshot.docs[0].id;
+    if (!size) {
+      alert("Please select a size");
+      return;
     }
 
-    // Reference to the user's cart item document
-    const newItemRef = doc(collection(db, `users/${userId}/user_carts/${cartId}/cart_items`));
+    const cartItem = {
+      productID: parseInt(id, 10), // Ensure the productID is an integer
+      title: shoe.title,
+      price: parseFloat(shoe.price), // Ensure the price is a float
+      size: parseInt(size, 10), // Ensure size is stored as an integer
+      quantity: parseInt(qty, 10), // Ensure quantity is stored as an integer
+    };
 
-    // Set the cart item data
-    await setDoc(newItemRef, cartItem);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
-    setShowAlert(true); // Display the alert when the button is clicked
-  } catch (error) {
-    console.error("Error adding to cart: ", error);
-    alert("There was an issue adding the item to the cart.");
-  }
-};
+    try {
+      // Logic to determine the user's active CartID or create a new one if it doesn't exist
+      const userCartsRef = collection(db, `users/${userId}/user_carts`);
+      const activeCartSnapshot = await getDocs(
+        query(userCartsRef, where("status", "==", false))
+      );
 
+      let cartId;
+
+      if (activeCartSnapshot.empty) {
+        // No active cart, create a new cart document
+        const cartDocRef = doc(userCartsRef);
+        cartId = cartDocRef.id;
+        await setDoc(cartDocRef, { status: false });
+      } else {
+        // Active cart exists, use the first active cart found
+        cartId = activeCartSnapshot.docs[0].id;
+      }
+
+      // Reference to the user's cart item document
+      const newItemRef = doc(
+        collection(db, `users/${userId}/user_carts/${cartId}/cart_items`)
+      );
+
+      // Set the cart item data
+      await setDoc(newItemRef, cartItem);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
+      setShowAlert(true); // Display the alert when the button is clicked
+    } catch (error) {
+      console.error("Error adding to cart: ", error);
+      alert("There was an issue adding the item to the cart.");
+    }
+  };
 
   return (
     <Layout>

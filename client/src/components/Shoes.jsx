@@ -3,7 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { SHOES } from "../data/ShoesData";
+import useShoesData from "../data/useShoesData";
 
 const Shoes = ({
   currentPage,
@@ -12,7 +12,8 @@ const Shoes = ({
   sortOrder,
   categoryFilter = [], // providing a default value
 }) => {
-  let filteredShoes = SHOES.filter((shoe) => {
+  const { shoes } = useShoesData();
+  let filteredShoes = shoes.filter((shoe) => {
     return (
       (!type || shoe.type === type) &&
       (categoryFilter.length === 0 || categoryFilter.includes(shoe.category))
@@ -38,7 +39,7 @@ const Shoes = ({
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 p-10">
       {shoesToDisplay.map((shoe) => (
         <div
-          key={shoe.id}
+          key={shoe._id}
           className="card bg-base-100 shadow-xl transform transition-transform duration-300 hover:scale-105"
         >
           <figure>
@@ -55,7 +56,7 @@ const Shoes = ({
             <div className="card-actions flex items-center justify-between space-y-4">
               <p className="text-3xl font-medium mt-2">${shoe.price}</p>
               <Link
-                to={`/shoes-details/${shoe.id}`}
+                to={`/shoes-details/${shoe._id}`}
                 className="btn btn-primary"
               >
                 Buy Now

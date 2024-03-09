@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { SHOES } from "../data/ShoesData";
+import useShoesData from "../data/useShoesData";
 import Layout from "../components/Layout/Layout";
 import useSmoothScroll from "../hooks/useSmoothScroll";
 import DrawerSection from "../components/ShopPage/DrawerSection";
 
 const ShopPage = ({ title, productType }) => {
+
+  const { shoes } = useShoesData();
+
 
   const [targetRef, handleButtonClick] = useSmoothScroll(); // Used the custom hook
 
@@ -22,7 +25,7 @@ const ShopPage = ({ title, productType }) => {
   // Used for the pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  const filteredShoes = SHOES.filter((shoe) => {
+  const filteredShoes = shoes.filter((shoe) => {
     return (
       shoe.type === productType &&
       (categoryFilter.length === 0 || categoryFilter.includes(shoe.category))
