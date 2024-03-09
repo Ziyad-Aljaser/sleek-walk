@@ -1,4 +1,3 @@
-// useShoesData.js
 import { useState, useEffect } from 'react';
 
 const useShoesData = () => {
