@@ -119,10 +119,10 @@ export default function ShoeDetails() {
 
   // Used for the tab section
   const content = {
-    Description: "Description Test",
+    Description: "Description Section",
     "Product Details": `${shoe.type}, ${shoe.category}`,
-    "Vendor Info": "Vendor Info Test",
-    Reviews: "Reviews Test",
+    "Vendor Info": "Vendor Info Section",
+    Reviews: "Reviews Section",
   };
 
   // Function to handle size change
