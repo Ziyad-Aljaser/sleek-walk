@@ -104,7 +104,7 @@ export default function AdminDashboard() {
                     onChange={handleFormChange}
                     required
                   >
-                    <option value="">Please select</option>
+                    <option disabled selected value="">Please select</option>
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
                     <option value="Children">Children</option>
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
                     onChange={handleFormChange}
                     required
                   >
-                    <option value="">Please select</option>
+                    <option disabled selected value="">Please select</option>
                     <option value="Athletic">Athletic</option>
                     <option value="Casual">Casual</option>
                     <option value="Dress">Dress</option>
