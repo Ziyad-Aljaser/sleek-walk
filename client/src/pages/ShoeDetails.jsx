@@ -152,7 +152,7 @@ export default function ShoeDetails() {
     }
 
     const cartItem = {
-      productID: parseInt(id, 10), // Ensure the productID is an integer
+      productID: id,
       title: shoe.title,
       price: parseFloat(shoe.price), // Ensure the price is a float
       size: parseInt(size, 10), // Ensure size is stored as an integer

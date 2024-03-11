@@ -82,7 +82,7 @@ const ShopPage = ({ title, productType }) => {
     <Layout>
       <div
         ref={targetRef}
-        className="flex items-center flex-col justify-center p-3 bg-base-300"
+        className="flex items-center flex-col h-screen p-3 bg-base-300"
       >
         <h1 className="text-4xl p-7 font-semibold">{title}</h1>
         <DrawerSection

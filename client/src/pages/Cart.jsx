@@ -17,10 +17,13 @@ import useShipping from "../hooks/useShipping";
 
 import Layout from "../components/Layout/Layout";
 
+import useShoesData from "../data/useShoesData";
+
 import cart_summary from "../assets/cart_summary.png";
-import men_dress_shoes_1 from "../assets/Shoes_Images/men_dress_shoes_1.png";
 
 export default function Cart() {
+  const { shoes } = useShoesData();
+
   const { currentUser } = useAuth();
   // State to hold the list of cart items
   const [cartItems, setCartItems] = useState([]);
@@ -43,15 +46,30 @@ export default function Cart() {
             id: doc.id,
             ...doc.data(),
           }));
-          setCartItems(items);
+
+          // Now, mapping over each cart item to include the image from shoes data
+          const itemsWithImages = items.map((item) => {
+            // Find the corresponding shoe from the shoes data using productID
+            const correspondingShoe = shoes.find(
+              (shoe) => shoe._id === item.productID
+            );
+            return {
+              ...item,
+              image: correspondingShoe?.image, // Used optional chaining in case the product is not found
+            };
+          });
+
+          setCartItems(itemsWithImages);
         } catch (error) {
           console.error("Error fetching cart items: ", error);
         }
       }
     };
 
-    fetchCartItems();
-  }, [userId]); // Dependency on userId to refetch if it changes
+    if (shoes.length > 0) {
+      fetchCartItems();
+    }
+  }, [userId, shoes]); // Rerun this effect when userId changes or when shoes data changes
 
   // Calculate cart summary based on fetched cart items
   const subtotal = cartItems.reduce(
@@ -211,7 +229,7 @@ export default function Cart() {
 
                         <div className="avatar">
                           <div className="w-12 sm:w-24 rounded">
-                            <img src={men_dress_shoes_1} alt={item.title} />
+                            <img src={item.image} alt={item.title} />
                           </div>
                         </div>
                       </div>
