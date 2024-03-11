@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                     className="input input-bordered input-primary"
                     onChange={handleFormChange}
                     required
-                    step="1" // Allows only integer values
+                    step="0.01" // Allows only integer values
                     max="9999" // Maximum value of 9999
                   />
                 </div>
