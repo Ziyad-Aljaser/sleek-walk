@@ -30,9 +30,12 @@ export default function Cart() {
   console.log(currentUser?.uid);
   const userId = currentUser?.uid;
   const [activeCartId, setActiveCartId] = useState(null);
+  // Add a loading state for the cart items
+  const [isLoadingCartItems, setIsLoadingCartItems] = useState(true);
 
   useEffect(() => {
     const fetchCartItems = async () => {
+      setIsLoadingCartItems(true); // Start loading
       const activeCartId = await getActiveCartId(userId, db);
       setActiveCartId(activeCartId);
       if (activeCartId) {
@@ -47,15 +50,13 @@ export default function Cart() {
             ...doc.data(),
           }));
 
-          // Now, mapping over each cart item to include the image from shoes data
           const itemsWithImages = items.map((item) => {
-            // Find the corresponding shoe from the shoes data using productID
             const correspondingShoe = shoes.find(
               (shoe) => shoe._id === item.productID
             );
             return {
               ...item,
-              image: correspondingShoe?.image, // Used optional chaining in case the product is not found
+              image: correspondingShoe?.image,
             };
           });
 
@@ -64,12 +65,13 @@ export default function Cart() {
           console.error("Error fetching cart items: ", error);
         }
       }
+      setIsLoadingCartItems(false); // End loading
     };
 
     if (shoes.length > 0) {
       fetchCartItems();
     }
-  }, [userId, shoes]); // Rerun this effect when userId changes or when shoes data changes
+  }, [userId, shoes]);
 
   // Calculate cart summary based on fetched cart items
   const subtotal = cartItems.reduce(
@@ -158,12 +160,23 @@ export default function Cart() {
     }
   };
 
-  // The page when the cart is empty
+  if (isLoadingCartItems) {
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-screen bg-base-300">
+          <span className="loading loading-spinner text-primary"></span>
+        </div>
+      </Layout>
+    );
+  }
+
   if (cartItems.length === 0) {
     return (
       <Layout>
         <div className="bg-base-300 flex justify-center items-center h-screen">
-          <h1 className="text-4xl sm:text-5xl font-bold">Your cart is empty</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold">
+            Your cart is empty!
+          </h1>
         </div>
       </Layout>
     );
