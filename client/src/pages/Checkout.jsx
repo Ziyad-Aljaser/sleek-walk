@@ -4,14 +4,13 @@ import Layout from "../components/Layout/Layout";
 import Address from "../components/Checkout/Address";
 import Payment from "../components/Checkout/Payment";
 import ReviewConfirm from "../components/Checkout/ReviewConfirm";
-import SuccessDialog from "../components/SuccessDialog";
-
-import shopping_bag from "../assets/shopping_bag.png";
 
 import useItemCount from "../hooks/useItemCount";
 import useSubtotal from "../hooks/useSubtotal";
 
 import { useAuth } from "../contexts/AuthContext";
+
+import AddOrder from "../components/Checkout/AddOrder";
 
 import { db } from "../config/firebase";
 
@@ -26,8 +25,6 @@ export default function Checkout() {
 
   // State to store the user's address if it exists
   const [userAddress, setUserAddress] = useState(null);
-
-  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   // States for address input fields
   const [country, setCountry] = useState("");
@@ -199,17 +196,9 @@ export default function Checkout() {
               {step === 2 && (
                 <div>
                   <ReviewConfirm itemCount={itemCount} subtotal={subtotal} />
+                  
+                  <AddOrder />
 
-                  <div className="form-control mt-8">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => setShowSuccessDialog(true)}
-                    >
-                      Complete Order
-                    </button>
-                  </div>
-
-                  {showSuccessDialog && <SuccessDialog text={"Your order has been placed successfully"} img={shopping_bag}/>}
                 </div>
               )}
             </div>
