@@ -1,15 +1,34 @@
-/**
- * This file is responsible for updating data in Firebase.
- */
+import { doc, updateDoc, collection, addDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { getActiveCartId } from "../../utils/FirestoreUtils";
 
-const UpdateFirebase = () => {
-  return new Promise((resolve, reject) => {
-    // Simulate asynchronous database update operation
-    setTimeout(() => {
-      console.log("Firebase updated successfully");
-      resolve("Firebase update complete");
-    }, 1000); // Just for demonstration
-  });
+const updateFirebaseAndCreateNewCart = async (userId) => {
+  try {
+    const activeCartId = await getActiveCartId(userId, db);
+    if (!activeCartId) {
+      throw new Error("No active cart found");
+    }
+
+    // Update the existing active cart's status to true
+    const cartRef = doc(db, "users", userId, "user_carts", activeCartId);
+    await updateDoc(cartRef, {
+      status: true,
+    });
+    console.log("Existing cart marked as completed");
+
+    // Create a new cart for the user with status: false
+    const userCartsRef = collection(db, "users", userId, "user_carts");
+    const newCart = await addDoc(userCartsRef, {
+      status: false,
+      // Add any other initial properties for the new cart here
+    });
+    console.log(`New cart created with ID: ${newCart.id}`);
+
+    return { oldCartUpdated: true, newCartId: newCart.id };
+  } catch (error) {
+    console.error("Error updating order status and creating new cart:", error);
+    throw error;
+  }
 };
 
-export default UpdateFirebase;
+export default updateFirebaseAndCreateNewCart;
