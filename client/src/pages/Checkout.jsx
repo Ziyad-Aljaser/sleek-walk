@@ -10,7 +10,7 @@ import useSubtotal from "../hooks/useSubtotal";
 
 import { useAuth } from "../contexts/AuthContext";
 
-import AddOrder from "../components/Checkout/AddOrder";
+import CompleteUserOrder from "../components/Checkout/CompleteUserOrder";
 
 import { db } from "../config/firebase";
 
@@ -197,7 +197,7 @@ export default function Checkout() {
                 <div>
                   <ReviewConfirm itemCount={itemCount} subtotal={subtotal} />
                   
-                  <AddOrder />
+                  <CompleteUserOrder />
 
                 </div>
               )}
