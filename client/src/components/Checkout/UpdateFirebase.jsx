@@ -20,7 +20,6 @@ const updateFirebaseAndCreateNewCart = async (userId) => {
     const userCartsRef = collection(db, "users", userId, "user_carts");
     const newCart = await addDoc(userCartsRef, {
       status: false,
-      // Add any other initial properties for the new cart here
     });
     console.log(`New cart created with ID: ${newCart.id}`);
 
