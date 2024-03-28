@@ -8,7 +8,7 @@ import shopping_bag from "../../assets/shopping_bag.png";
 import updateMongoDB from "./UpdateMongoDB";
 import updateFirebase from "./UpdateFirebase";
 
-const AddOrder = () => {
+const CompleteUserOrder = () => {
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -61,4 +61,4 @@ const AddOrder = () => {
   );
 };
 
-export default AddOrder;
+export default CompleteUserOrder;
