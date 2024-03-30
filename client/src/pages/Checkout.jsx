@@ -1,5 +1,3 @@
-// TODO: import getUserAddress from FirestoreUtils
-
 import React, { useState, useEffect } from "react";
 
 import Layout from "../components/Layout/Layout";
@@ -12,6 +10,8 @@ import ConfirmUserCheckout from "../components/Checkout/ConfirmUserCheckout";
 import useItemCount from "../hooks/useItemCount";
 import useSubtotal from "../hooks/useSubtotal";
 
+import { getUserAddress } from "../utils/FirestoreUtils";
+
 import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
@@ -22,7 +22,6 @@ export default function Checkout() {
   // Get the current user from the authentication hook
   const { currentUser } = useAuth();
 
-  // A test user ID for demonstration purposes
   const userId = currentUser.uid;
 
   // State to store the user's address if it exists
@@ -39,20 +38,9 @@ export default function Checkout() {
   // Effect hook to fetch user address from Firestore
   useEffect(() => {
     console.log("Address useEffect triggered");
-    // Asynchronous function to fetch user address
-    const getUserAddress = async () => {
-      const userAddressRef = collection(db, `users/${userId}/user_address`);
-      const querySnapshot = await getDocs(userAddressRef);
-      if (!querySnapshot.empty) {
-        return querySnapshot.docs[0].data();
-      } else {
-        // Handle the case where the user has no address
-        return null;
-      }
-    };
 
     const fetchAddress = async () => {
-      const addressData = await getUserAddress();
+      const addressData = await getUserAddress(userId, db);
       if (addressData) {
         setUserAddress(addressData);
       } else {
@@ -107,7 +95,7 @@ export default function Checkout() {
     }
   };
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [formIsValid, setFormIsValid] = useState(false);
   const updateFormValidity = (isValid) => {
     setFormIsValid(isValid);
