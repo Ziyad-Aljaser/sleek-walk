@@ -1,9 +1,8 @@
 // Custom hook to fetch tax
-const useTaxRate = (subtotal) => {
+const useTaxRate = () => {
     const taxRate = 0.1; // 10% tax rate
-    const taxAmount = subtotal * taxRate;
     
-    return taxAmount;
+    return taxRate;
 };
 
 export default useTaxRate;
