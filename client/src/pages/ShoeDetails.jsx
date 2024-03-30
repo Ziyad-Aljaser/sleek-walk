@@ -8,10 +8,9 @@ import {
   doc,
   setDoc,
   collection,
-  getDocs,
-  query,
-  where,
 } from "firebase/firestore";
+
+import { getActiveCartId } from "../utils/FirestoreUtils";
 
 import useShoesData from "../data/useShoesData";
 
@@ -132,8 +131,13 @@ export default function ShoeDetails() {
 
   // Function to handle adding items to cart
   const handleAddButtonClick = async () => {
-    // You'll need to get the current user's ID from your authentication context or state
-    const userId = currentUser.uid; // Replace with actual logic to get current user's ID
+
+    if (!currentUser) {
+      window.location.href = '/login'; // Redirect the user to the login page
+      return; // Stop execution of the rest of the function
+    }
+
+    const userId = currentUser.uid; 
 
     if (!size) {
       alert("Please select a size");
@@ -149,23 +153,7 @@ export default function ShoeDetails() {
     };
 
     try {
-      // Logic to determine the user's active CartID or create a new one if it doesn't exist
-      const userCartsRef = collection(db, `users/${userId}/user_carts`);
-      const activeCartSnapshot = await getDocs(
-        query(userCartsRef, where("status", "==", false))
-      );
-
-      let cartId;
-
-      if (activeCartSnapshot.empty) {
-        // No active cart, create a new cart document
-        const cartDocRef = doc(userCartsRef);
-        cartId = cartDocRef.id;
-        await setDoc(cartDocRef, { status: false });
-      } else {
-        // Active cart exists, use the first active cart found
-        cartId = activeCartSnapshot.docs[0].id;
-      }
+      const cartId = await getActiveCartId(userId, db); // Get the active cart ID
 
       // Reference to the user's cart item document
       const newItemRef = doc(
