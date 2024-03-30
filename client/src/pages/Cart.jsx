@@ -29,7 +29,6 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   // console.log("Cart", currentUser?.uid);
   const userId = currentUser?.uid;
-  const [activeCartId, setActiveCartId] = useState(null);
   // Add a loading state for the cart items
   const [isLoadingCartItems, setIsLoadingCartItems] = useState(true);
 
@@ -37,8 +36,8 @@ export default function Cart() {
     console.log("Cart useEffect called");
     const fetchCartItems = async () => {
       setIsLoadingCartItems(true); // Start loading
+      
       const activeCartId = await getActiveCartId(userId, db);
-      setActiveCartId(activeCartId);
       if (activeCartId) {
         const cartItemsCollectionRef = collection(
           db,
@@ -117,6 +116,7 @@ export default function Cart() {
 
   // Delete Button Handler
   const handleDelete = async (productName) => {
+    const activeCartId = await getActiveCartId(userId, db);
     console.log("handleDelete called with:", productName); // Debugging
     // Find the item that needs to be deleted
     const itemToDelete = cartItems.find((item) => item.title === productName);
