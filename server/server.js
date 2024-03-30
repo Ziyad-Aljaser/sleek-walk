@@ -82,9 +82,7 @@ app.post("/api/orders", async (req, res) => {
     res.status(201).json({ message: "Order created successfully", orderId: result.insertedId });
   } catch (e) {
     console.error(e);
-    // Send a detailed error message only in development to avoid leaking sensitive info in production
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    res.status(400).send(isDevelopment ? `Error processing order: ${e.message}` : 'Error processing order');
+    res.status(500).send("Error adding new order");
   }
 });
 

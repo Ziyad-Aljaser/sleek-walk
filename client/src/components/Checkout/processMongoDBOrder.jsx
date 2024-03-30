@@ -13,7 +13,7 @@ const fetchCartItems = async (userId, activeCartId, db) => {
 };
 
 // Revised function to process the order, send it to MongoDB
-const processMongoDBOrder = async (userId, userName, db, totalAmount) => {
+const processMongoDBOrder = async (userId, userEmail, userName, db, totalAmount) => {
   try {
     const activeCartId = await getActiveCartId(userId, db);
     if (!activeCartId) {
@@ -38,6 +38,7 @@ const processMongoDBOrder = async (userId, userName, db, totalAmount) => {
     // Aggregate order information
     const order = {
       userId,
+      userEmail,
       userName,
       userAddress: address,
       userOrder: formattedItems,

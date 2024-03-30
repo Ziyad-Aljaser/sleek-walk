@@ -27,13 +27,14 @@ export default function Cart() {
   const { currentUser } = useAuth();
   // State to hold the list of cart items
   const [cartItems, setCartItems] = useState([]);
-  console.log("Cart", currentUser?.uid);
+  // console.log("Cart", currentUser?.uid);
   const userId = currentUser?.uid;
   const [activeCartId, setActiveCartId] = useState(null);
   // Add a loading state for the cart items
   const [isLoadingCartItems, setIsLoadingCartItems] = useState(true);
 
   useEffect(() => {
+    console.log("Cart useEffect called");
     const fetchCartItems = async () => {
       setIsLoadingCartItems(true); // Start loading
       const activeCartId = await getActiveCartId(userId, db);
@@ -84,6 +85,7 @@ export default function Cart() {
 
   // Function to handle quantity changes for cart items
   const handleQtyChange = async (e, item) => {
+    console.log("handleQtyChange called"); // Debugging
     const newQuantity = parseInt(e.target.value, 10);
     const activeCartId = await getActiveCartId(userId, db);
 
@@ -106,11 +108,6 @@ export default function Cart() {
         console.error("Error updating quantity: ", error);
       }
     }
-  };
-
-  // Test button
-  const cartButtonClick = () => {
-    console.log("Checkout Button Clicked!");
   };
 
   // Used for the remove confirmation modal
@@ -299,11 +296,7 @@ export default function Cart() {
             </div>
 
             {/* Checkout Button */}
-            <Link
-              to="/checkout"
-              className="btn btn-primary w-full"
-              onClick={cartButtonClick}
-            >
+            <Link to="/checkout" className="btn btn-primary w-full">
               Proceed to Checkout
             </Link>
           </div>

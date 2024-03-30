@@ -20,13 +20,15 @@ const ConfirmUserCheckout = () => {
 
   const totalAmount = useTotal(currentUser.uid, db);
 
+  const userEmail = currentUser.email;
+
   const handleCompleteOrder = async () => {
     try {
       // Indicates the start of the order completion process
       setLoading(true);
 
       // Process MongoDB update
-      await processMongoDBOrder(currentUser.uid, currentUser.displayName, db, totalAmount);
+      await processMongoDBOrder(currentUser.uid, userEmail, currentUser.displayName, db, totalAmount);
 
       // Once MongoDB is updated, process Firebase update
       await updateFirebase(currentUser.uid, db);
