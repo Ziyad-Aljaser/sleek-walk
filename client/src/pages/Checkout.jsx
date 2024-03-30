@@ -16,7 +16,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 import { db } from "../config/firebase";
 
-import { getDocs, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Checkout() {
   // Get the current user from the authentication hook
