@@ -1,24 +1,21 @@
-import {
-  doc,
-  getDoc,
-  collection,
-  getDocs,
-  query as firebaseQuery,
-  where,
-} from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, query, setDoc, where } from 'firebase/firestore';
 
-// Function to fetch active cart ID
+
+// Function to fetch active cart ID or create a new cart if it doesn't exist
 export const getActiveCartId = async (userId, db) => {
-  // console.log("Fetching active cart ID for user: ", userId);
   const userCartsRef = collection(db, `users/${userId}/user_carts`);
   const activeCartSnapshot = await getDocs(
-    firebaseQuery(userCartsRef, where("status", "==", false))
+    query(userCartsRef, where("status", "==", false))
   );
+
   if (!activeCartSnapshot.empty) {
+    // Active cart exists, return the first active cart's ID
     return activeCartSnapshot.docs[0].id;
   } else {
-    // Handle the case where there is no active cart
-    return null;
+    // No active cart, create a new cart document and return its ID
+    const cartDocRef = doc(userCartsRef); // Automatically generate a new document ID
+    await setDoc(cartDocRef, { status: false }); // Assuming 'status: false' indicates an active cart
+    return cartDocRef.id; // Return the newly created cart's ID
   }
 };
 
