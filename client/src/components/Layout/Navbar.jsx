@@ -100,7 +100,6 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchUserRole = async () => {
-      const userId = currentUser?.uid;
       try {
         const role = await getUserRole(userId, db);
         setUserRole(role);
@@ -110,7 +109,7 @@ const Navbar = () => {
     };
 
     fetchUserRole();
-  }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
+  }, [userId]); // Empty dependency array means this effect will only run once, similar to componentDidMount
   // console.log("User Role: ", userRole);
 
   return (

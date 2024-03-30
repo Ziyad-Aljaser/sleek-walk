@@ -78,7 +78,7 @@ export default function Cart() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const taxAmount = useTaxRate(subtotal);
+  const taxAmount = useTaxRate() * subtotal;
   const shippingFees = useShipping();
   const total = subtotal + taxAmount + shippingFees;
 
