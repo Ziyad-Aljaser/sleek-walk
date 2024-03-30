@@ -1,16 +1,18 @@
+// TODO: import getUserAddress from FirestoreUtils
+
 import React, { useState, useEffect } from "react";
 
 import Layout from "../components/Layout/Layout";
 import Address from "../components/Checkout/Address";
 import Payment from "../components/Checkout/Payment";
 import ReviewConfirm from "../components/Checkout/ReviewConfirm";
+import ConfirmUserCheckout from "../components/Checkout/ConfirmUserCheckout";
+
 
 import useItemCount from "../hooks/useItemCount";
 import useSubtotal from "../hooks/useSubtotal";
 
 import { useAuth } from "../contexts/AuthContext";
-
-import CompleteUserOrder from "../components/Checkout/CompleteUserOrder";
 
 import { db } from "../config/firebase";
 
@@ -197,7 +199,7 @@ export default function Checkout() {
                 <div>
                   <ReviewConfirm itemCount={itemCount} subtotal={subtotal} />
                   
-                  <CompleteUserOrder />
+                  <ConfirmUserCheckout />
 
                 </div>
               )}
