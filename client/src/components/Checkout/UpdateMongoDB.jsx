@@ -1,15 +1,27 @@
-/**
- * This file is responsible for adding the order to MongoDB.
- */
+const UpdateMongoDB = async (orderData) => {
+  const jsonString = JSON.stringify(orderData);
+  console.log("Sending JSON to server:", jsonString); // Log the JSON string
+  try {
+    const response = await fetch("http://localhost:3001/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
 
-const UpdateMongoDB = () => {
-  return new Promise((resolve, reject) => {
-    // Simulate asynchronous database update operation
-    setTimeout(() => {
-      console.log("MongoDB updated successfully");
-      resolve("MongoDB update complete");
-    }, 1000); // Just for demonstration
-  });
+    if (!response.ok) {
+      // If the server responds with an error status, throw an error to be caught by the catch block
+      throw new Error('Failed to save order to MongoDB');
+    }
+
+    const result = await response.json();
+    console.log("Order successfully saved", result);
+    return result; // Return the result for further processing if needed
+  } catch (error) {
+    console.error("Error submitting order:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
 };
 
 export default UpdateMongoDB;
