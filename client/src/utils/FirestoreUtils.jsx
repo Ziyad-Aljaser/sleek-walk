@@ -35,3 +35,16 @@ export const getUserRole = async (userId, db) => {
     return null;
   }
 };
+
+// Function to fetch user address
+export const getUserAddress = async (userId, db) => {
+  // console.log("Fetching user address for user: ", userId);
+  const userAddressRef = collection(db, `users/${userId}/user_address`);
+  const querySnapshot = await getDocs(userAddressRef);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data();
+  } else {
+    // Handle the case where the user has no address
+    return null;
+  }
+};
