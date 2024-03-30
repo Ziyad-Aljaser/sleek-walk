@@ -16,8 +16,10 @@ const port = process.env.PORT || 3001;
 // Connect to MongoDB
 const client = new MongoClient(process.env.MONGODB_API);
 client.connect();
-const db = client.db("sleek-walk"); // Your database name
-const shoesCollection = db.collection("shoes"); // Your collection name
+const db = client.db("sleek-walk"); // database name
+
+const shoesCollection = db.collection("shoes"); // collection name
+const ordersCollection = db.collection("orders"); // collection name
 
 // GET endpoint to fetch all shoes
 app.get("/api/shoes", async (req, res) => {
@@ -54,6 +56,39 @@ app.post("/api/shoes", async (req, res) => {
     res.status(500).send("Error adding new shoe");
   }
 });
+
+app.get("/api/orders", async (req, res) => {
+  try {
+    const orders = await ordersCollection.find().toArray();
+    const modifiedOrders = orders.map((order) => {
+      return {
+        ...order,
+        _id: order._id.toString(), // Convert ObjectId to string
+      };
+    });
+    res.json(modifiedOrders);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Error fetching orders data");
+  }
+});
+
+// POST endpoint to insert an order
+app.post("/api/orders", async (req, res) => {
+  try {
+    const orderData = req.body;
+    // Perform validation or transformation as necessary
+    const result = await db.collection("orders").insertOne(orderData);
+    res.status(201).json({ message: "Order created successfully", orderId: result.insertedId });
+  } catch (e) {
+    console.error(e);
+    // Send a detailed error message only in development to avoid leaking sensitive info in production
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    res.status(400).send(isDevelopment ? `Error processing order: ${e.message}` : 'Error processing order');
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
