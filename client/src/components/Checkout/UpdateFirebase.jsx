@@ -1,8 +1,7 @@
 import { doc, updateDoc, collection, addDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
 import { getActiveCartId } from "../../utils/FirestoreUtils";
 
-const updateFirebaseAndCreateNewCart = async (userId) => {
+const updateFirebaseAndCreateNewCart = async (userId, db) => {
   try {
     const activeCartId = await getActiveCartId(userId, db);
     if (!activeCartId) {
