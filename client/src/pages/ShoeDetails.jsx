@@ -3,11 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 import { db } from "../config/firebase";
-import {
-  doc,
-  setDoc,
-  collection,
-} from "firebase/firestore";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 import { getActiveCartId } from "../utils/FirestoreUtils";
 
@@ -80,13 +76,31 @@ export default function ShoeDetails() {
       </div>
     );
   }
-  
+
   // Used to check the item
   if (!shoe && searchComplete) {
     // Now, we check if the shoe is not found only after the search is complete
     return (
       <div className="alert alert-error">
-        {/* Error message for when the shoe is not found */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>
+          The shoes you are looking for are not available.{" "}
+          <Link to="/" className="link link-primary">
+            Back Home
+          </Link>
+        </span>
       </div>
     );
   }
@@ -130,13 +144,12 @@ export default function ShoeDetails() {
 
   // Function to handle adding items to cart
   const handleAddButtonClick = async () => {
-
     if (!currentUser) {
-      window.location.href = '/login'; // Redirect the user to the login page
+      window.location.href = "/login"; // Redirect the user to the login page
       return; // Stop execution of the rest of the function
     }
 
-    const userId = currentUser.uid; 
+    const userId = currentUser.uid;
 
     if (!size) {
       alert("Please select a size");
