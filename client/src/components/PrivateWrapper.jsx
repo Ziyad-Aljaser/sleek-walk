@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { getUserRole } from "../utils/FirestoreUtils";
 import { db } from "../config/firebase";
+import { useAuth } from "../hooks/useAuth";
 
 // Used to protect the path from users that are not logged in. It redirect the user to the login page
 export const PrivateUserWrapper = ({ children }) => {

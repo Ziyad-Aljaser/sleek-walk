@@ -11,8 +11,7 @@ import useItemCount from "../hooks/useItemCount";
 import useSubtotal from "../hooks/useSubtotal";
 
 import { getUserAddress } from "../utils/FirestoreUtils";
-
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 import { db } from "../config/firebase";
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Layout from "../components/Layout/Layout";
 import AddressForm from "../components/AddressForm";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 import { db } from "../config/firebase";
 

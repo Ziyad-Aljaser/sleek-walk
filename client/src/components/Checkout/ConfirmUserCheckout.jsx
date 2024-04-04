@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../config/firebase";
+import { useAuth } from "../../hooks/useAuth";
 
 import useTotal from "../../hooks/useTotal";
 

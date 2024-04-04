@@ -9,7 +9,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
+
+
 import { getActiveCartId } from "../utils/FirestoreUtils";
 
 import useTaxRate from "../hooks/useTaxRate";

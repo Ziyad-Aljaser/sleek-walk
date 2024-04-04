@@ -1,13 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 
 import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '../config/firebase'; 
 
 export const AuthContext = createContext();
-
-export function useAuth() {
-    return useContext(AuthContext);
-}
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
