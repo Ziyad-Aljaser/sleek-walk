@@ -136,7 +136,7 @@ export default function Signup() {
               <div className="form-control mt-8">
                 <button
                   type="submit"
-                  className="btn btn-warning"
+                  className="btn btn-primary"
                   disabled={isLoading}
                 >
                   {isLoading ? (
