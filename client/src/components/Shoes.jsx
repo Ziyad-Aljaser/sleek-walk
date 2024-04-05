@@ -12,7 +12,8 @@ const Shoes = ({
   sortOrder,
   categoryFilter = [], // providing a default value
 }) => {
-  const { shoes } = useShoesData();
+  const { shoes, isLoading } = useShoesData();
+  const loadinTest = true;
   let filteredShoes = shoes.filter((shoe) => {
     return (
       (!type || shoe.type === type) &&
@@ -34,7 +35,21 @@ const Shoes = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const shoesToDisplay = filteredShoes.slice(startIndex, endIndex);
-
+  if (isLoading) {
+    // Assume we want to show 8 skeletons, or adjust based on itemsPerPage or another logic
+    return (
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 p-10">
+        {Array.from({ length: itemsPerPage }, (_, index) => (
+          <div key={index} className="animate-pulse">
+            <div className="skeleton w-full h-64 mb-4"></div> {/* Adjust height as needed */}
+            <div className="skeleton w-full h-6 mb-2"></div> {/* Title */}
+            <div className="skeleton w-full h-6 mb-2"></div> {/* Category */}
+            <div className="skeleton w-1/2 h-6 mb-2"></div> {/* Price */}
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 p-10">
       {shoesToDisplay.map((shoe) => (
