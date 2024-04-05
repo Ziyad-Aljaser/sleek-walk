@@ -17,10 +17,18 @@ export default function ShoeDetails() {
   const { id } = useParams();
   const { shoes, isLoading, error } = useShoesData();
 
+  const [ addingLoading, setAddingLoading ] = useState(false);
+
   const [shoe, setShoe] = useState(null);
 
   const [searchComplete, setSearchComplete] = useState(false); // New state to track search completion
-
+  // Used for the tab section
+  const content = {
+    "Product Details": `${shoe?.type ?? "Not specified"}, ${
+      shoe?.category ?? "Not specified"
+    }`,
+    Reviews: "Reviews Section",
+  };
   useEffect(() => {
     if (!isLoading) {
       const foundShoe = shoes.find((s) => s._id === id);
@@ -38,7 +46,7 @@ export default function ShoeDetails() {
   const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
 
   // Used for the tab section
-  const [activeTab, setActiveTab] = useState("Description");
+  const [activeTab, setActiveTab] = useState("Product Details");
 
   if (isLoading || !searchComplete) {
     // Keep showing the loading indicator until the search is complete
@@ -50,6 +58,77 @@ export default function ShoeDetails() {
       </Layout>
     );
   }
+
+  // Used to get the correct path for a given shoe type
+  function getTypePath(type) {
+    switch (type) {
+      case "Men":
+        return "men-shop";
+      case "Women":
+        return "women-shop";
+      default:
+        return type.toLowerCase();
+    }
+  }
+
+  const decreaseQty = () => {
+    if (qty > 1) {
+      setQty((prevQty) => prevQty - 1);
+    }
+  };
+
+  const increaseQty = () => {
+    if (qty < maxQty) {
+      setQty((prevQty) => prevQty + 1);
+    }
+  };
+
+  // Function to handle size change
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  };
+
+  // Function to handle adding items to cart
+  const handleAddButtonClick = async () => {
+    setAddingLoading(true); // Indicate that the item is being added to the cart
+    if (!currentUser) {
+      window.location.href = "/login"; // Redirect the user to the login page
+      return; // Stop execution of the rest of the function
+    }
+
+    const userId = currentUser.uid;
+
+    if (!size) {
+      alert("Please select a size");
+      return;
+    }
+
+    const cartItem = {
+      productID: id,
+      title: shoe.title,
+      price: parseFloat(shoe.price), // Ensure the price is a float
+      size: parseInt(size, 10), // Ensure size is stored as an integer
+      quantity: parseInt(qty, 10), // Ensure quantity is stored as an integer
+    };
+
+    try {
+      const cartId = await getActiveCartId(userId, db); // Get the active cart ID
+
+      // Reference to the user's cart item document
+      const newItemRef = doc(
+        collection(db, `users/${userId}/user_carts/${cartId}/cart_items`)
+      );
+
+      // Set the cart item data
+      await setDoc(newItemRef, cartItem);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
+      setShowAlert(true); // Display the alert when the button is clicked
+    } catch (error) {
+      console.error("Error adding to cart: ", error);
+      alert("There was an issue adding the item to the cart.");
+    }
+    setAddingLoading(false); // Indicate that the item has been added to the cart
+  };
 
   if (error) {
     return (
@@ -104,84 +183,6 @@ export default function ShoeDetails() {
       </div>
     );
   }
-
-  // Used to get the correct path for a given shoe type
-  function getTypePath(type) {
-    switch (type) {
-      case "Men":
-        return "men-shop";
-      case "Women":
-        return "women-shop";
-      default:
-        return type.toLowerCase();
-    }
-  }
-
-  const decreaseQty = () => {
-    if (qty > 1) {
-      setQty((prevQty) => prevQty - 1);
-    }
-  };
-
-  const increaseQty = () => {
-    if (qty < maxQty) {
-      setQty((prevQty) => prevQty + 1);
-    }
-  };
-
-  // Used for the tab section
-  const content = {
-    Description: "Description Section",
-    "Product Details": `${shoe.type}, ${shoe.category}`,
-    "Vendor Info": "Vendor Info Section",
-    Reviews: "Reviews Section",
-  };
-
-  // Function to handle size change
-  const handleSizeChange = (event) => {
-    setSize(event.target.value);
-  };
-
-  // Function to handle adding items to cart
-  const handleAddButtonClick = async () => {
-    if (!currentUser) {
-      window.location.href = "/login"; // Redirect the user to the login page
-      return; // Stop execution of the rest of the function
-    }
-
-    const userId = currentUser.uid;
-
-    if (!size) {
-      alert("Please select a size");
-      return;
-    }
-
-    const cartItem = {
-      productID: id,
-      title: shoe.title,
-      price: parseFloat(shoe.price), // Ensure the price is a float
-      size: parseInt(size, 10), // Ensure size is stored as an integer
-      quantity: parseInt(qty, 10), // Ensure quantity is stored as an integer
-    };
-
-    try {
-      const cartId = await getActiveCartId(userId, db); // Get the active cart ID
-
-      // Reference to the user's cart item document
-      const newItemRef = doc(
-        collection(db, `users/${userId}/user_carts/${cartId}/cart_items`)
-      );
-
-      // Set the cart item data
-      await setDoc(newItemRef, cartItem);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top smoothly
-      setShowAlert(true); // Display the alert when the button is clicked
-    } catch (error) {
-      console.error("Error adding to cart: ", error);
-      alert("There was an issue adding the item to the cart.");
-    }
-  };
-
   return (
     <Layout>
       <div className="bg-base-300">
@@ -289,7 +290,7 @@ export default function ShoeDetails() {
                   <h3 className="text-3xl font-semibold">${shoe.price}</h3>
                 </div>
 
-                <div className="flex items-start">
+                <div className="flex items-start justify-between">
                   {/* Left column: Size selection */}
                   <div className="mr-11">
                     <label className="label block mb-1">
@@ -335,15 +336,20 @@ export default function ShoeDetails() {
 
                 <button
                   type="button"
-                  className="btn btn-primary w-1/2"
+                  className={'btn btn-primary'}
                   onClick={handleAddButtonClick}
+                  disabled={addingLoading}
                 >
-                  Add to Cart
+                  {addingLoading ? (
+                    <span className="loading loading-spinner loading-md"></span>
+                  ) : (
+                    "Add to Cart"
+                  )}
                 </button>
 
                 {/* Tabs Section */}
                 <div>
-                  <div className="tabs pt-12">
+                  <div role="tablist" className="tabs tabs-lifted pt-12">
                     {Object.keys(content).map((tab) => (
                       <button
                         key={tab}
@@ -357,7 +363,7 @@ export default function ShoeDetails() {
                       </button>
                     ))}
                   </div>
-                  <p>{content[activeTab]}</p>
+                  <p className="tabs py-6 ml-2">{content[activeTab]}</p>
                 </div>
               </div>
             </div>
