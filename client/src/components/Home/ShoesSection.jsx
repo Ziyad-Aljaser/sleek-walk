@@ -1,6 +1,6 @@
 import React from "react";
 import Shoes from "../Shoes";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination";
 import useShoesData from "../../data/useShoesData";
 
 const ShoesSection = ({
@@ -17,7 +17,7 @@ const ShoesSection = ({
   return (
     <div
       ref={targetRef}
-      className="flex items-center flex-col justify-center p-3 bg-base-200"
+      className="bg-base-200"
     >
       <Shoes currentPage={currentPage} itemsPerPage={itemsPerPage} />
       <Pagination
@@ -26,6 +26,7 @@ const ShoesSection = ({
         setCurrentPage={setCurrentPage}
         handleButtonClick={handleButtonClick}
       />
+      <div className="bg-base-200 py-2"> </div>
     </div>
   );
 };
