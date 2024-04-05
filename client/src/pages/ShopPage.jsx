@@ -80,6 +80,23 @@ const ShopPage = ({ title, productType }) => {
       </div>
     );
   }
+
+  if (filteredShoes.length === 0) {
+    return (
+      <Layout>
+        <div
+          ref={targetRef}
+          className="flex items-center flex-col justify-center p-3 bg-base-300"
+        >
+          <h1 className="text-4xl p-7 font-semibold">{title}</h1>
+          <div className="text-4xl py-36">
+            No shoes available. Please check back later.
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div
