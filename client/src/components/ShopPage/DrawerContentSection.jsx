@@ -2,6 +2,8 @@
 
 import React from "react";
 import Shoes from "../Shoes";
+import Pagination from "../Pagination";
+
 
 const DrawerContentSection = ({
   sortOrder,
@@ -57,26 +59,17 @@ const DrawerContentSection = ({
         sortOrder={sortOrder}
         categoryFilter={categoryFilter}
       />
-
+      
       {/* Pagination Section */}
       {filteredShoes.length > itemsPerPage && (
-        <div className="join flex justify-center mb-5">
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index + 1}
-              className={`join-item btn text-2xl shadow-xl ${
-                currentPage === index + 1 ? "btn-active" : ""
-              }`}
-              onClick={() => {
-                setCurrentPage(index + 1);
-                handleButtonClick();
-              }}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        handleButtonClick={handleButtonClick}
+      />
       )}
+      
     </div>
   );
 };
