@@ -21,7 +21,7 @@ const GoalSection = forwardRef((props, ref) => {
             to not just be another online store but a movement that champions
             community, style, and value in every step you take
           </p>
-          <Link to={"/"} className="btn btn-primary mt-4">
+          <Link to={"/"} className="btn btn-primary mt-4 text-xl w-1/2">
             Back Home
           </Link>
         </div>

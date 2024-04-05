@@ -26,11 +26,11 @@ const HeroSection = ({ handleButtonClick }) => {
               Step in Comfort, Stride in Style
             </p>
 
-            <Link to="/about" className="btn btn-primary sm:mt-24 mr-6">
+            <Link to="/about" className="btn btn-primary mt-12 mr-6 text-2xl">
               About us
             </Link>
 
-            <button className="btn btn-primary" onClick={handleButtonClick}>
+            <button className="btn btn-primary text-2xl" onClick={handleButtonClick}>
               Explore Shoes
             </button>
           </div>

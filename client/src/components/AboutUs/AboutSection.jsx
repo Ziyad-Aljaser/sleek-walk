@@ -19,7 +19,7 @@ const AboutSection = ({ handleButtonClick }) => {
             the place for you. As you may already know, we aren’t like other
             online shoes stores
           </p>
-          <button className="btn btn-primary mt-4" onClick={handleButtonClick}>
+          <button className="btn btn-primary mt-4 text-xl w-1/2" onClick={handleButtonClick}>
             Our Goal
           </button>
         </div>
