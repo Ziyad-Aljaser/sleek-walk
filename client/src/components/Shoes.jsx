@@ -13,7 +13,6 @@ const Shoes = ({
   categoryFilter = [], // providing a default value
 }) => {
   const { shoes, isLoading } = useShoesData();
-  const loadinTest = true;
   let filteredShoes = shoes.filter((shoe) => {
     return (
       (!type || shoe.type === type) &&
