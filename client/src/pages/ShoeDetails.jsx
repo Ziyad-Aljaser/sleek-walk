@@ -147,7 +147,7 @@ export default function ShoeDetails() {
           />
         </svg>
         <span>
-          Error loading shoes: {error}
+          Error loading shoes: {' '} {error} {' '}
           <Link to="/" className="link link-primary">
             Back Home
           </Link>
