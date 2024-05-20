@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your Firebase configuration object
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: "AIzaSyDsVUpLAfF9kcUx4CSSea1AVdoPCWjQECg",
   authDomain: "sleek-walk.firebaseapp.com",
   projectId: "sleek-walk",
   storageBucket: "sleek-walk.appspot.com",
