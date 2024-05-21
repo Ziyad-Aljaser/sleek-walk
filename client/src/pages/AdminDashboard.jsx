@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       const base64String = reader.result;
 
       try {
-        const response = await fetch("http://localhost:3001/api/shoes", {
+        const response = await fetch("https://sleek-walk.onrender.com/api/shoes", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

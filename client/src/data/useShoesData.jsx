@@ -10,7 +10,7 @@ const useShoesData = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch('http://localhost:3001/api/shoes');
+        const response = await fetch('https://sleek-walk.onrender.com/api/shoes');
         if (!response.ok) {
           throw new Error('Failed to fetch shoes data');
         }

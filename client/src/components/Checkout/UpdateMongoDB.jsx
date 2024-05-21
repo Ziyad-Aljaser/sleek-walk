@@ -2,7 +2,7 @@ const UpdateMongoDB = async (orderData) => {
   const jsonString = JSON.stringify(orderData);
   console.log("Sending JSON to server:", jsonString); // Log the JSON string
   try {
-    const response = await fetch("http://localhost:3001/api/orders", {
+    const response = await fetch("https://sleek-walk.onrender.com/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
