@@ -107,7 +107,7 @@ export default function AdminDashboard() {
                     <option disabled selected value="">Please select</option>
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
-                    <option value="Children">Children</option>
+                    <option value="Kids">Kids</option>
                   </select>
                 </div>
 

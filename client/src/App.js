@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import MenShop from "./pages/MenShop";
 import WomenShop from "./pages/WomenShop";
+import KidsShop from  "./pages/KidsShop";
 import ShoeDetails from "./pages/ShoeDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -20,8 +21,6 @@ import { PrivateUserWrapper, PrivateAdminWrapper } from './components/PrivateWra
 
 import { AuthProvider } from './contexts/AuthContext';
 import { ShoeProvider } from "./contexts/ShoeContext";
-
-
 
 
 function App() {
@@ -49,6 +48,7 @@ function App() {
             } />
           <Route path="/men-shop" element={<MenShop />} />
           <Route path="/women-shop" element={<WomenShop />} />
+          <Route path="/kids-shop" element={<KidsShop />} />
           <Route path="/shoes-details/:id" element={<ShoeDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />

@@ -137,13 +137,13 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="/">Men</Link>
+                <Link to="/men-shop">Men</Link>
               </li>
               <li>
-                <Link to="/">Women</Link>
+                <Link to="/women-shop">Women</Link>
               </li>
               <li>
-                <Link to="/">Kids</Link>
+                <Link to="/kids-shop">Kids</Link>
               </li>
 
               <div className="divider"></div>
@@ -214,7 +214,7 @@ const Navbar = () => {
               <Link to="/women-shop">Women</Link>
             </li>
             <li class="text-xl">
-              <Link to="/">Kids</Link>
+              <Link to="/kids-shop">Kids</Link>
             </li>
           </ul>
         </div>
